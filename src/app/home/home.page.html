@@ -1,0 +1,27 @@
+<ion-content [fullscreen]="true">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="assets/img/navbar-logo.svg" alt="" /></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Opções
+            <i class="fas fa-bars ml-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+               
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" routerLink='../registro'>Registre</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Masthead-->
+<header class="masthead" style="width: 100%;" [style.background]="'url(assets/header.jpg )'">
+    <div class="container">
+      
+        <div class="masthead-subheading"style="color: chocolate; font-size: 70px; font-weight: 700px;"></div>
+        <div class="masthead-heading text-uppercase" style="color: chocolate; font-size: 40px; font-weight: 700px;"></div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" routerLink='/login'>Jogar</a>
+    </div>
+</header>
+
+</ion-content>
