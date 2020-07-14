@@ -202,7 +202,7 @@ export class Sala1Page implements OnInit {
 
       this.data.linhafoi = false;
       this.data.resultadolinha = false;
-      await this.timer(1)
+      await this.timer(4000)
     }
   }
 

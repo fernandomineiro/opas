@@ -38,8 +38,7 @@
 
       
       <table border="1" cellpadding="10">
-        <tr>
-          
+        <tr>          
           <td><div *ngIf="data.vela[0]; else templateName">{{data.vela[0]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
           <td><div *ngIf="data.vela[1]; else templateName">{{data.vela[1]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
           <td><div *ngIf="data.vela[2]; else templateName">{{data.vela[2]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
