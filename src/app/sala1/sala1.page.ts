@@ -169,6 +169,7 @@ export class Sala1Page implements OnInit {
       this.data.numerolinha = [];
 
       if (this.data.linhabingo == true) {
+        await this.timer(8000)
         document.location.reload(true);
       }
       const {bola} = response
@@ -201,7 +202,7 @@ export class Sala1Page implements OnInit {
 
       this.data.linhafoi = false;
       this.data.resultadolinha = false;
-      await this.timer(4000)
+      await this.timer(1)
     }
   }
 
@@ -384,6 +385,7 @@ export class Sala1Page implements OnInit {
       this.data.mina[rt] = posicao + 1;
       this.data.valores[posicao] = 99;
     }
+
     if (this.data.min[4] == "") {
       await this.bingo();
       alert('Bingooooo');
@@ -422,11 +424,11 @@ export class Sala1Page implements OnInit {
     }
 
 
-    this.data.min[0] = de[0].join('      ');
-    this.data.min[1] = de[1].join('      ');
-    this.data.min[2] = de[2].join('      ');
-    this.data.min[3] = de[3].join('      ');
-    this.data.min[4] = de[4].join('      ');
+    this.data.min[0] = de[1].join('      ');
+    this.data.min[1] = de[2].join('      ');
+    this.data.min[2] = de[3].join('      ');
+    this.data.min[3] = de[4].join('      ');
+    this.data.min[4] = de[5].join('      ');
     for (var zu = 0; zu <= 4; zu++) {
       for (var tt = 0; tt < this.data.tantascartela; tt++) {
         for (var zz = 0; zz <= 2; zz++) {
