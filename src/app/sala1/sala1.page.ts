@@ -105,7 +105,7 @@ export class Sala1Page implements OnInit {
           this.data.lapa = a + 1;
           const response = await this.cartelinhas()
           console.log(response);
-          const response = await this.cartelinhas()
+          //const response = await this.cartelinhas()
           this.data.z = response[0]['numero'];
           this.data.zz = response[1]['numero'];
           this.data.zzz = response[2]['numero'];
