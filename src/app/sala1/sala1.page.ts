@@ -95,18 +95,16 @@ export class Sala1Page implements OnInit {
         this.data.recursiva = this.data.cartela;
         this.data.tantascartela = this.data.cartela;
         this.data.tantascartela = this.data.tantascartela * 6;
-
-
-        for (var a = 0; a < this.data.tantascartela; a++) {
+        const responses = await this.cartelinhas(this.data.tantascartela)
+        
+        console.log(responses)
+        
+        responses.forEach(response => {
           this.data.safra = [];
           this.data.safraa = [];
           this.data.safraaa = [];
           this.data.lote = [];
           this.data.linex = false;
-          this.data.lapa = a + 1;
-
-          const response = await this.cartelinhas()
-          console.log(response);
           this.data.z = response[0]['numero'];
           this.data.zz = response[1]['numero'];
           this.data.zzz = response[2]['numero'];
@@ -141,18 +139,15 @@ export class Sala1Page implements OnInit {
           this.data.lote[1] = this.data.safraa;
           this.data.lote[2] = this.data.safraaa;
           this.data.serie.push(this.data.lote);
-
-        }
-        console.log(this.data.serie);
+        });
         await this.traz()
-
       }
     }
   }
 
-  cartelinhas() {
+  cartelinhas(qtd):any {
     return new Promise((resolve, rejects) => {
-      this.apiService.buscacartela(this.data.lapa).subscribe((response) => {
+      this.apiService.buscacartela(qtd, this.data.nome).subscribe((response) => {
         resolve(response)
       })
     })
@@ -215,9 +210,6 @@ export class Sala1Page implements OnInit {
     return this.timer(i);
   }
 
-  async delay(ms: number) {
-    await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
-  }
   cartelao() {
     var rr = this.data.serie[this.data.mina[0]];
     rr[0].sort(function (a, b) {
@@ -566,7 +558,6 @@ export class Sala1Page implements OnInit {
       this.data.linhafoi = true;
       this.data.linhasim = true;
       this.data.linex = true;
-      // this.task(12000);
       this.data.resultadolinha = true;
       this.data.tipo = 'Bingo';
 
@@ -574,8 +565,7 @@ export class Sala1Page implements OnInit {
       this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
       this.apiService.ganhadorlinha(this.data.telefone, this.data.plinha).subscribe((response) => {
       })
-      this.data.valor = 8000;
-      await this.task(8000);
+      await this.timer(8000);
     }
   }
 
@@ -601,9 +591,7 @@ export class Sala1Page implements OnInit {
                 this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
                 this.apiService.ganhadorlinha(this.data.telefone, this.data.pbingo).subscribe(async (response) => {
                 })
-                this.data.valor = 8000;
-                await this.task(8000);
-
+                await this.timer(8000);
               }
             }
           }
