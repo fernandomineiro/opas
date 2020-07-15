@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'senhaperdida',
     loadChildren: () => import('./senhaperdida/senhaperdida.module').then( m => m.SenhaperdidaPageModule)
   },
+  {
+    path: 'intruso',
+    loadChildren: () => import('./intruso/intruso.module').then( m => m.IntrusoPageModule)
+  },
 ];
 
 @NgModule({

@@ -3,16 +3,9 @@ import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { Student } from '../models/student';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-
-
 import { mapTo, delay } from 'rxjs/operators';
 import { Platform } from '@ionic/angular';
-
 import { AppMinimize } from '@ionic-native/app-minimize';
-
-
-
-
 
 @Component({
   selector: 'app-sala1',
@@ -20,191 +13,61 @@ import { AppMinimize } from '@ionic-native/app-minimize';
   styleUrls: ['./sala1.page.scss'],
 })
 export class Sala1Page implements OnInit {
+  data: Student;
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
-z:any;
-x:any;
-c:any;
-v:any;
-b:any;
-n:any;
-  recursiva:any;
-time: number = 0;
-interval;
-play:any;
-i:any;
-bola:any = [];
-safra:any = [];
-safraa:any = [];
-safraaa:any = [];
-safraaaa:any = [];
-safraaaaa:any = [];
-safraaaaaa:any = [];
-a:any = [];
-cartela:any = [];
-teste:any;
-data: Student;
-tantascartela: any;
-serie:any = [];
-lote:any = [];
-bolas:any = [];
-bolass:any = [];
-ponto: any = 0;
-pontoo: any = 0;
-opa:any;
-bolay:any;
-lili:any= [];
-lilica:any= [];
-lilicaca:any;
-aa: any;
-sorteadas:any = 0;
-currentScreenOrientation:string;
-timeLeft: number = 60;
-ii:any = 0;
-pi:any;
-numero:any;
-papa: any;
-valores:any = [];
-ee;
-soma:any;
-min:any = [];
-linhaa:any;
-mina:any = [];
-minaa:any = [];
-audio:any;
-linex: any;
-zz:any;
-zzz:any;
-xx:any;
-xxx:any;
-cc:any;
-ccc:any;
-vv:any;
-vvv:any;
-bb:any;
-bbb:any;
-tu:any= [];
-linhaaaaa:any;
-nome:any;
-saldo:any;
-linhafoi:any;
-linhasim:any;
-  modalController: any;
-  element: any;
-resultadolinha:any;
-tipo: any;
-resultadobingo:any;
-linhabingo:any;
-pes:any;
-sala:any;
-price:any;
-pbingo:any;
-plinha:any;
-quant:any;
-telefone:any;
-lapa:any;
-seriea:any= [];
-serieb:any= [];
-lila:any;
-numerolinha:any= [];
-valor:any;
-xs:any;
-xss:any;
-xsss:any;
-xssss:any;
-xsssss:any;
-zs:any;
-zss:any;
-zsss:any;
-zssss:any;
-zsssss:any;
-cs:any;
-css:any;
-csss:any;
-cssss:any;
-csssss:any;
-vela:any = [];
-
-
-
-
-
   constructor(
-   
     public apiService: ApiService,
     public router: Router,
-  
-
- 
-  
-   
-  
-    
-    
     private screenOrientation: ScreenOrientation
 
-  ) { 
+  ) {
     this.data = new Student();
-   // logs the current orientation, example: 'landscape'
-
-    
+    // logs the current orientation, example: 'landscape'
     // detect orientation changes
-   
   }
 
   ngOnInit() {
-   this.tipo = 'Linha';
-   this.sala = '1';
-   this.linhafoi=false;
-  
+    this.data.tipo = 'Linha';
+    this.data.sala = '1';
+    this.data.linhafoi = false;
+    this.apiService.buscapartida(this.data.sala).subscribe((response) => {
+      this.data.pbingo = response[0].bingo;
+      this.data.plinha = response[0].linha;
+      this.data.price = response[0].price;
+      this.data.quant = response[0].quant;
+      this.data.linhabingo = false;
+      this.data.valor = 4000;
+      this.data.botao = true;
 
-
-   this.apiService.buscapartida(this.sala).subscribe((response) => {
-    console.log(response);
-    this.pbingo = response[0].bingo;
-    this.plinha = response[0].linha;
-    this.price= response[0].price;
-    this.quant = response[0].quant;
-    this.linhabingo = false;
-    this.valor = 4000;
-
-  });
-  
-
+    });
     this.setLandscape();
-//    this.playAudio();
-this.nome = sessionStorage.getItem("nome"); 
-this.telefone = sessionStorage.getItem("telefone"); 
-this.apiService.home(this.telefone).subscribe((response)=>{
-  this.saldo = response.saldo;
-})
-console.log(this.telefone);
-if(this.bola == ""){
-  this.bola='aguarde';
-  
-}
-  } 
-  dismiss() {
-    
+    this.data.nome = sessionStorage.getItem("nome");
+    this.data.telefone = sessionStorage.getItem("telefone");
+    this.apiService.home(this.data.telefone).subscribe((response) => {
+      this.data.saldo = response.saldo;
+    })
+    if (this.data.bola == "") {
+      this.data.bola = 'aguarde';
     }
-  
-    open(): void {
-      this.element.style.display = 'block';
-      document.body.classList.add('jw-modal-open');
+  }
+  open(): void {
+    this.data.element.style.display = 'block';
+    document.body.classList.add('jw-modal-open');
   }
 
   // close modal
   close(): void {
-      this.element.style.display = 'none';
-      document.body.classList.remove('jw-modal-open');
+    this.data.element.style.display = 'none';
+    document.body.classList.remove('jw-modal-open');
   }
- 
 
-  setLandscape(){
+
+  setLandscape() {
     // set to landscape
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
- 
-  playAudio(){
+
+  playAudio() {
     let audio = new Audio();
     audio.src = "assets/1.mp3";
     audio.load();
@@ -212,406 +75,299 @@ if(this.bola == ""){
   }
 
   async submitForm() {
-
-
-    
-    if(this.data['cartela']  <= '1'){
+    if (parseInt(this.data.cartela) <= 1) {
       alert('só pode ser maior que 2');
     }
-    else{
-       var val = this.data['cartela'];
-      var res = this.price * val;
-      
-      if(this.saldo < res){
-          alert('Você não tem saldo suficiente');
+    else {
+      var val = this.data.cartela;
+      var res = this.data.price * val;
+
+      if (this.data.saldo < res) {
+        alert('Você não tem saldo suficiente');
       }
-      else{
-        var tuco = this.saldo - res;
-        this.saldo = tuco;
-        this.lili = tuco;
-        await this.apiService.alterasaldo(this.telefone,this.lili).subscribe((response)=>{
-          //console.log(response);
-        })
-       
-      
-        this.serie =[]
-    
+      else {
+        this.data.botao = false;
+        var tuco = this.data.saldo - res;
+        this.data.saldo = tuco;
+        this.data.lili = tuco;
+        this.apiService.alterasaldo(this.data.telefone, this.data.lili).subscribe((response) => { })
+        this.data.serie = []
+        this.data.recursiva = this.data.cartela;
+        this.data.tantascartela = this.data.cartela;
+        this.data.tantascartela = this.data.tantascartela * 6;
 
-        this.recursiva = this.data['cartela'];
-        this.tantascartela =this.data['cartela'];
-        this.tantascartela = this.tantascartela * 6;
-       
-  
-        for(var a= 0; a< this.tantascartela; a++){
-          this.safra = [];
-          this.safraa = [];
-          this.safraaa = [];
-          this.lote = [];
-          
-            
-            this.linex = false;
-            this.lapa = a + 1;
 
-            const response = await this.cartelinhas();
-        this.z = parseInt(response[0]['numero']);
-        this.zz = parseInt(response[1]['numero']);
-       this.zzz = parseInt(response[2]['numero']);
-       this.x = parseInt(response[3]['numero']);
-       this.xx = parseInt(response[4]['numero']);
-       this.xxx = parseInt(response[5]['numero']);
-       this.c = parseInt(response[6]['numero']);
-       this.cc = parseInt(response[7]['numero']);
-       this.ccc = parseInt(response[8]['numero']);
-       this.v = parseInt(response[9]['numero']);
-       this.vv = parseInt(response[10]['numero']);
-       this.vvv = parseInt(response[11]['numero']);
-       this.b = parseInt(response[12]['numero']);
-       this.bb = parseInt(response[13]['numero']);
-       this.bbb = parseInt(response[14]['numero']);
-      // console.log(this.z);
-       
+        for (var a = 0; a < this.data.tantascartela; a++) {
+          this.data.safra = [];
+          this.data.safraa = [];
+          this.data.safraaa = [];
+          this.data.lote = [];
+          this.data.linex = false;
+          this.data.lapa = a + 1;
           
-             
-           
-           // console.log(this.z);
-            
-            this.safra.push(this.z);
-            this.safraa.push(this.zz);
-            this.safraaa.push(this.zzz);
-          
-            
-            this.safra.push(this.x);
-            this.safraa.push(this.xx);
-            this.safraaa.push(this.xxx);
-           
-            this.safra.push(this.c);
-            this.safraa.push(this.cc);
-            this.safraaa.push(this.ccc);
-            
-            this.safra.push(this.v);
-            this.safraa.push(this.vv);
-            this.safraaa.push(this.vvv);
-           
-            this.safra.push(this.b);
-            this.safraa.push(this.bb);
-            this.safraaa.push(this.bbb);
-           
-           
-            
-           // console.log(this.safra);
-          //  console.log(this.safraa);
-          //  console.log(this.safraaa);
-            
-            this.lote[0] = this.safra;
-            this.lote[1] = this.safraa;
-            this.lote[2] = this.safraaa;
-          
-  
-            //console.log(this.lote[0]);
-          //  console.log(this.lote[1]);
-           // console.log(this.lote[2]);
-  
-  
-            
-            
-  
-           // this.lote[3] = this.safraaaa;
-           // this.lote[4] = this.safraaaaa;
-          //  this.lote[5] = this.safraaaaaa;
-          
-          
-        //  this.serie[this.lapa] = this.lote; 
-          this.serie.push(this.lote);
-          
-          
-  
-        
-  
-    
+          const response = await this.cartelinhas()
+          console.log(response);
+          this.data.z = response[0]['numero'];
+          this.data.zz = response[1]['numero'];
+          this.data.zzz = response[2]['numero'];
+          this.data.x = response[3]['numero'];
+          this.data.xx = response[4]['numero'];
+          this.data.xxx = response[5]['numero'];
+          this.data.c = response[6]['numero'];
+          this.data.cc = response[7]['numero'];
+          this.data.ccc = response[8]['numero'];
+          this.data.v = response[9]['numero'];
+          this.data.vv = response[10]['numero'];
+          this.data.vvv = response[11]['numero'];
+          this.data.b = response[12]['numero'];
+          this.data.bb = response[13]['numero'];
+          this.data.bbb = response[14]['numero'];
+          this.data.safra.push(this.data.z);
+          this.data.safraa.push(this.data.xxx);
+          this.data.safraaa.push(this.data.vv);
+          this.data.safra.push(this.data.zz);
+          this.data.safraa.push(this.data.c);
+          this.data.safraaa.push(this.data.vvv);
+          this.data.safra.push(this.data.zzz);
+          this.data.safraa.push(this.data.cc);
+          this.data.safraaa.push(this.data.b);
+          this.data.safra.push(this.data.x);
+          this.data.safraa.push(this.data.ccc);
+          this.data.safraaa.push(this.data.bb);
+          this.data.safra.push(this.data.xx);
+          this.data.safraa.push(this.data.v);
+          this.data.safraaa.push(this.data.bbb);
+          this.data.lote[0] = this.data.safra;
+          this.data.lote[1] = this.data.safraa;
+          this.data.lote[2] = this.data.safraaa;
+          this.data.serie.push(this.data.lote);
+
         }
-  
-       //
-       //this.traz();
-    // console.log(this.serie);
-    // console.log(this.seriea);
-    // console.log(this.serieb);
-  
-      //this.opa = this.traz()
-      //console.log(this.opa);
-     // console.log(this.recursiva);
-     
-     this.traz();
+        console.log(this.data.serie);
+        await this.traz()
+        
       }
-      
-      }
-      
-
-    
-     
-    
-    
+    }
   }
 
-  cartelinhas(){
-    return new Promise((resolve,rejects)=>{
-      this.apiService.buscacartela(this.lapa).subscribe((response)=>{
-       resolve(response)
-  })
+  cartelinhas() {
+    return new Promise((resolve, rejects) => {
+      this.apiService.buscacartela(this.data.lapa).subscribe((response) => {
+        resolve(response)
+      })
     })
-   
   }
-  
-   randomInt(min, max) {
+
+  randomInt(min, max) {
     return min + Math.floor((max - min) * Math.random());
   }
   timer(ms) { return new Promise(res => setTimeout(res, ms)); }
 
+  sorteio(z):any {
+    return new Promise((resolve, reject) => this.apiService.sorteio(z).subscribe(resolve))
+  }
+
   async traz() {
-    
-    
-    for(var z=0; z<=90; z++){
-      
-      await this.task(this.valor);
-    this.apiService.sorteio(z).subscribe(async (response)=>{
-     if(!response.length)return
-    
-    this.numerolinha = [];
-    
-    if(this.linhabingo == true){
-      document.location.reload(true);
-   }
-   
+    for (var z = 1; z <= 90; z++) {
+      const [response] = await this.sorteio(z)
 
-    this.teste = response[0]['bola'];
-    this.a[this.teste] = this.teste;
-    this.bola = this.teste;
-   
-    this.sorteadas = 1 + this.sorteadas; 
-    if (this.bolas.indexOf(this.bola) > -1) {
-      
-    } else {
-      
-        this.bolas.push(+this.bola);
-       // this.linha();
-     var a = this.bola;
-     console.log(a);
-       this.audio = new Audio();
-    this.audio.src = 'assets/'+a+'.mp3';
-    this.audio.play();
-    // console.log(this.melhor());
-    this.papa = this.melhor();
-    
-   // console.log(this.percurso());
+      this.data.numerolinha = [];
 
+      if (this.data.linhabingo == true) {
+        await this.timer(8000)
+        document.location.reload(true);
+      }
+      const {bola} = response
+      this.data.teste = bola;
+      this.data.a[this.data.teste] = this.data.teste;
+      this.data.bola = this.data.teste;
 
-     // this.delay(3000);
-     // this.bingo();
+      this.data.sorteadas = this.data.sorteadas + 1;
+      if (this.data.bolas.indexOf(this.data.bola) > -1) {
+
+      } else {
+
+        this.data.bolas.push(+this.data.bola);
+        var a = this.data.bola;
+        this.data.audio = new Audio();
+        this.data.audio.src = 'assets/' + a + '.mp3';
+        this.data.audio.play();
+        this.data.papa = this.melhor();
+      }
+      if (this.data.linex == false) {
+        await this.linha();
+        this.percurso()
+      }
+      else {
+        this.bingo();
+        this.percursos();
+      }
+      this.data.vela = [];
+      this.cartelao();
+
+      this.data.linhafoi = false;
+      this.data.resultadolinha = false;
+      await this.timer(4000)
     }
-   
-   // console.log(this.bolas);
-    
-  //  console.log(this.a[this.teste]);
-  if(this.linex == false){
-    this.linha();
-    this.percurso();
-  }
-  else{
-    this.bingo();
-    this.percursos();
-    
-
-  }
-  this.vela =[];
-  this.cartelao();
-  
-
- 
-
-
-
-  console.log(this.papa);
- //this.bingo();
-    })
-    
-    this.linhafoi = false;
-    this.resultadolinha = false;
-    this.valor = 4000;
-  }
-  
-  }
-  async task(i) { // 3
-     
-    await this.timer(i);
-    
   }
 
-  async fim(i) { // 3
-    await this.timer(5000);
-    this.router.navigate['/sala1']
-
+  task(i) {
+    return this.timer(i);
   }
 
-  
   async delay(ms: number) {
-    await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
-}
+    await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
+  }
+  cartelao() {
+    var rr = this.data.serie[this.data.mina[0]];
+    rr[0].sort(function (a, b) {
+      return a - b;
+    });
 
-cartelao(){
-var rr = this.serie[this.mina[0]]; 
-rr[0].sort(function(a,b) {
-  return a - b;
-});
+    rr[1].sort(function (a, b) {
+      return a - b;
+    });
 
-rr[1].sort(function(a,b) {
-  return a - b;
-});
+    rr[2].sort(function (a, b) {
+      return a - b;
+    });
+    this.data.xs = rr[0][0];
+    this.data.xss = rr[0][1];
+    this.data.xsss = rr[0][2];
+    this.data.xssss = rr[0][3];
+    this.data.xsssss = rr[0][4];
+    this.data.zs = rr[1][0];
+    this.data.zss = rr[1][1];
+    this.data.zsss = rr[1][2];
+    this.data.zssss = rr[1][3];
+    this.data.zsssss = rr[1][4];
+    this.data.cs = rr[2][0];
+    this.data.css = rr[2][1];
+    this.data.csss = rr[2][2];
+    this.data.cssss = rr[2][3];
+    this.data.csssss = rr[2][4];
 
-rr[2].sort(function(a,b) {
-  return a - b;
-});
+    if (this.data.xs < 10) {
+      this.data.vela[0] = this.data.xs;
+    }
+    if (this.data.xs >= 10 && this.data.xs < 20) {
+      this.data.vela[1] = this.data.xs;
+    }
+    if (this.data.xs >= 20 && this.data.xs < 30) {
+      this.data.vela[2] = this.data.xs;
+    }
+    if (this.data.xss < 20) {
+      this.data.vela[2] = this.data.xss;
+    }
+    if (this.data.xss > 20 && this.data.xss < 30) {
+      this.data.vela[2] = this.data.xss;
+    }
+    
+    if (this.data.xss >= 30 && this.data.xss < 40) {
+      this.data.vela[3] = this.data.xss;
+    }
 
+    if (this.data.xss >= 40 && this.data.xss < 50) {
+      this.data.vela[4] = this.data.xss;
+    }
+    
 
+    if (this.data.xsss >= 30 && this.data.xsss < 40) {
+      this.data.vela[3] = this.data.xsss;
+    }
+   
+    if (this.data.xsss >= 40 && this.data.xsss < 50) {
+      this.data.vela[4] = this.data.xsss;
+    }
+    if (this.data.xsss >= 50 && this.data.xsss < 60) {
+      this.data.vela[5] = this.data.xsss;
+    }
+    if (this.data.xssss >= 40 && this.data.xssss < 50) {
+      this.data.vela[4] = this.data.xssss;
+    }
+    if (this.data.xssss >= 50 && this.data.xssss < 60) {
+      this.data.vela[5] = this.data.xssss;
+    }
+    if (this.data.xssss >= 60 && this.data.xssss < 70) {
+      this.data.vela[6] = this.data.xssss;
+    }
+    if (this.data.xssss >= 70 && this.data.xssss < 80) {
+      this.data.vela[7] = this.data.xssss;
+    }
 
+    if (this.data.xsssss >= 60 && this.data.xsssss < 70) {
+      this.data.vela[6] = this.data.xsssss;
+    }
 
-console.log(rr[0]);
-console.log(rr[1]);
-console.log(rr[2]);
-
-this.xs=rr[0][0];
-this.xss=rr[0][1];
-this.xsss=rr[0][2];
-this.xssss=rr[0][3];
-this.xsssss=rr[0][4];
-this.zs=rr[1][0];
-this.zss=rr[1][1];
-this.zsss=rr[1][2];
-this.zssss=rr[1][3];
-this.zsssss=rr[1][4];
-this.cs=rr[2][0];
-this.css=rr[2][1];
-this.csss=rr[2][2];
-this.cssss=rr[2][3];
-this.csssss=rr[2][4];
-
-if(this.xs<=10){
-  this.vela[0] = this.xs;
-}
-if(this.xs>10 && this.xs <= 20){
-  this.vela[1] = this.xs;
-}
-if(this.xss<=20){
-  this.vela[1] = this.xss;
-}
-if(this.xss>20 && this.xss <= 30){
-  this.vela[2] = this.xss;
-}
-if(this.xss>30 && this.xss <= 40){
-  this.vela[3] = this.xss;
-}
-if(this.xss>30 && this.xsss <= 40){
-  this.vela[3] = this.xss;
-}
-if(this.xsss>40 && this.xsss <= 50){
-  this.vela[4] = this.xsss;
-}
-if(this.xsss>50 && this.xsss <= 60){
-  this.vela[5] = this.xsss;
-}
-if(this.xssss>50 && this.xssss <= 60){
-  this.vela[6] = this.xssss;
-}
-if(this.xssss>60 && this.xssss <= 70){
-  this.vela[7] = this.xssss;
-}
-
-if(this.xsssss>70 && this.xssss <= 80){
-  this.vela[8] = this.xsssss;
-}
-if(this.xsssss>80){
-  this.vela[9] = this.xsssss;
-}
-
-
-
-
-
-if(this.zs<=10){
-  this.vela[10] = this.zs;
-}
-if(this.zs>10 && this.zs <= 20){
-  this.vela[11] = this.zs;
-}
-if(this.zss<=20){
-  this.vela[11] = this.zss;
-}
-if(this.zss>20 && this.zss <= 30){
-  this.vela[12] = this.zss;
-}
-if(this.zss>30 && this.zss <= 40){
-  this.vela[13] = this.zss;
-}
-if(this.zss>30 && this.zsss <= 40){
-  this.vela[13] = this.zss;
-}
-if(this.zsss>40 && this.zsss <= 50){
-  this.vela[14] = this.zsss;
-}
-if(this.zsss>50 && this.zsss <= 60){
-  this.vela[15] = this.zsss;
-}
-if(this.zssss>50 && this.zssss <= 60){
-  this.vela[16] = this.zssss;
-}
-if(this.zssss>60 && this.zssss <= 70){
-  this.vela[17] = this.zssss;
-}
-
-if(this.zsssss>70 && this.zssss <= 80){
-  this.vela[18] = this.zsssss;
-}
-if(this.zsssss>80){
-  this.vela[19] = this.zsssss;
-}
+    if (this.data.xsssss >= 70 && this.data.xsssss < 80) {
+      this.data.vela[7] = this.data.xsssss;
+    }
+    if (this.data.xsssss >= 80) {
+      this.data.vela[8] = this.data.xsssss;
+    }
 
 
 
-if(this.cs<=10){
-  this.vela[20] = this.cs;
-}
-if(this.cs>10 && this.cs <= 20){
-  this.vela[21] = this.cs;
-}
-if(this.css<=20){
-  this.vela[21] = this.css;
-}
-if(this.css>20 && this.css <= 30){
-  this.vela[22] = this.css;
-}
-if(this.css>30 && this.css <= 40){
-  this.vela[23] = this.css;
-}
-if(this.css>30 && this.csss <= 40){
-  this.vela[23] = this.css;
-}
-if(this.csss>40 && this.csss <= 50){
-  this.vela[24] = this.csss;
-}
-if(this.csss>50 && this.csss <= 60){
-  this.vela[25] = this.csss;
-}
-if(this.cssss>50 && this.cssss <= 60){
-  this.vela[26] = this.cssss;
-}
-if(this.cssss>60 && this.cssss <= 70){
-  this.vela[27] = this.cssss;
-}
 
-if(this.csssss>70 && this.cssss  <= 80){
-  this.vela[28] = this.csssss;
-}
-if(this.csssss>80){
-  this.vela[29] = this.csssss;
-}
+    
+    if (this.data.zs < 10) {
+      this.data.vela[10] = this.data.zs;
+    }
+    if (this.data.zs >= 10 && this.data.zs < 20) {
+      this.data.vela[11] = this.data.zs;
+    }
+    if (this.data.zs >= 20 && this.data.zs < 30) {
+      this.data.vela[12] = this.data.zs;
+    }
+    if (this.data.zss < 20) {
+      this.data.vela[12] = this.data.zss;
+    }
+    if (this.data.zss > 20 && this.data.zss < 30) {
+      this.data.vela[12] = this.data.zss;
+    }
+    
+    if (this.data.zss >= 30 && this.data.zss < 40) {
+      this.data.vela[13] = this.data.zss;
+    }
+
+    if (this.data.zss >= 40 && this.data.zss < 50) {
+      this.data.vela[14] = this.data.zss;
+    }
+    
+
+    if (this.data.zsss >= 30 && this.data.zsss < 40) {
+      this.data.vela[13] = this.data.zsss;
+    }
+   
+    if (this.data.zsss >= 40 && this.data.zsss < 50) {
+      this.data.vela[14] = this.data.zsss;
+    }
+    if (this.data.zsss >= 50 && this.data.zsss < 60) {
+      this.data.vela[15] = this.data.zsss;
+    }
+    if (this.data.zssss >= 40 && this.data.zssss < 50) {
+      this.data.vela[14] = this.data.zssss;
+    }
+    if (this.data.zssss >= 50 && this.data.zssss < 60) {
+      this.data.vela[15] = this.data.zssss;
+    }
+    if (this.data.zssss >= 60 && this.data.zssss < 70) {
+      this.data.vela[16] = this.data.zssss;
+    }
+    if (this.data.zssss >= 70 && this.data.zssss < 80) {
+      this.data.vela[17] = this.data.zssss;
+    }
+
+    if (this.data.zsssss >= 60 && this.data.zsssss < 70) {
+      this.data.vela[16] = this.data.zsssss;
+    }
+
+    if (this.data.zsssss >= 70 && this.data.zsssss < 80) {
+      this.data.vela[17] = this.data.zsssss;
+    }
+    if (this.data.zsssss >= 80) {
+      this.data.vela[18] = this.data.zsssss;
+    }
 
 
 
@@ -619,275 +375,265 @@ if(this.csssss>80){
 
 
 
+    if (this.data.cs < 10) {
+      this.data.vela[20] = this.data.cs;
+    }
+    if (this.data.cs >= 10 && this.data.cs < 20) {
+      this.data.vela[21] = this.data.cs;
+    }
+    if (this.data.cs >= 20 && this.data.cs < 30) {
+      this.data.vela[22] = this.data.cs;
+    }
+    if (this.data.css < 20) {
+      this.data.vela[22] = this.data.css;
+    }
+    if (this.data.css > 20 && this.data.css < 30) {
+      this.data.vela[22] = this.data.css;
+    }
+    
+    if (this.data.css >= 30 && this.data.css < 40) {
+      this.data.vela[23] = this.data.css;
+    }
+
+    if (this.data.css >= 40 && this.data.css < 50) {
+      this.data.vela[24] = this.data.css;
+    }
+    
+
+    if (this.data.csss >= 30 && this.data.csss < 40) {
+      this.data.vela[23] = this.data.csss;
+    }
+   
+    if (this.data.csss >= 40 && this.data.csss < 50) {
+      this.data.vela[24] = this.data.csss;
+    }
+    if (this.data.csss >= 50 && this.data.csss < 60) {
+      this.data.vela[25] = this.data.csss;
+    }
+    if (this.data.cssss >= 40 && this.data.cssss < 50) {
+      this.data.vela[24] = this.data.cssss;
+    }
+    if (this.data.cssss >= 50 && this.data.cssss < 60) {
+      this.data.vela[25] = this.data.cssss;
+    }
+    if (this.data.cssss >= 60 && this.data.cssss < 70) {
+      this.data.vela[26] = this.data.cssss;
+    }
+    if (this.data.cssss >= 70 && this.data.cssss < 80) {
+      this.data.vela[27] = this.data.cssss;
+    }
+
+    if (this.data.csssss >= 60 && this.data.csssss < 70) {
+      this.data.vela[26] = this.data.csssss;
+    }
+
+    if (this.data.csssss >= 70 && this.data.csssss < 80) {
+      this.data.vela[27] = this.data.csssss;
+    }
+    if (this.data.csssss >= 80) {
+      this.data.vela[28] = this.data.csssss;
+    }
 
 
-}
+  }
 
-ortfunction(a, b){
-  return (a - b) 
-}
+  ortfunction(a, b) {
+    return (a - b)
+  }
 
-selectsort(array){
-  for(var i = 0; i < array.length; i++){
-    //set min to the current iteration of i
-    var min = i;
-    for(var j = i+1; j < array.length; j++){
-      if(array[j] < array[min]){
-       min = j;
-       
+  async percursos() {
+    this.data.valores = [];
+    this.data.minaa = [];
+    this.data.ee;
+
+    for (var tt = 0; tt < this.data.tantascartela; tt++) {
+      this.data.soma = 0;
+      for (var zz = 0; zz <= 2; zz++) {
+        var soma = this.data.papa[tt][zz].length;
+
+        this.data.soma = soma + this.data.soma;
+        //this.data.valores.push(this.data.papa[tt][zz]);
+      }
+
+      this.data.valores[tt] = this.data.soma;
+
+    }
+    for (var rt = 0; rt <= 4; rt++) {
+      var menor = Math.min.apply(Math, this.data.valores);
+
+      var posicao = this.data.valores.indexOf(menor);
+      this.data.min[rt] = this.data.papa[posicao].join('       ');
+      this.data.mina[rt] = posicao + 1;
+      this.data.valores[posicao] = 99;
+    }
+
+    if (this.data.min[4] == "") {
+      await this.bingo();
+      alert('Bingooooo');
+      this.router.navigate(['/sala1']);
+    }
+    if (this.data.min[4] == []) {
+      await this.bingo();
+      alert('Bingooooo');
+      this.router.navigate(['/sala1']);
+    }
+  }
+
+
+  percurso() {
+    this.data.valores = [];
+    for (var tt = 0; tt < this.data.tantascartela; tt++) {
+      this.data.soma = 0;
+      for (var zz = 0; zz <= 2; zz++) {
+        this.data.soma = this.data.papa[tt][zz].length;
+        this.data.valores.push(this.data.papa[tt][zz]);
+      }
+      //this.data.valores[tt] = this.data.soma;
+    }
+    var de = this.data.valores.sort(function compare(a, b) {
+      if (a.length < b.length) return -1;
+      if (a.length > b.length) return 1;
+      return 0;
+    });
+
+    if (de[0] == "") {
+      de[0] = 'linhaaa';
+    }
+
+    if (de[1] == "") {
+      de[1] = 'linhaaa';
+    }
+
+
+    this.data.min[0] = de[0];
+    this.data.min[1] = de[1];
+    this.data.min[2] = de[2];
+    this.data.min[3] = de[3];
+    this.data.min[4] = de[4];
+    for (var zu = 0; zu <= 4; zu++) {
+      for (var tt = 0; tt < this.data.tantascartela; tt++) {
+        for (var zz = 0; zz <= 2; zz++) {
+          if (de[zu] == this.data.papa[tt][zz]) {
+            this.data.mina[zu] = tt ;
+          }
+        }
       }
     }
-    var temp = array[i];
-    array[i] = array[min];
-    array[min] = temp;
   }
-  return array;
-}
-
-
-  async percursos(){
-  this.valores = [];
-  this.minaa = [];
-  this.ee;
-  
-  for(var tt = 0; tt < this.tantascartela; tt++){
-    this.soma = 0;
-    for(var zz = 0; zz <= 2; zz++){
-      var soma = this.papa[tt][zz].length;
-      
-      this.soma = soma + this.soma;
-      //this.valores.push(this.papa[tt][zz]);
-    }
-
-    this.valores[tt] = this.soma;
-
-     }
-     for(var rt = 0; rt <= 4; rt++){
-   var menor = Math.min.apply(Math, this.valores);
-   console.log(menor);
-   console.log()
-   
-   var posicao = this.valores.indexOf(menor);
-   this.min[rt] = this.papa[posicao].join('       ');
-   this.mina[rt] = posicao + 1;
-   this.valores[posicao] = 99;
-   
-  } 
-  console.log(this.min[0]);
-   if(this.min[4]==""){
-    await this.bingo();
-     alert('Bingooooo');
-     this.router.navigate(['/sala1']);
-   }
-   if(this.min[4]==[]){
-    await this.bingo();
-     alert('Bingooooo');
-     this.router.navigate(['/sala1']);
-   }
-}
-
-
-percurso(){
-  this.valores = [];
-  for(var tt = 0; tt < this.tantascartela; tt++){
-    this.soma = 0;
-    for(var zz = 0; zz <= 2; zz++){
-      this.soma = this.papa[tt][zz].length;
-      this.valores.push(this.papa[tt][zz]);
-    }
-    //this.valores[tt] = this.soma;
+  arrayCompare(first, last) {
+    var result = first.filter(function (item) { return last.indexOf(item) > -1 });
+    return result.length;
   }
-  var de =this.valores.sort(function compare(a, b) {
-    if (a.length < b.length) return -1;
-    if (a.length > b.length) return 1;
-    return 0;
-});
- // console.log(de);
-
-  if(de[0] == ""){
-    de[0] = 'linhaaa';
-  }
-
-  if(de[1] == ""){
-    de[1] = 'linhaaa';
-  }
-  
-
-  this.min[0] = de[0].join('      ');
-  this.min[1] = de[1].join('      ');
-  this.min[2] = de[2].join('      ');
-  this.min[3] = de[3].join('      ');
-  this.min[4] = de[4].join('      ');
-  for(var zu=0; zu<= 4; zu++){
-  for(var tt = 0; tt < this.tantascartela; tt++){
-    for(var zz = 0; zz <= 2; zz++){
-      if(de[zu]==this.papa[tt][zz]){
-        this.mina[zu]= tt +1;
-      }
-        
-      }      
-    }
-  }
-
-  
-  
-
-
-
-
-  //console.log(de[0]);
-  //console.log(this.papa[0][0]);
-}
-
-
-arrayCompare(first, last)
-{
-    var result = first.filter(function(item){ return last.indexOf(item) > -1});   
-    return result.length;  
-}    
-
-melhor(){
-
- return this.serie.map(cartela => {
-    return cartela.map(cart=>{
+  melhor() {
+    return this.data.serie.map(cartela => {
+      return cartela.map(cart => {
         return cart.reduce((acc, num) => {
-            if(!this.bolas.includes(num)){
-               acc.push(num)
-            }
-            return acc
+          if (!this.data.bolas.includes(num)) {
+            acc.push(num)
+          }
+          return acc
         }, [])
-    })
-})
-
-}
-  
-  
-   
-
-
-
-  async linha(){
-   
-    this.numerolinha = [];
-
-   //console.log(this.bolass);
-    for(var tt = 0; tt < this.tantascartela; tt++){
-      for(var zz = 0; zz <= 2; zz++){
-        this.ponto = 0;
-        for(var xx =0; xx<5; xx++){
-          for(var cc=0; cc< this.bolas.length; cc++){
-            if(this.serie[tt][zz][xx] == this.bolas[cc]){
-              this.ponto = this.ponto + 1;
-              if(this.ponto == 5){
-                var linha = tt + 1
-              //this.linhaaaaa = 'LINHA!!! cartão número - '+linha ;
-              
-              this.numerolinha.push(linha);
-         
-              }
-              
-            }
-          }
-        }
-      }
-     
-    }
-    if(this.numerolinha.length != 0){
-      for(var tt= 0; tt< this.numerolinha.length; tt++){
-        this.mina[tt] = this.numerolinha[0];
-        this.min[tt] = 'LINHA';
-      }
-      this.linhaaaaa = 'LINHA!!! cartão número - '+this.numerolinha ;
-      this.linhafoi = true;
-      this.linhasim = true;
-       this.linex = true;
-      // this.task(12000);
-      this.resultadolinha = true;
-      this.tipo= 'Bingo';
-      
-      this.pes = true;
-      this.saldo =+ this.plinha;
-      this.apiService.ganhadorlinha(this.telefone,this.plinha).subscribe((response)=>{
-        console.log(response);
       })
-      this.valor = 8000;
-      await this.task(8000);
+    })
 
-    }
   }
+  async linha() {
 
-  async bingo(){
-    for(var tt = 0; tt < this.tantascartela; tt++){
-      this.ponto = 0;
-      for(var zz = 0; zz <= 2; zz++){
-        
-        for(var xx =0; xx<15; xx++){
-          for(var cc=0; cc< this.bolas.length; cc++){
-            if(this.serie[tt][zz][xx] == this.bolas[cc]){
-              this.ponto = this.ponto + 1;
-              console.log(this.ponto);
-              if(this.ponto == 15){
-
-                
-                  console.log('bingooo');
-                  var linha = tt + 1
-                  this.mina[0] = linha;
-                  this.min[0] = 'BINGO';
-                 
-                  this.resultadolinha= true;
-                  this.linhafoi = true;
-                  this.pes = true;
-                  this.linhabingo = true;
-                  this.linhaaaaa = 'Bingoooo!!! cartão número - '+linha ;
-                  this.saldo = this.saldo + this.pbingo;
-                  this.apiService.ganhadorlinha(this.telefone,this.pbingo).subscribe(async (response)=>{
-                    console.log(response);
-                   
-  
-                  })
-                  this.valor = 8000;
-              
-                  await this.task(8000);
-
-                  break;
-               
-
+    this.data.numerolinha = [];
+    for (var tt = 0; tt < this.data.tantascartela; tt++) {
+      for (var zz = 0; zz <= 2; zz++) {
+        this.data.ponto = 0;
+        for (var xx = 0; xx < 5; xx++) {
+          for (var cc = 0; cc < this.data.bolas.length; cc++) {
+            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
+              this.data.ponto = this.data.ponto + 1;
+              if (this.data.ponto == 5) {
+                var linha = tt + 1
+                this.data.numerolinha.push(linha);
               }
             }
           }
         }
       }
     }
-   }
 
+    if (this.data.numerolinha.length != 0) {
+      for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
+        this.data.mina[tt] = this.data.numerolinha[0];
+        this.data.min[tt] = 'LINHA';
+      }
+      this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
+      this.data.linhafoi = true;
+      this.data.linhasim = true;
+      this.data.linex = true;
+      // this.task(12000);
+      this.data.resultadolinha = true;
+      this.data.tipo = 'Bingo';
 
-
-
-   ac(min, max) {
-    this.play = Math.random() * (max - min) + min;
+      this.data.pes = true;
+      this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
+      this.apiService.ganhadorlinha(this.data.telefone, this.data.plinha).subscribe((response) => {
+      })
+      this.data.valor = 8000;
+      await this.task(8000);
+    }
   }
-  
 
-  linhaz(){
-   
-    //console.log(this.bolass);
-     for(var tt = 0; tt < this.tantascartela; tt++){
-       for(var zz = 0; zz <= 2; zz++){
-         this.ponto = 0;
-         for(var xx =0; xx<5; xx++){
-           for(var cc=0; cc< this.bolas.length; cc++){
-             if(this.serie[tt][zz][xx] == this.bolas[cc]){
-               this.ponto = this.ponto + 1;
-               if(this.ponto == 5){
-                 alert('linha');
-               }
-             }
-           }
-         }
-       }
-      
-     }
-   }
+  async bingo() {
+    for (var tt = 0; tt < this.data.tantascartela; tt++) {
+      this.data.ponto = 0;
+      for (var zz = 0; zz <= 2; zz++) {
 
-  
+        for (var xx = 0; xx < 15; xx++) {
+          for (var cc = 0; cc < this.data.bolas.length; cc++) {
+            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
+              this.data.ponto = this.data.ponto + 1;
+              if (this.data.ponto == 15) {
+                var linha = tt + 1
+                this.data.mina[0] = linha;
+                this.data.min[0] = 'BINGO';
+
+                this.data.resultadolinha = true;
+                this.data.linhafoi = true;
+                this.data.pes = true;
+                this.data.linhabingo = true;
+                this.data.linhaaaaa = 'Bingoooo!!! cartão número - ' + linha;
+                this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
+                this.apiService.ganhadorlinha(this.data.telefone, this.data.pbingo).subscribe(async (response) => {
+                })
+                this.data.valor = 8000;
+                await this.task(8000);
+               
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ac(min, max) {
+    this.data.play = Math.random() * (max - min) + min;
+  }
+
+  linhaz() {
+    for (var tt = 0; tt < this.data.tantascartela; tt++) {
+      for (var zz = 0; zz <= 2; zz++) {
+        this.data.ponto = 0;
+        for (var xx = 0; xx < 5; xx++) {
+          for (var cc = 0; cc < this.data.bolas.length; cc++) {
+            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
+              this.data.ponto = this.data.ponto + 1;
+              if (this.data.ponto == 5) {
+                alert('linha');
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+
 }
