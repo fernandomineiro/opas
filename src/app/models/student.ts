@@ -104,4 +104,5 @@ export class Student {
     cssss: any;
     csssss: any;
     vela: any = [];
+    botao:any;
 }
