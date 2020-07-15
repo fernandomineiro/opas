@@ -133,9 +133,9 @@ export class ApiService {
     )
   }
 
-  buscacartela(cartela){
+  buscacartela(cartela, name){
     return this.http
-    .get<any>(this.base_path+'/buscacartela/'+cartela)
+    .get<any>(this.base_path+`/buscacompracartela/${name}/`+cartela)
     .pipe(
       retry(2),
       catchError(this.handleError)
