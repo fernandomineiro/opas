@@ -75,6 +75,14 @@ export class Sala1Page implements OnInit {
   }
 
   async submitForm() {
+    function chunk(array, size) {
+      if (!array) return [];
+      const firstChunk = array.slice(0, size); // create the first chunk of the given array
+      if (!firstChunk.length) {
+        return array; // this is the base case to terminal the recursive
+      }
+      return [firstChunk].concat(chunk(array.slice(size, array.length), size)); 
+    }
     if (parseInt(this.data.cartela) <= 1) {
       alert('só pode ser maior que 2');
     }
@@ -95,59 +103,61 @@ export class Sala1Page implements OnInit {
         this.data.recursiva = this.data.cartela;
         this.data.tantascartela = this.data.cartela;
         this.data.tantascartela = this.data.tantascartela * 6;
-        const responses = await this.cartelinhas(this.data.tantascartela)
-        
-        console.log(responses)
-        
-        responses.forEach(response => {
+
+        const [responses] = await this.cartelinhas(this.data.tantascartela)
+
+        const cartoes = chunk(responses, 3)
+
+        cartoes.forEach(response => {
           this.data.safra = [];
           this.data.safraa = [];
           this.data.safraaa = [];
           this.data.lote = [];
           this.data.linex = false;
-          this.data.z = response[0]['numero'];
-          this.data.zz = response[1]['numero'];
-          this.data.zzz = response[2]['numero'];
-          this.data.x = response[3]['numero'];
-          this.data.xx = response[4]['numero'];
-          this.data.xxx = response[5]['numero'];
-          this.data.c = response[6]['numero'];
-          this.data.cc = response[7]['numero'];
-          this.data.ccc = response[8]['numero'];
-          this.data.v = response[9]['numero'];
-          this.data.vv = response[10]['numero'];
-          this.data.vvv = response[11]['numero'];
-          this.data.b = response[12]['numero'];
-          this.data.bb = response[13]['numero'];
-          this.data.bbb = response[14]['numero'];
-          this.data.safra.push(this.data.z);
-          this.data.safraa.push(this.data.xxx);
-          this.data.safraaa.push(this.data.vv);
-          this.data.safra.push(this.data.zz);
-          this.data.safraa.push(this.data.c);
-          this.data.safraaa.push(this.data.vvv);
-          this.data.safra.push(this.data.zzz);
-          this.data.safraa.push(this.data.cc);
-          this.data.safraaa.push(this.data.b);
-          this.data.safra.push(this.data.x);
-          this.data.safraa.push(this.data.ccc);
-          this.data.safraaa.push(this.data.bb);
-          this.data.safra.push(this.data.xx);
-          this.data.safraa.push(this.data.v);
-          this.data.safraaa.push(this.data.bbb);
-          this.data.lote[0] = this.data.safra;
-          this.data.lote[1] = this.data.safraa;
-          this.data.lote[2] = this.data.safraaa;
-          this.data.serie.push(this.data.lote);
+          // this.data.z = response[0]['numero'];
+          // this.data.zz = response[1]['numero'];
+          // this.data.zzz = response[2]['numero'];
+          // this.data.x = response[3]['numero'];
+          // this.data.xx = response[4]['numero'];
+          // this.data.xxx = response[5]['numero'];
+          // this.data.c = response[6]['numero'];
+          // this.data.cc = response[7]['numero'];
+          // this.data.ccc = response[8]['numero'];
+          // this.data.v = response[9]['numero'];
+          // this.data.vv = response[10]['numero'];
+          // this.data.vvv = response[11]['numero'];
+          // this.data.b = response[12]['numero'];
+          // this.data.bb = response[13]['numero'];
+          // this.data.bbb = response[14]['numero'];
+          // this.data.safra.push(this.data.z);
+          // this.data.safraa.push(this.data.xxx);
+          // this.data.safraaa.push(this.data.vv);
+          // this.data.safra.push(this.data.zz);
+          // this.data.safraa.push(this.data.c);
+          // this.data.safraaa.push(this.data.vvv);
+          // this.data.safra.push(this.data.zzz);
+          // this.data.safraa.push(this.data.cc);
+          // this.data.safraaa.push(this.data.b);
+          // this.data.safra.push(this.data.x);
+          // this.data.safraa.push(this.data.ccc);
+          // this.data.safraaa.push(this.data.bb);
+          // this.data.safra.push(this.data.xx);
+          // this.data.safraa.push(this.data.v);
+          // this.data.safraaa.push(this.data.bbb);
+
+          // this.data.lote[0] =;
+          // this.data.lote[1] = this.data.safraa;
+          // this.data.lote[2] = this.data.safraaa;
+          this.data.serie.push([response[0], response[1], response[2]]);
         });
         await this.traz()
       }
     }
   }
 
-  cartelinhas(qtd):any {
+  cartelinhas(cartelas):any {
     return new Promise((resolve, rejects) => {
-      this.apiService.buscacartela(qtd, this.data.nome).subscribe((response) => {
+      this.apiService.buscacartela(cartelas, this.data.nome).subscribe((response) => {
         resolve(response)
       })
     })
@@ -158,7 +168,7 @@ export class Sala1Page implements OnInit {
   }
   timer(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-  sorteio(z): any {
+  sorteio(z):any {
     return new Promise((resolve, reject) => this.apiService.sorteio(z).subscribe(resolve))
   }
 
@@ -172,7 +182,7 @@ export class Sala1Page implements OnInit {
         await this.timer(8000)
         document.location.reload(true);
       }
-      const { bola } = response
+      const {bola} = response
       this.data.teste = bola;
       this.data.a[this.data.teste] = this.data.teste;
       this.data.bola = this.data.teste;
@@ -194,7 +204,7 @@ export class Sala1Page implements OnInit {
         this.percurso()
       }
       else {
-        this.bingo();
+        await this.bingo();
         this.percursos();
       }
       this.data.vela = [];
@@ -210,6 +220,9 @@ export class Sala1Page implements OnInit {
     return this.timer(i);
   }
 
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
+  }
   cartelao() {
     var rr = this.data.serie[this.data.mina[0]];
     rr[0].sort(function (a, b) {
@@ -254,7 +267,7 @@ export class Sala1Page implements OnInit {
     if (this.data.xss > 20 && this.data.xss < 30) {
       this.data.vela[2] = this.data.xss;
     }
-
+    
     if (this.data.xss >= 30 && this.data.xss < 40) {
       this.data.vela[3] = this.data.xss;
     }
@@ -262,12 +275,12 @@ export class Sala1Page implements OnInit {
     if (this.data.xss >= 40 && this.data.xss < 50) {
       this.data.vela[4] = this.data.xss;
     }
-
+    
 
     if (this.data.xsss >= 30 && this.data.xsss < 40) {
       this.data.vela[3] = this.data.xsss;
     }
-
+   
     if (this.data.xsss >= 40 && this.data.xsss < 50) {
       this.data.vela[4] = this.data.xsss;
     }
@@ -301,7 +314,7 @@ export class Sala1Page implements OnInit {
 
 
 
-
+    
     if (this.data.zs < 10) {
       this.data.vela[10] = this.data.zs;
     }
@@ -317,7 +330,7 @@ export class Sala1Page implements OnInit {
     if (this.data.zss > 20 && this.data.zss < 30) {
       this.data.vela[12] = this.data.zss;
     }
-
+    
     if (this.data.zss >= 30 && this.data.zss < 40) {
       this.data.vela[13] = this.data.zss;
     }
@@ -325,12 +338,12 @@ export class Sala1Page implements OnInit {
     if (this.data.zss >= 40 && this.data.zss < 50) {
       this.data.vela[14] = this.data.zss;
     }
-
+    
 
     if (this.data.zsss >= 30 && this.data.zsss < 40) {
       this.data.vela[13] = this.data.zsss;
     }
-
+   
     if (this.data.zsss >= 40 && this.data.zsss < 50) {
       this.data.vela[14] = this.data.zsss;
     }
@@ -382,7 +395,7 @@ export class Sala1Page implements OnInit {
     if (this.data.css > 20 && this.data.css < 30) {
       this.data.vela[22] = this.data.css;
     }
-
+    
     if (this.data.css >= 30 && this.data.css < 40) {
       this.data.vela[23] = this.data.css;
     }
@@ -390,12 +403,12 @@ export class Sala1Page implements OnInit {
     if (this.data.css >= 40 && this.data.css < 50) {
       this.data.vela[24] = this.data.css;
     }
-
+    
 
     if (this.data.csss >= 30 && this.data.csss < 40) {
       this.data.vela[23] = this.data.csss;
     }
-
+   
     if (this.data.csss >= 40 && this.data.csss < 50) {
       this.data.vela[24] = this.data.csss;
     }
@@ -506,7 +519,7 @@ export class Sala1Page implements OnInit {
       for (var tt = 0; tt < this.data.tantascartela; tt++) {
         for (var zz = 0; zz <= 2; zz++) {
           if (de[zu] == this.data.papa[tt][zz]) {
-            this.data.mina[zu] = tt;
+            this.data.mina[zu] = tt ;
           }
         }
       }
@@ -558,6 +571,7 @@ export class Sala1Page implements OnInit {
       this.data.linhafoi = true;
       this.data.linhasim = true;
       this.data.linex = true;
+      // this.task(12000);
       this.data.resultadolinha = true;
       this.data.tipo = 'Bingo';
 
@@ -565,7 +579,8 @@ export class Sala1Page implements OnInit {
       this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
       this.apiService.ganhadorlinha(this.data.telefone, this.data.plinha).subscribe((response) => {
       })
-      await this.timer(8000);
+      this.data.valor = 8000;
+      await this.task(8000);
     }
   }
 
@@ -591,7 +606,9 @@ export class Sala1Page implements OnInit {
                 this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
                 this.apiService.ganhadorlinha(this.data.telefone, this.data.pbingo).subscribe(async (response) => {
                 })
-                await this.timer(8000);
+                this.data.valor = 8000;
+                await this.task(8000);
+               
               }
             }
           }
