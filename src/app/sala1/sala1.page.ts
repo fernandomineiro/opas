@@ -15,7 +15,7 @@ import { timer } from 'rxjs';
 })
 export class Sala1Page implements OnInit {
   data: Student;
- 
+
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
   subscribeTimer: number;
   timeLeft: number;
@@ -30,8 +30,8 @@ export class Sala1Page implements OnInit {
     // detect orientation changes
   }
 
-   ngOnInit() {
-    this.data.verdadee= true;
+  ngOnInit() {
+    this.data.verdadee = true;
     this.verificainicio()
 
     this.data.tipo = 'Linha';
@@ -50,7 +50,6 @@ export class Sala1Page implements OnInit {
     this.setLandscape();
     this.data.nome = sessionStorage.getItem("nome");
     this.data.telefone = sessionStorage.getItem("telefone");
-    console.log(this.data.telefone);
     this.apiService.home(this.data.telefone).subscribe((response) => {
       this.data.saldo = response.saldo;
       this.data.telefone = response.telefone;
@@ -90,7 +89,7 @@ export class Sala1Page implements OnInit {
       if (!firstChunk.length) {
         return array; // this is the base case to terminal the recursive
       }
-      return [firstChunk].concat(chunk(array.slice(size, array.length), size)); 
+      return [firstChunk].concat(chunk(array.slice(size, array.length), size));
     }
     if (parseInt(this.data.cartela) <= 1) {
       alert('só pode ser maior que 2');
@@ -108,18 +107,17 @@ export class Sala1Page implements OnInit {
         this.data.saldo = tuco;
         this.data.lili = tuco;
         this.apiService.alterasaldo(this.data.telefone, this.data.lili).subscribe((response) => { })
-        this.apiService.pegaposicao(this.data.telefone).subscribe((response)=>{
-          console.log(response);
-          this.data.posicao = response["minimo"];
-          
-        })
+
         this.data.serie = []
         this.data.recursiva = this.data.cartela;
-        this.data.tantascartela = this.data.cartela;
-        this.data.tantascartela = this.data.tantascartela * 6;
+        this.data.tantascartela = this.data.cartela * 6;
 
-        
+
         const [responses] = await this.cartelinhas(this.data.tantascartela)
+
+        await this.apiService.pegaposicao(this.data.telefone).subscribe((response) => {
+          this.data.posicao = response["minimo"];
+        })
 
         const cartoes = chunk(responses, 3)
 
@@ -129,80 +127,42 @@ export class Sala1Page implements OnInit {
           this.data.safraaa = [];
           this.data.lote = [];
           this.data.linex = false;
-          // this.data.z = response[0]['numero'];
-          // this.data.zz = response[1]['numero'];
-          // this.data.zzz = response[2]['numero'];
-          // this.data.x = response[3]['numero'];
-          // this.data.xx = response[4]['numero'];
-          // this.data.xxx = response[5]['numero'];
-          // this.data.c = response[6]['numero'];
-          // this.data.cc = response[7]['numero'];
-          // this.data.ccc = response[8]['numero'];
-          // this.data.v = response[9]['numero'];
-          // this.data.vv = response[10]['numero'];
-          // this.data.vvv = response[11]['numero'];
-          // this.data.b = response[12]['numero'];
-          // this.data.bb = response[13]['numero'];
-          // this.data.bbb = response[14]['numero'];
-          // this.data.safra.push(this.data.z);
-          // this.data.safraa.push(this.data.xxx);
-          // this.data.safraaa.push(this.data.vv);
-          // this.data.safra.push(this.data.zz);
-          // this.data.safraa.push(this.data.c);
-          // this.data.safraaa.push(this.data.vvv);
-          // this.data.safra.push(this.data.zzz);
-          // this.data.safraa.push(this.data.cc);
-          // this.data.safraaa.push(this.data.b);
-          // this.data.safra.push(this.data.x);
-          // this.data.safraa.push(this.data.ccc);
-          // this.data.safraaa.push(this.data.bb);
-          // this.data.safra.push(this.data.xx);
-          // this.data.safraa.push(this.data.v);
-          // this.data.safraaa.push(this.data.bbb);
-
-          // this.data.lote[0] =;
-          // this.data.lote[1] = this.data.safraa;
-          // this.data.lote[2] = this.data.safraaa;
           this.data.serie.push([response[0], response[1], response[2]]);
         });
         this.apiService.trazcartela(this.data.telefone).subscribe(async (response) => {
           this.data.minimo = response.minimo;
           this.data.maximo = response.quantidade;
         })
-        console.log(this.data.serie);
-     //   await this.traz()
       }
     }
   }
- observableTimer() {
+  observableTimer() {
     const source = timer(1000, 2000);
     const abc = source.subscribe(async val => {
-      console.log(val);
-      if(val == 10){
+      if (val == 10) {
         await this.traz()
       }
-      
+
     });
   }
 
-  async verificainicio(){
-   if(this.data.verdadee == true){
-    this.observableTimer();
-    setInterval(async () => {
-    this.apiService.trazsala().subscribe((response)=>{
-     this.data.verdade = response[0]['start'];
-     console.log(response[0]['start']);
-    })
-  }, 1000);
-}
-  if(this.data.verdade == 'sim'){
-    this.data.verdadee=false;
-    
-    this.observableTimer();
+  async verificainicio() {
+    if (this.data.verdadee == true) {
+      this.observableTimer();
+      setInterval(async () => {
+        this.apiService.trazsala().subscribe((response) => {
+          this.data.verdade = response[0]['start'];
+        })
+      }, 1000);
+    }
+    if (this.data.verdade == 'sim') {
+      this.data.verdadee = false;
+
+      this.observableTimer();
+    }
   }
-  }
- 
-  cartelinhas(cartelas):any {
+
+  cartelinhas(cartelas): any {
     return new Promise((resolve, rejects) => {
       this.apiService.buscacartela(cartelas, this.data.telefone).subscribe((response) => {
         resolve(response)
@@ -215,7 +175,7 @@ export class Sala1Page implements OnInit {
   }
   timer(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-  sorteio(z):any {
+  sorteio(z): any {
     return new Promise((resolve, reject) => this.apiService.sorteio(z).subscribe(resolve))
   }
 
@@ -224,12 +184,7 @@ export class Sala1Page implements OnInit {
       const [response] = await this.sorteio(z)
 
       this.data.numerolinha = [];
-
-      if (this.data.linhabingo == true) {
-        await this.timer(8000)
-        document.location.reload(true);
-      }
-      const {bola} = response
+      const { bola } = response
       this.data.teste = bola;
       this.data.a[this.data.teste] = this.data.teste;
       this.data.bola = this.data.teste;
@@ -246,22 +201,28 @@ export class Sala1Page implements OnInit {
         this.data.audio.play();
         this.data.papa = this.melhor();
       }
-      if (this.data.linex == false) {
-        this.percurso()
-        await this.linha();
-        
-      }
-      else {
-        this.percursos();
-        await this.bingo();
-        
-      }
-      this.data.vela = [];
-      this.cartelao();
+      if (this.data.tantascartela) {
+        if (this.data.linex == false) {
+          this.percurso()
+          await this.linha();
 
-      this.data.linhafoi = false;
-      this.data.resultadolinha = false;
-      await this.timer(4000)
+        }
+        else {
+          this.percursos();
+          await this.bingo();
+        }
+        this.data.vela = [];
+        this.cartelao();
+
+        this.data.linhafoi = false;
+        this.data.resultadolinha = false;
+        await this.timer(4000)
+      } else {
+        this.data.vela = [];
+        this.data.linhafoi = false;
+        this.data.resultadolinha = false;
+        await this.timer(4000)
+      }
     }
   }
 
@@ -317,7 +278,7 @@ export class Sala1Page implements OnInit {
     if (this.data.xss > 20 && this.data.xss < 30) {
       this.data.vela[2] = this.data.xss;
     }
-    
+
     if (this.data.xss >= 30 && this.data.xss < 40) {
       this.data.vela[3] = this.data.xss;
     }
@@ -325,12 +286,12 @@ export class Sala1Page implements OnInit {
     if (this.data.xss >= 40 && this.data.xss < 50) {
       this.data.vela[4] = this.data.xss;
     }
-    
+
 
     if (this.data.xsss >= 30 && this.data.xsss < 40) {
       this.data.vela[3] = this.data.xsss;
     }
-   
+
     if (this.data.xsss >= 40 && this.data.xsss < 50) {
       this.data.vela[4] = this.data.xsss;
     }
@@ -364,7 +325,7 @@ export class Sala1Page implements OnInit {
 
 
 
-    
+
     if (this.data.zs < 10) {
       this.data.vela[10] = this.data.zs;
     }
@@ -374,14 +335,14 @@ export class Sala1Page implements OnInit {
     if (this.data.zs >= 20 && this.data.zs < 30) {
       this.data.vela[12] = this.data.cs;
     }
-    
+
     if (this.data.zss < 20) {
       this.data.vela[12] = this.data.zss;
     }
     if (this.data.zss >= 20 && this.data.zss < 30) {
       this.data.vela[12] = this.data.zss;
     }
-    
+
     if (this.data.zss >= 30 && this.data.zss < 40) {
       this.data.vela[13] = this.data.zss;
     }
@@ -389,12 +350,12 @@ export class Sala1Page implements OnInit {
     if (this.data.zss >= 40 && this.data.zss < 50) {
       this.data.vela[14] = this.data.zss;
     }
-    
+
 
     if (this.data.zsss >= 30 && this.data.zsss < 40) {
       this.data.vela[13] = this.data.zsss;
     }
-   
+
     if (this.data.zsss >= 40 && this.data.zsss < 50) {
       this.data.vela[14] = this.data.zsss;
     }
@@ -425,12 +386,6 @@ export class Sala1Page implements OnInit {
       this.data.vela[18] = this.data.zsssss;
     }
 
-
-
-
-
-
-
     if (this.data.cs < 10) {
       this.data.vela[20] = this.data.cs;
     }
@@ -440,14 +395,14 @@ export class Sala1Page implements OnInit {
     if (this.data.cs >= 20 && this.data.cs < 30) {
       this.data.vela[21] = this.data.cs;
     }
-    
+
     if (this.data.css < 20) {
       this.data.vela[22] = this.data.css;
     }
     if (this.data.css >= 20 && this.data.css < 30) {
       this.data.vela[22] = this.data.css;
     }
-    
+
     if (this.data.css >= 30 && this.data.css < 40) {
       this.data.vela[23] = this.data.css;
     }
@@ -455,12 +410,12 @@ export class Sala1Page implements OnInit {
     if (this.data.css >= 40 && this.data.css < 50) {
       this.data.vela[24] = this.data.css;
     }
-    
+
 
     if (this.data.csss >= 30 && this.data.csss < 40) {
       this.data.vela[23] = this.data.csss;
     }
-   
+
     if (this.data.csss >= 40 && this.data.csss < 50) {
       this.data.vela[24] = this.data.csss;
     }
@@ -491,7 +446,6 @@ export class Sala1Page implements OnInit {
       this.data.vela[28] = this.data.csssss;
     }
 
-
   }
 
   ortfunction(a, b) {
@@ -521,20 +475,9 @@ export class Sala1Page implements OnInit {
 
       var posicao = this.data.valores.indexOf(menor);
       this.data.min[rt] = this.data.papa[posicao].join('       ');
-      this.data.mina[rt] = posicao  + this.data.posicao; 
-      this.data.minaa[rt] = tt;    
+      this.data.mina[rt] = posicao + this.data.posicao;
+      this.data.minaa[rt] = rt;
       this.data.valores[posicao] = 99;
-    }
-
-    if (this.data.min[4] == "") {
-      await this.bingo();
-      alert('Bingooooo');
-      this.router.navigate(['/sala1']);
-    }
-    if (this.data.min[4] == []) {
-      await this.bingo();
-      alert('Bingooooo');
-      this.router.navigate(['/sala1']);
     }
   }
 
@@ -574,7 +517,7 @@ export class Sala1Page implements OnInit {
         for (var zz = 0; zz <= 2; zz++) {
           if (de[zu] == this.data.papa[tt][zz]) {
             this.data.mina[zu] = tt + this.data.posicao;
-            this.data.minaa[zu] = tt;   
+            this.data.minaa[zu] = tt;
           }
         }
       }
@@ -621,7 +564,7 @@ export class Sala1Page implements OnInit {
       for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
         this.data.mina[tt] = this.data.numerolinha[tt];
         this.data.min[tt] = 'LINHA';
-        
+
       }
       this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
       this.data.linhafoi = true;
@@ -635,7 +578,6 @@ export class Sala1Page implements OnInit {
       this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
       this.apiService.ganhadorlinha(this.data.telefone, this.data.plinha).subscribe((response) => {
       })
-      this.data.valor = 8000;
       await this.task(8000);
     }
   }
@@ -650,7 +592,7 @@ export class Sala1Page implements OnInit {
             if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
               this.data.ponto = this.data.ponto + 1;
               if (this.data.ponto == 15) {
-                var linha = tt + 1 + this.data.posicao;
+                var linha = tt + 1 + (this.data.posicao || 0);
                 this.data.mina[0] = linha;
                 this.data.min[0] = 'BINGO';
 
@@ -662,9 +604,8 @@ export class Sala1Page implements OnInit {
                 this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
                 this.apiService.ganhadorlinha(this.data.telefone, this.data.pbingo).subscribe(async (response) => {
                 })
-                this.data.valor = 8000;
                 await this.task(8000);
-               
+                document.location.reload(true);
               }
             }
           }
