@@ -17,7 +17,8 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Configurações</a>
+                <a class="dropdown-item" routerLink='../configuracao'>Saques</a>
+                <a class="dropdown-item" routerLink='../trocarsenha'>Alterar senha</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" routerLink='../login'>Sair</a>
             </div>
@@ -45,8 +46,8 @@
 
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 1</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala1}}</div><ng-template #templateName>Fechado - {{data.sala1}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao1}}
                                 <a class="small text-white stretched-link" routerLink='../sala1'></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -54,8 +55,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 2</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala2}}</div><ng-template #templateName>Fechado - {{data.sala2}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao2}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -63,8 +64,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 3</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala3}}</div><ng-template #templateName>Fechado - {{data.sala3}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao3}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -72,8 +73,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 4</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala4}}</div><ng-template #templateName>Fechado - {{data.sala4}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao4}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -81,8 +82,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 5</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala5}}</div><ng-template #templateName>Fechado - {{data.sala5}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao5}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -90,8 +91,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 6</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala6}}</div><ng-template #templateName>Fechado - {{data.sala6}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao6}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -99,8 +100,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 7</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala7}}</div><ng-template #templateName>Fechado - {{data.sala7}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao7}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -108,8 +109,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 8</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala8}}</div><ng-template #templateName>Fechado - {{data.sala8}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao8}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -117,8 +118,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 9</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala9}}</div><ng-template #templateName>Fechado - {{data.sala9}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao9}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
@@ -126,8 +127,8 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Aberto Sala 10 VIP</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala10}}</div><ng-template #templateName>Fechado - {{data.sala10}}</ng-template> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao10}}
                                 <a class="small text-white stretched-link" href="sorteio.php"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>

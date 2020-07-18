@@ -6,6 +6,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { mapTo, delay } from 'rxjs/operators';
 import { Platform } from '@ionic/angular';
 import { AppMinimize } from '@ionic-native/app-minimize';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-sala1',
@@ -14,7 +15,10 @@ import { AppMinimize } from '@ionic-native/app-minimize';
 })
 export class Sala1Page implements OnInit {
   data: Student;
+ 
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
+  subscribeTimer: number;
+  timeLeft: number;
   constructor(
     public apiService: ApiService,
     public router: Router,
@@ -26,7 +30,10 @@ export class Sala1Page implements OnInit {
     // detect orientation changes
   }
 
-  ngOnInit() {
+   ngOnInit() {
+    this.data.verdadee= true;
+    this.verificainicio()
+
     this.data.tipo = 'Linha';
     this.data.sala = '1';
     this.data.linhafoi = false;
@@ -43,8 +50,10 @@ export class Sala1Page implements OnInit {
     this.setLandscape();
     this.data.nome = sessionStorage.getItem("nome");
     this.data.telefone = sessionStorage.getItem("telefone");
+    console.log(this.data.telefone);
     this.apiService.home(this.data.telefone).subscribe((response) => {
       this.data.saldo = response.saldo;
+      this.data.telefone = response.telefone;
     })
     if (this.data.bola == "") {
       this.data.bola = 'aguarde';
@@ -99,11 +108,17 @@ export class Sala1Page implements OnInit {
         this.data.saldo = tuco;
         this.data.lili = tuco;
         this.apiService.alterasaldo(this.data.telefone, this.data.lili).subscribe((response) => { })
+        this.apiService.pegaposicao(this.data.telefone).subscribe((response)=>{
+          console.log(response);
+          this.data.posicao = response["minimo"];
+          
+        })
         this.data.serie = []
         this.data.recursiva = this.data.cartela;
         this.data.tantascartela = this.data.cartela;
         this.data.tantascartela = this.data.tantascartela * 6;
 
+        
         const [responses] = await this.cartelinhas(this.data.tantascartela)
 
         const cartoes = chunk(responses, 3)
@@ -150,14 +165,46 @@ export class Sala1Page implements OnInit {
           // this.data.lote[2] = this.data.safraaa;
           this.data.serie.push([response[0], response[1], response[2]]);
         });
-        await this.traz()
+        this.apiService.trazcartela(this.data.telefone).subscribe(async (response) => {
+          this.data.minimo = response.minimo;
+          this.data.maximo = response.quantidade;
+        })
+        console.log(this.data.serie);
+     //   await this.traz()
       }
     }
   }
+ observableTimer() {
+    const source = timer(1000, 2000);
+    const abc = source.subscribe(async val => {
+      console.log(val);
+      if(val == 10){
+        await this.traz()
+      }
+      
+    });
+  }
 
+  async verificainicio(){
+   if(this.data.verdadee == true){
+    this.observableTimer();
+    setInterval(async () => {
+    this.apiService.trazsala().subscribe((response)=>{
+     this.data.verdade = response[0]['start'];
+     console.log(response[0]['start']);
+    })
+  }, 1000);
+}
+  if(this.data.verdade == 'sim'){
+    this.data.verdadee=false;
+    
+    this.observableTimer();
+  }
+  }
+ 
   cartelinhas(cartelas):any {
     return new Promise((resolve, rejects) => {
-      this.apiService.buscacartela(cartelas, this.data.nome).subscribe((response) => {
+      this.apiService.buscacartela(cartelas, this.data.telefone).subscribe((response) => {
         resolve(response)
       })
     })
@@ -200,12 +247,14 @@ export class Sala1Page implements OnInit {
         this.data.papa = this.melhor();
       }
       if (this.data.linex == false) {
-        await this.linha();
         this.percurso()
+        await this.linha();
+        
       }
       else {
-        await this.bingo();
         this.percursos();
+        await this.bingo();
+        
       }
       this.data.vela = [];
       this.cartelao();
@@ -224,7 +273,7 @@ export class Sala1Page implements OnInit {
     await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
   }
   cartelao() {
-    var rr = this.data.serie[this.data.mina[0]];
+    var rr = this.data.serie[this.data.minaa[0]];
     rr[0].sort(function (a, b) {
       return a - b;
     });
@@ -258,6 +307,7 @@ export class Sala1Page implements OnInit {
     if (this.data.xs >= 10 && this.data.xs < 20) {
       this.data.vela[1] = this.data.xs;
     }
+
     if (this.data.xs >= 20 && this.data.xs < 30) {
       this.data.vela[2] = this.data.xs;
     }
@@ -322,12 +372,13 @@ export class Sala1Page implements OnInit {
       this.data.vela[11] = this.data.zs;
     }
     if (this.data.zs >= 20 && this.data.zs < 30) {
-      this.data.vela[12] = this.data.zs;
+      this.data.vela[12] = this.data.cs;
     }
+    
     if (this.data.zss < 20) {
       this.data.vela[12] = this.data.zss;
     }
-    if (this.data.zss > 20 && this.data.zss < 30) {
+    if (this.data.zss >= 20 && this.data.zss < 30) {
       this.data.vela[12] = this.data.zss;
     }
     
@@ -387,12 +438,13 @@ export class Sala1Page implements OnInit {
       this.data.vela[21] = this.data.cs;
     }
     if (this.data.cs >= 20 && this.data.cs < 30) {
-      this.data.vela[22] = this.data.cs;
+      this.data.vela[21] = this.data.cs;
     }
+    
     if (this.data.css < 20) {
       this.data.vela[22] = this.data.css;
     }
-    if (this.data.css > 20 && this.data.css < 30) {
+    if (this.data.css >= 20 && this.data.css < 30) {
       this.data.vela[22] = this.data.css;
     }
     
@@ -451,6 +503,7 @@ export class Sala1Page implements OnInit {
     this.data.minaa = [];
     this.data.ee;
 
+
     for (var tt = 0; tt < this.data.tantascartela; tt++) {
       this.data.soma = 0;
       for (var zz = 0; zz <= 2; zz++) {
@@ -468,7 +521,8 @@ export class Sala1Page implements OnInit {
 
       var posicao = this.data.valores.indexOf(menor);
       this.data.min[rt] = this.data.papa[posicao].join('       ');
-      this.data.mina[rt] = posicao + 1;
+      this.data.mina[rt] = posicao  + this.data.posicao; 
+      this.data.minaa[rt] = tt;    
       this.data.valores[posicao] = 99;
     }
 
@@ -519,7 +573,8 @@ export class Sala1Page implements OnInit {
       for (var tt = 0; tt < this.data.tantascartela; tt++) {
         for (var zz = 0; zz <= 2; zz++) {
           if (de[zu] == this.data.papa[tt][zz]) {
-            this.data.mina[zu] = tt ;
+            this.data.mina[zu] = tt + this.data.posicao;
+            this.data.minaa[zu] = tt;   
           }
         }
       }
@@ -553,7 +608,7 @@ export class Sala1Page implements OnInit {
             if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
               this.data.ponto = this.data.ponto + 1;
               if (this.data.ponto == 5) {
-                var linha = tt + 1
+                var linha = tt + 1 + this.data.posicao;
                 this.data.numerolinha.push(linha);
               }
             }
@@ -564,8 +619,9 @@ export class Sala1Page implements OnInit {
 
     if (this.data.numerolinha.length != 0) {
       for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
-        this.data.mina[tt] = this.data.numerolinha[0];
+        this.data.mina[tt] = this.data.numerolinha[tt];
         this.data.min[tt] = 'LINHA';
+        
       }
       this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
       this.data.linhafoi = true;
@@ -594,7 +650,7 @@ export class Sala1Page implements OnInit {
             if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
               this.data.ponto = this.data.ponto + 1;
               if (this.data.ponto == 15) {
-                var linha = tt + 1
+                var linha = tt + 1 + this.data.posicao;
                 this.data.mina[0] = linha;
                 this.data.min[0] = 'BINGO';
 

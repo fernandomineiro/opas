@@ -1,16 +1,23 @@
 export class Student {
+    senha:string;
+    novasenha:string;
+    repetesenha:string;
     nome: string;
     sobre: string;
     telefone: string;
     indicou: string;
     password: string;
     repita: string;
+    verdade: string;
+    verdadee:boolean;
     z: any;
     x: any;
     c: any;
     v: any;
     b: any;
     n: any;
+    minimo: any;
+    maximo: any;
     recursiva: any;
     time: number = 0;
     interval;
@@ -105,4 +112,5 @@ export class Student {
     csssss: any;
     vela: any = [];
     botao:any;
+    posicao:any;
 }

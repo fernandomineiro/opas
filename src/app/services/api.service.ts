@@ -142,11 +142,51 @@ export class ApiService {
     )
   }
 
+  trazcartela(jogador){
+    return this.http
+    .get<any>(this.base_path+'/trazcartela/'+jogador)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  trazsala(){
+    return this.http
+    .get<any>(this.base_path+'/salas')
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  alterasenha(telefone, senha){
+    return this.http
+    .get<any>(this.base_path+'/alterasenha/'+telefone+'/'+senha)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  encontrasenha(telefone){
+    return this.http
+    .get<any>(this.base_path+'/encontrasenha/'+telefone)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  pegaposicao(telefone){
+    return this.http
+    .get<any>(this.base_path+'/pegaposicao/'+telefone)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
 
 
-
-
-
- 
 
 }

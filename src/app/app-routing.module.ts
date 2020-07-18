@@ -35,6 +35,14 @@ const routes: Routes = [
     path: 'intruso',
     loadChildren: () => import('./intruso/intruso.module').then( m => m.IntrusoPageModule)
   },
+  {
+    path: 'configuracao',
+    loadChildren: () => import('./configuracao/configuracao.module').then( m => m.ConfiguracaoPageModule)
+  },
+  {
+    path: 'trocarsenha',
+    loadChildren: () => import('./trocarsenha/trocarsenha.module').then( m => m.TrocarsenhaPageModule)
+  },
 ];
 
 @NgModule({
