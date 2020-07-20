@@ -133,9 +133,9 @@ export class ApiService {
     )
   }
 
-  buscacartela(cartela, nome){
+  buscacartela(cartela, nome, partida){
     return this.http
-    .get<any>(this.base_path+`/compra/${nome}/`+cartela)
+    .get<any>(this.base_path+`/compra/${nome}/`+cartela+`/`+partida)
     .pipe(
       retry(2),
       catchError(this.handleError)
@@ -186,6 +186,61 @@ export class ApiService {
       catchError(this.handleError)
     )
   }
+
+  comecajogo(sala, dia ,mes){
+    return this.http
+    .get<any>(this.base_path+'/pegarpartida/'+sala+'/'+dia+'/'+mes)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  fezlinha(jogador,linha,partida){
+    return this.http
+    .get<any>(this.base_path+'/ganhadorlinha/'+jogador+'/'+linha+'/'+partida)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+  fezbingo(jogador,bingo,partida){
+    return this.http
+    .get<any>(this.base_path+'/ganhadorbingo/'+jogador+'/'+bingo+'/'+partida)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  mudapartida(sala,partida){
+    return this.http
+    .get<any>(this.base_path+'/proxima/'+sala+'/'+partida)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  deulinha(partida){
+    return this.http
+    .get<any>(this.base_path+'/fezlinha/'+partida)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+  deubingo(partida){
+    return this.http
+    .get<any>(this.base_path+'/fezbingo/'+partida)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+
 
 
 

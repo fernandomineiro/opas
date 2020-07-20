@@ -1,4 +1,5 @@
 export class Student {
+    partida:string;
     senha:string;
     novasenha:string;
     repetesenha:string;

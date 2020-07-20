@@ -7,18 +7,22 @@ import { mapTo, delay } from 'rxjs/operators';
 import { Platform } from '@ionic/angular';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { timer } from 'rxjs';
+import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
   styleUrls: ['./sala1.page.scss'],
 })
-export class Sala1Page implements OnInit {
+export class Sala1Page implements OnInit {  
   data: Student;
 
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
   subscribeTimer: number;
   timeLeft: number;
+  getdata: boolean;
+  partida:any;
+  saida:any;
   constructor(
     public apiService: ApiService,
     public router: Router,
@@ -30,9 +34,11 @@ export class Sala1Page implements OnInit {
     // detect orientation changes
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
+    this.getdata = false;
     this.data.verdadee = true;
-    this.verificainicio()
+    
 
     this.data.tipo = 'Linha';
     this.data.sala = '1';
@@ -43,6 +49,7 @@ export class Sala1Page implements OnInit {
       this.data.price = response[0].price;
       this.data.quant = response[0].quant;
       this.data.linhabingo = false;
+      this.data.linhasim = false;
       this.data.valor = 4000;
       this.data.botao = true;
 
@@ -57,10 +64,38 @@ export class Sala1Page implements OnInit {
     if (this.data.bola == "") {
       this.data.bola = 'aguarde';
     }
+    await this.getData();
   }
-  open(): void {
-    this.data.element.style.display = 'block';
-    document.body.classList.add('jw-modal-open');
+  async getData()
+  {
+      setInterval(async () => {
+    var date = new Date();
+    var mes = (date.getMonth()+1);
+    var dia = date.getDate();
+    let mesValor = '';
+    let diaValor = '';
+
+    mesValor = ((mes < 10) ? '0' : '').concat(mes.toString())
+    diaValor = ((dia < 10) ? '0' : '').concat(dia.toString())
+
+  // console.log(mesValor);
+  // console.log(diaValor);
+    var sala = 1;
+    if(this.getdata == false){
+    this.apiService.comecajogo(sala, diaValor, mesValor).subscribe((response)=>{
+      // console.log(response[0]['partida']);
+      if(response == ""){
+        console.log('tete');
+      }else{
+        this.data.partida = response[0]['partida'];
+        this.getdata = true;
+        console.log(this.data.partida);
+        this.verificainicio()
+        this.partida = true;
+      }
+     })
+    }
+    }, 1000);
   }
 
   // close modal
@@ -139,7 +174,7 @@ export class Sala1Page implements OnInit {
   observableTimer() {
     const source = timer(1000, 2000);
     const abc = source.subscribe(async val => {
-      if (val == 10) {
+      if (val == 20) {
         await this.traz()
       }
 
@@ -164,7 +199,7 @@ export class Sala1Page implements OnInit {
 
   cartelinhas(cartelas): any {
     return new Promise((resolve, rejects) => {
-      this.apiService.buscacartela(cartelas, this.data.telefone).subscribe((response) => {
+      this.apiService.buscacartela(cartelas, this.data.telefone, this.data.partida).subscribe((response) => {
         resolve(response)
       })
     })
@@ -180,6 +215,11 @@ export class Sala1Page implements OnInit {
   }
 
   async traz() {
+    var durez = 1;
+    var tina;
+    this.data.botao = false;
+    this.partida = false;
+    console.log(this.data.serie);
     for (var z = 1; z <= 90; z++) {
       const [response] = await this.sorteio(z)
 
@@ -203,25 +243,86 @@ export class Sala1Page implements OnInit {
       }
       if (this.data.tantascartela) {
         if (this.data.linex == false) {
+
           this.percurso()
           await this.linha();
+          await this.apiService.deulinha(this.data.partida).subscribe(async (response) => {
 
+            if (response[0]['tipo'] == "linha") {
+              //this.data.linex = true;
+              console.log('oi');
+              console.log(response);
+              durez = 0;
+              this.saida = "regina";
+              this.data.resultadolinha = true;
+              //  this.data.linhaaaaa = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
+              tina = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
+              this.data.linhaaaaa = tina;
+            }
+            console.log(this.saida);
+            if(this.saida == "regina"){
+              
+              
+              
+              await this.timer(8000);
+              this.data.resultadolinha = false;
+              
+            }
+          })
+          
+        
+          
+            
+        }
+        else if(this.saida == "regina"){
+          this.data.linhaaaaa = tina;
+          await this.timer(8000);
+          this.saida = "";
         }
         else {
           this.percursos();
           await this.bingo();
         }
+
+       
         this.data.vela = [];
         this.cartelao();
+        this.apiService.deubingo(this.data.partida).subscribe((response)=>{
+          if (response[0]['tipo'] == "bingo") {
+            this.data.linhabingo== true;
+            tina = 'bingoooo!!! cartão número - ' + response[0]['numero'];
+            this.data.linhaaaaa = tina;
+          }
+        })
 
+        if(this.data.linhabingo== true){
+          this.data.resultadolinha = true;
+          this.data.linhaaaaa = tina;
+          await this.task(8000);
+          this.data.partida = this.data.partida + 1;
+          this.apiService.mudapartida(1,this.data.partida);
+
+
+
+
+
+          document.location.reload(true);
+        }
+
+       
+
+        
+
+
+               
         this.data.linhafoi = false;
         this.data.resultadolinha = false;
-        await this.timer(4000)
+        await this.timer(1000)
       } else {
         this.data.vela = [];
         this.data.linhafoi = false;
         this.data.resultadolinha = false;
-        await this.timer(4000)
+        await this.timer(1000)
       }
     }
   }
@@ -273,7 +374,7 @@ export class Sala1Page implements OnInit {
       this.data.vela[2] = this.data.xs;
     }
     if (this.data.xss < 20) {
-      this.data.vela[2] = this.data.xss;
+      this.data.vela[1] = this.data.xss;
     }
     if (this.data.xss > 20 && this.data.xss < 30) {
       this.data.vela[2] = this.data.xss;
@@ -333,11 +434,11 @@ export class Sala1Page implements OnInit {
       this.data.vela[11] = this.data.zs;
     }
     if (this.data.zs >= 20 && this.data.zs < 30) {
-      this.data.vela[12] = this.data.cs;
+      this.data.vela[12] = this.data.zs;
     }
 
     if (this.data.zss < 20) {
-      this.data.vela[12] = this.data.zss;
+      this.data.vela[11] = this.data.zss;
     }
     if (this.data.zss >= 20 && this.data.zss < 30) {
       this.data.vela[12] = this.data.zss;
@@ -393,11 +494,11 @@ export class Sala1Page implements OnInit {
       this.data.vela[21] = this.data.cs;
     }
     if (this.data.cs >= 20 && this.data.cs < 30) {
-      this.data.vela[21] = this.data.cs;
+      this.data.vela[22] = this.data.cs;
     }
 
     if (this.data.css < 20) {
-      this.data.vela[22] = this.data.css;
+      this.data.vela[21] = this.data.css;
     }
     if (this.data.css >= 20 && this.data.css < 30) {
       this.data.vela[22] = this.data.css;
@@ -476,9 +577,11 @@ export class Sala1Page implements OnInit {
       var posicao = this.data.valores.indexOf(menor);
       this.data.min[rt] = this.data.papa[posicao].join('       ');
       this.data.mina[rt] = posicao + this.data.posicao;
-      this.data.minaa[rt] = rt;
+      this.data.minaa[rt] = posicao;
       this.data.valores[posicao] = 99;
     }
+
+
   }
 
 
@@ -551,8 +654,10 @@ export class Sala1Page implements OnInit {
             if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
               this.data.ponto = this.data.ponto + 1;
               if (this.data.ponto == 5) {
-                var linha = tt + 1 + this.data.posicao;
+                var linha = tt + (this.data.posicao || 0);
                 this.data.numerolinha.push(linha);
+                var dd = tt;
+
               }
             }
           }
@@ -562,23 +667,29 @@ export class Sala1Page implements OnInit {
 
     if (this.data.numerolinha.length != 0) {
       for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
-        this.data.mina[tt] = this.data.numerolinha[tt];
+        this.data.mina[tt] = linha;
         this.data.min[tt] = 'LINHA';
+        
 
       }
+      
       this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
       this.data.linhafoi = true;
       this.data.linhasim = true;
       this.data.linex = true;
+      this.data.minaa[0] = dd;
       // this.task(12000);
       this.data.resultadolinha = true;
       this.data.tipo = 'Bingo';
 
       this.data.pes = true;
       this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
-      this.apiService.ganhadorlinha(this.data.telefone, this.data.plinha).subscribe((response) => {
+     
+      this.apiService.fezlinha(this.data.telefone, this.data.numerolinha, this.data.partida).subscribe((response)=>{
+       
+      
       })
-      await this.task(8000);
+    //  await this.task(8000);
     }
   }
 
@@ -595,7 +706,7 @@ export class Sala1Page implements OnInit {
                 var linha = tt + 1 + (this.data.posicao || 0);
                 this.data.mina[0] = linha;
                 this.data.min[0] = 'BINGO';
-
+               
                 this.data.resultadolinha = true;
                 this.data.linhafoi = true;
                 this.data.pes = true;
@@ -603,9 +714,11 @@ export class Sala1Page implements OnInit {
                 this.data.linhaaaaa = 'Bingoooo!!! cartão número - ' + linha;
                 this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
                 this.apiService.ganhadorlinha(this.data.telefone, this.data.pbingo).subscribe(async (response) => {
+                this.apiService.fezbingo(this.data.telefone,linha,this.data.partida).subscribe(async (response)=>{
+
                 })
-                await this.task(8000);
-                document.location.reload(true);
+                })
+                
               }
             }
           }
