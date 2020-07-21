@@ -240,6 +240,16 @@ export class ApiService {
     )
   }
 
+  proxima(sala,proxima){
+    return this.http
+    .get<any>(this.base_path+'/proxima/'+sala+'/'+proxima)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
+
 
 
 

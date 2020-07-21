@@ -84,6 +84,7 @@ export class Student {
     tipo: any;
     resultadobingo: any;
     linhabingo: any;
+    linhabingoo: any;
     pes: any;
     sala: any;
     price: any;

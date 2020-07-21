@@ -48,6 +48,7 @@ export class Sala1Page implements OnInit {
       this.data.plinha = response[0].linha;
       this.data.price = response[0].price;
       this.data.quant = response[0].quant;
+      this.data.linhabingoo = false;
       this.data.linhabingo = false;
       this.data.linhasim = false;
       this.data.valor = 4000;
@@ -217,6 +218,7 @@ export class Sala1Page implements OnInit {
   async traz() {
     var durez = 1;
     var tina;
+    var dodo;
     this.data.botao = false;
     this.partida = false;
     console.log(this.data.serie);
@@ -245,68 +247,66 @@ export class Sala1Page implements OnInit {
         if (this.data.linex == false) {
 
           this.percurso()
-          await this.linha();
-          await this.apiService.deulinha(this.data.partida).subscribe(async (response) => {
+           this.linha();
+           this.apiService.deulinha(this.data.partida).subscribe( (response) => {
 
             if (response[0]['tipo'] == "linha") {
-              //this.data.linex = true;
+              this.data.linex = true;
               console.log('oi');
               console.log(response);
               durez = 0;
-              this.saida = "regina";
-              this.data.resultadolinha = true;
+              this.data.linhabingo = true;
+              
               //  this.data.linhaaaaa = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
               tina = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
               this.data.linhaaaaa = tina;
             }
-            console.log(this.saida);
-            if(this.saida == "regina"){
-              
-              
-              
-              await this.timer(8000);
-              this.data.resultadolinha = false;
-              
-            }
-          })
-          
-        
-          
             
+          })
+         
+        
         }
-        else if(this.saida == "regina"){
-          this.data.linhaaaaa = tina;
-          await this.timer(8000);
-          this.saida = "";
-        }
+
         else {
+          
           this.percursos();
           await this.bingo();
         }
-
        
+
+        if(this.data.resultadolinha == true){
+          
+          this.data.resultadolinha = true;
+          await this.task(8000);
+          console.log('oi');
+          this.data.resultadolinha = false;
+        }  
+      
+       
+
+        this.data.linhabingo = false;
         this.data.vela = [];
         this.cartelao();
         this.apiService.deubingo(this.data.partida).subscribe((response)=>{
           if (response[0]['tipo'] == "bingo") {
-            this.data.linhabingo== true;
-            tina = 'bingoooo!!! cartão número - ' + response[0]['numero'];
-            this.data.linhaaaaa = tina;
+            this.data.linhabingo = true;
+            dodo = 'bingoooo!!! cartão número - ' + response[0]['numero'];
+            this.data.linhaaaaa = dodo;
+
           }
         })
 
         if(this.data.linhabingo== true){
+          console.log('aqui');
+          this.data.linhaaaaa = dodo;
           this.data.resultadolinha = true;
-          this.data.linhaaaaa = tina;
           await this.task(8000);
-          this.data.partida = this.data.partida + 1;
-          this.apiService.mudapartida(1,this.data.partida);
-
-
-
-
-
           document.location.reload(true);
+          console.log('aqui');
+      //    this.data.partida = this.data.partida + 1;
+      //    this.apiService.mudapartida(1,this.data.partida);
+
+         
         }
 
        
@@ -317,12 +317,12 @@ export class Sala1Page implements OnInit {
                
         this.data.linhafoi = false;
         this.data.resultadolinha = false;
-        await this.timer(1000)
+        await this.timer(2000)
       } else {
         this.data.vela = [];
         this.data.linhafoi = false;
         this.data.resultadolinha = false;
-        await this.timer(1000)
+        await this.timer(2000)
       }
     }
   }
@@ -713,10 +713,14 @@ export class Sala1Page implements OnInit {
                 this.data.linhabingo = true;
                 this.data.linhaaaaa = 'Bingoooo!!! cartão número - ' + linha;
                 this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
-                this.apiService.ganhadorlinha(this.data.telefone, this.data.pbingo).subscribe(async (response) => {
+                
                 this.apiService.fezbingo(this.data.telefone,linha,this.data.partida).subscribe(async (response)=>{
 
                 })
+                var a = 1;
+                a = parseInt(this.data.partida)  + a;
+                this.apiService.proxima(1, a).subscribe((response)=>{
+
                 })
                 
               }
