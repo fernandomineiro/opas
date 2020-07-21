@@ -38,7 +38,7 @@ export class Sala1Page implements OnInit {
     
     this.getdata = false;
     this.data.verdadee = true;
-    
+    this.data.linhafoi = false;
 
     this.data.tipo = 'Linha';
     this.data.sala = '1';
@@ -254,12 +254,12 @@ export class Sala1Page implements OnInit {
               this.data.linex = true;
               console.log('oi');
               console.log(response);
-              durez = 0;
-              this.data.linhabingo = true;
+             
+             this.data.linhabingo = true;
               
               //  this.data.linhaaaaa = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
-              tina = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
-              this.data.linhaaaaa = tina;
+              this.data.linhaaaaa = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
+              
             }
             
           })
@@ -272,42 +272,47 @@ export class Sala1Page implements OnInit {
           this.percursos();
           await this.bingo();
         }
-       
-
-        if(this.data.resultadolinha == true){
+        this.data.vela = [];
+        this.cartelao();
+        if(this.data.linhafoi == true){
           
+          this.data.linhaaaaa = this.data.linhaaaaa;
           this.data.resultadolinha = true;
+        
           await this.task(8000);
           console.log('oi');
           this.data.resultadolinha = false;
+          this.data.linhafoi = false;
         }  
       
        
 
         this.data.linhabingo = false;
-        this.data.vela = [];
-        this.cartelao();
+        
+    //    this.cartelao();
         this.apiService.deubingo(this.data.partida).subscribe((response)=>{
           if (response[0]['tipo'] == "bingo") {
-            this.data.linhabingo = true;
+            console.log('opa');
+            
             dodo = 'bingoooo!!! cartão número - ' + response[0]['numero'];
             this.data.linhaaaaa = dodo;
-
+            this.data.resultadolinha = true;
+            this.task(8000);
+            document.location.reload(true);
           }
         })
 
-        if(this.data.linhabingo== true){
-          console.log('aqui');
-          this.data.linhaaaaa = dodo;
-          this.data.resultadolinha = true;
-          await this.task(8000);
-          document.location.reload(true);
-          console.log('aqui');
+   //      if(this.data.linhabingo== true){
+   //        console.log('aqui 1');
+   //        this.data.linhaaaaa = dodo;
+    //       this.data.resultadolinha = true;
+  //         this.task(8000);
+   //        console.log('aqui');
       //    this.data.partida = this.data.partida + 1;
       //    this.apiService.mudapartida(1,this.data.partida);
 
          
-        }
+    //     }
 
        
 
@@ -376,7 +381,7 @@ export class Sala1Page implements OnInit {
     if (this.data.xss < 20) {
       this.data.vela[1] = this.data.xss;
     }
-    if (this.data.xss > 20 && this.data.xss < 30) {
+    if (this.data.xss >= 20 && this.data.xss < 30) {
       this.data.vela[2] = this.data.xss;
     }
 
@@ -679,7 +684,7 @@ export class Sala1Page implements OnInit {
       this.data.linex = true;
       this.data.minaa[0] = dd;
       // this.task(12000);
-      this.data.resultadolinha = true;
+     // this.data.resultadolinha = true;
       this.data.tipo = 'Bingo';
 
       this.data.pes = true;
@@ -708,7 +713,7 @@ export class Sala1Page implements OnInit {
                 this.data.min[0] = 'BINGO';
                
                 this.data.resultadolinha = true;
-                this.data.linhafoi = true;
+                
                 this.data.pes = true;
                 this.data.linhabingo = true;
                 this.data.linhaaaaa = 'Bingoooo!!! cartão número - ' + linha;
