@@ -8,6 +8,7 @@ import { Platform } from '@ionic/angular';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { timer } from 'rxjs';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
+import * as io from 'socket.io-client'
 
 @Component({
   selector: 'app-sala1',
@@ -32,148 +33,40 @@ export class Sala1Page implements OnInit {
     this.data = new Student();
     // logs the current orientation, example: 'landscape'
     // detect orientation changes
+
+    const socket = io('http://localhost:3000')
+
+    socket.on('sorteio', bola => {
+      this.data.bolas.push(bola)
+    })
   }
 
   async ngOnInit() {
     
-    this.getdata = false;
-    this.data.verdadee = true;
-    this.data.linhafoi = false;
-
-    this.data.tipo = 'Linha';
-    this.data.sala = '1';
-    this.data.linhafoi = false;
-    this.apiService.buscapartida(this.data.sala).subscribe((response) => {
-      this.data.pbingo = response[0].bingo;
-      this.data.plinha = response[0].linha;
-      this.data.price = response[0].price;
-      this.data.quant = response[0].quant;
-      this.data.linhabingoo = false;
-      this.data.linhabingo = false;
-      this.data.linhasim = false;
-      this.data.valor = 4000;
-      this.data.botao = true;
-
-    });
-    this.setLandscape();
-    this.data.nome = sessionStorage.getItem("nome");
-    this.data.telefone = sessionStorage.getItem("telefone");
-    this.apiService.home(this.data.telefone).subscribe((response) => {
-      this.data.saldo = response.saldo;
-      this.data.telefone = response.telefone;
-    })
-    if (this.data.bola == "") {
-      this.data.bola = 'aguarde';
-    }
-    await this.getData();
+    
   }
   async getData()
   {
-      setInterval(async () => {
-    var date = new Date();
-    var mes = (date.getMonth()+1);
-    var dia = date.getDate();
-    let mesValor = '';
-    let diaValor = '';
-
-    mesValor = ((mes < 10) ? '0' : '').concat(mes.toString())
-    diaValor = ((dia < 10) ? '0' : '').concat(dia.toString())
-
-  // console.log(mesValor);
-  // console.log(diaValor);
-    var sala = 1;
-    if(this.getdata == false){
-    this.apiService.comecajogo(sala, diaValor, mesValor).subscribe((response)=>{
-      // console.log(response[0]['partida']);
-      if(response == ""){
-        console.log('tete');
-      }else{
-        this.data.partida = response[0]['partida'];
-        this.getdata = true;
-        console.log(this.data.partida);
-        this.verificainicio()
-        this.partida = true;
-      }
-     })
-    }
-    }, 1000);
+      
   }
-
-  // close modal
-  close(): void {
-    this.data.element.style.display = 'none';
-    document.body.classList.remove('jw-modal-open');
-  }
-
 
   setLandscape() {
     // set to landscape
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
-  playAudio() {
+  playAudio(bola) {
     let audio = new Audio();
-    audio.src = "assets/1.mp3";
+    audio.src = `assets/${bola}.mp3`;
     audio.load();
     audio.play();
   }
 
-  async submitForm() {
-    function chunk(array, size) {
-      if (!array) return [];
-      const firstChunk = array.slice(0, size); // create the first chunk of the given array
-      if (!firstChunk.length) {
-        return array; // this is the base case to terminal the recursive
-      }
-      return [firstChunk].concat(chunk(array.slice(size, array.length), size));
-    }
-    if (parseInt(this.data.cartela) <= 1) {
-      alert('só pode ser maior que 2');
-    }
-    else {
-      var val = this.data.cartela;
-      var res = this.data.price * val;
-
-      if (this.data.saldo < res) {
-        alert('Você não tem saldo suficiente');
-      }
-      else {
-        this.data.botao = false;
-        var tuco = this.data.saldo - res;
-        this.data.saldo = tuco;
-        this.data.lili = tuco;
-        this.apiService.alterasaldo(this.data.telefone, this.data.lili).subscribe((response) => { })
-
-        this.data.serie = []
-        this.data.recursiva = this.data.cartela;
-        this.data.tantascartela = this.data.cartela * 6;
-
-
-        const [responses] = await this.cartelinhas(this.data.tantascartela)
-
-        await this.apiService.pegaposicao(this.data.telefone).subscribe((response) => {
-          this.data.posicao = response["minimo"];
-        })
-
-        const cartoes = chunk(responses, 3)
-
-        cartoes.forEach(response => {
-          this.data.safra = [];
-          this.data.safraa = [];
-          this.data.safraaa = [];
-          this.data.lote = [];
-          this.data.linex = false;
-          this.data.serie.push([response[0], response[1], response[2]]);
-        });
-        this.apiService.trazcartela(this.data.telefone).subscribe(async (response) => {
-          this.data.minimo = response.minimo;
-          this.data.maximo = response.quantidade;
-        })
-      }
-    }
+  async compraSeries() {
+    
   }
   observableTimer() {
-    const source = timer(1000, 2000);
+    const source = timer(1000, 5000);
     const abc = source.subscribe(async val => {
       if (val == 20) {
         await this.traz()
@@ -215,125 +108,8 @@ export class Sala1Page implements OnInit {
     return new Promise((resolve, reject) => this.apiService.sorteio(z).subscribe(resolve))
   }
 
-  async traz() {
-    var durez = 1;
-    var tina;
-    var dodo;
-    this.data.botao = false;
-    this.partida = false;
-    console.log(this.data.serie);
-    for (var z = 1; z <= 90; z++) {
-      const [response] = await this.sorteio(z)
+  traz(){
 
-      this.data.numerolinha = [];
-      const { bola } = response
-      this.data.teste = bola;
-      this.data.a[this.data.teste] = this.data.teste;
-      this.data.bola = this.data.teste;
-
-      this.data.sorteadas = this.data.sorteadas + 1;
-      if (this.data.bolas.indexOf(this.data.bola) > -1) {
-
-      } else {
-
-        this.data.bolas.push(+this.data.bola);
-        var a = this.data.bola;
-        this.data.audio = new Audio();
-        this.data.audio.src = 'assets/' + a + '.mp3';
-        this.data.audio.play();
-        this.data.papa = this.melhor();
-      }
-      if (this.data.tantascartela) {
-        if (this.data.linex == false) {
-
-          this.percurso()
-           this.linha();
-           this.apiService.deulinha(this.data.partida).subscribe( (response) => {
-
-            if (response[0]['tipo'] == "linha") {
-              this.data.linex = true;
-              console.log('oi');
-              console.log(response);
-             
-             this.data.linhabingo = true;
-              
-              //  this.data.linhaaaaa = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
-              this.data.linhaaaaa = 'Linhaaaa!!! cartão número - ' + response[0]['numero'];
-              
-            }
-            
-          })
-         
-        
-        }
-
-        else {
-          
-          this.percursos();
-          await this.bingo();
-        }
-        this.data.vela = [];
-        this.cartelao();
-        if(this.data.linhafoi == true){
-          
-          this.data.linhaaaaa = this.data.linhaaaaa;
-          this.data.resultadolinha = true;
-        
-          await this.task(8000);
-          console.log('oi');
-          this.data.resultadolinha = false;
-          this.data.linhafoi = false;
-        }  
-      
-       
-
-        this.data.linhabingo = false;
-        
-    //    this.cartelao();
-        this.apiService.deubingo(this.data.partida).subscribe((response)=>{
-          if (response[0]['tipo'] == "bingo") {
-            console.log('opa');
-            
-            dodo = 'bingoooo!!! cartão número - ' + response[0]['numero'];
-            this.data.linhaaaaa = dodo;
-            this.data.resultadolinha = true;
-            this.task(8000);
-            document.location.reload(true);
-          }
-        })
-
-   //      if(this.data.linhabingo== true){
-   //        console.log('aqui 1');
-   //        this.data.linhaaaaa = dodo;
-    //       this.data.resultadolinha = true;
-  //         this.task(8000);
-   //        console.log('aqui');
-      //    this.data.partida = this.data.partida + 1;
-      //    this.apiService.mudapartida(1,this.data.partida);
-
-         
-    //     }
-
-       
-
-        
-
-
-               
-        this.data.linhafoi = false;
-        this.data.resultadolinha = false;
-        await this.timer(2000)
-      } else {
-        this.data.vela = [];
-        this.data.linhafoi = false;
-        this.data.resultadolinha = false;
-        await this.timer(2000)
-      }
-    }
-  }
-
-  task(i) {
-    return this.timer(i);
   }
 
   async delay(ms: number) {
@@ -427,10 +203,6 @@ export class Sala1Page implements OnInit {
     if (this.data.xsssss >= 80) {
       this.data.vela[8] = this.data.xsssss;
     }
-
-
-
-
 
     if (this.data.zs < 10) {
       this.data.vela[10] = this.data.zs;
@@ -635,19 +407,7 @@ export class Sala1Page implements OnInit {
     var result = first.filter(function (item) { return last.indexOf(item) > -1 });
     return result.length;
   }
-  melhor() {
-    return this.data.serie.map(cartela => {
-      return cartela.map(cart => {
-        return cart.reduce((acc, num) => {
-          if (!this.data.bolas.includes(num)) {
-            acc.push(num)
-          }
-          return acc
-        }, [])
-      })
-    })
-
-  }
+  
   async linha() {
 
     this.data.numerolinha = [];
@@ -683,8 +443,6 @@ export class Sala1Page implements OnInit {
       this.data.linhasim = true;
       this.data.linex = true;
       this.data.minaa[0] = dd;
-      // this.task(12000);
-     // this.data.resultadolinha = true;
       this.data.tipo = 'Bingo';
 
       this.data.pes = true;

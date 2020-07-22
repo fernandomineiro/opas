@@ -1,9 +1,12 @@
-// entra nesse link pra vc ver como faz a querys http://knexjs.org/
 const knex = require('../../../db/knex')
+const getBolas = require('../../../helpers/get-bolas')
+
+const bolas = getBolas().sort((x, y) => x-y)
+
+const timer = (time) => new Promise((resolve, reject) => setTimeout(resolve, time))
 
 const list = (req, res) => {
-  //aquie que vc vai pegar os dados do banco e responder
- res.json({})
+  res.json({})
 }
 
 module.exports = list

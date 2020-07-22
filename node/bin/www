@@ -7,6 +7,7 @@
 var app = require('../app')
 var debug = require('debug')('project-estruture:server')
 var http = require('http')
+const io = require('socket.io')
 
 /**
  * Get port from environment and store in Express.
@@ -20,12 +21,22 @@ app.set('port', port)
  */
 
 var server = http.createServer(app)
+const getBolas = require('../helpers/get-bolas')
+const bolas = getBolas()
+const timer = time => new Promise(resolve=>setTimeout(resolve, time))
+io(server).on('connection', async socket => {
+  console.log('conectou um viadinho aqui')
+  for(const bola of bolas){
+    socket.broadcast.emit('sorteio', bola)
+    await timer(1000)
+  }
+})
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port)
+server.listen(port, ()=>console.log(`servidor topzera na porta ${port}`))
 server.on('error', onError)
 server.on('listening', onListening)
 
