@@ -37,13 +37,13 @@ export class Sala1Page implements OnInit {
     const socket = io('http://localhost:3000')
 
     socket.on('sorteio', bola => {
+      console.log('sorteada', bola)
       this.data.bolas.push(bola)
     })
   }
 
   async ngOnInit() {
-    
-    
+    this.data.bola = 'aguarde'
   }
   async getData()
   {
@@ -76,27 +76,7 @@ export class Sala1Page implements OnInit {
   }
 
   async verificainicio() {
-    if (this.data.verdadee == true) {
-      this.observableTimer();
-      setInterval(async () => {
-        this.apiService.trazsala().subscribe((response) => {
-          this.data.verdade = response[0]['start'];
-        })
-      }, 1000);
-    }
-    if (this.data.verdade == 'sim') {
-      this.data.verdadee = false;
-
-      this.observableTimer();
-    }
-  }
-
-  cartelinhas(cartelas): any {
-    return new Promise((resolve, rejects) => {
-      this.apiService.buscacartela(cartelas, this.data.telefone, this.data.partida).subscribe((response) => {
-        resolve(response)
-      })
-    })
+   
   }
 
   randomInt(min, max) {
@@ -104,17 +84,10 @@ export class Sala1Page implements OnInit {
   }
   timer(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-  sorteio(z): any {
-    return new Promise((resolve, reject) => this.apiService.sorteio(z).subscribe(resolve))
-  }
-
   traz(){
 
   }
 
-  async delay(ms: number) {
-    await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
-  }
   cartelao() {
     var rr = this.data.serie[this.data.minaa[0]];
     rr[0].sort(function (a, b) {
@@ -361,7 +334,6 @@ export class Sala1Page implements OnInit {
 
   }
 
-
   percurso() {
     this.data.valores = [];
     for (var tt = 0; tt < this.data.tantascartela; tt++) {
@@ -448,74 +420,7 @@ export class Sala1Page implements OnInit {
       this.data.pes = true;
       this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
      
-      this.apiService.fezlinha(this.data.telefone, this.data.numerolinha, this.data.partida).subscribe((response)=>{
-       
-      
-      })
-    //  await this.task(8000);
     }
   }
-
-  async bingo() {
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      this.data.ponto = 0;
-      for (var zz = 0; zz <= 2; zz++) {
-
-        for (var xx = 0; xx < 15; xx++) {
-          for (var cc = 0; cc < this.data.bolas.length; cc++) {
-            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
-              this.data.ponto = this.data.ponto + 1;
-              if (this.data.ponto == 15) {
-                var linha = tt + 1 + (this.data.posicao || 0);
-                this.data.mina[0] = linha;
-                this.data.min[0] = 'BINGO';
-               
-                this.data.resultadolinha = true;
-                
-                this.data.pes = true;
-                this.data.linhabingo = true;
-                this.data.linhaaaaa = 'Bingoooo!!! cartão número - ' + linha;
-                this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.pbingo);
-                
-                this.apiService.fezbingo(this.data.telefone,linha,this.data.partida).subscribe(async (response)=>{
-
-                })
-                var a = 1;
-                a = parseInt(this.data.partida)  + a;
-                this.apiService.proxima(1, a).subscribe((response)=>{
-
-                })
-                
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  ac(min, max) {
-    this.data.play = Math.random() * (max - min) + min;
-  }
-
-  linhaz() {
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      for (var zz = 0; zz <= 2; zz++) {
-        this.data.ponto = 0;
-        for (var xx = 0; xx < 5; xx++) {
-          for (var cc = 0; cc < this.data.bolas.length; cc++) {
-            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
-              this.data.ponto = this.data.ponto + 1;
-              if (this.data.ponto == 5) {
-                alert('linha');
-              }
-            }
-          }
-        }
-      }
-
-    }
-  }
-
 
 }

@@ -24,7 +24,7 @@ export class Student {
     interval;
     play: any;
     i: any;
-    bola: any = [];
+    bola: any;
     safra: any = [];
     safraa: any = [];
     safraaa: any = [];
