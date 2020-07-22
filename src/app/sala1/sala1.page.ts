@@ -62,7 +62,7 @@ export class Sala1Page implements OnInit {
     audio.play();
   }
 
-  async compraSeries() {
+  async comprarSeries() {
     
   }
   observableTimer() {
