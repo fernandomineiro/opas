@@ -17,6 +17,7 @@ const connect = (server) =>{
             knex('membro').select('telefone').where({
                     telefone
                 }).first().then(user => {
+                    console.log(user)
                     socket.telefone = user ? user.telefone : user
                     register(socket)
                 })

@@ -48,9 +48,16 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
+
+    const socket: any = await this.socket.connect(this.telefone)
+    console.log('component iniciado')
     this.data.bola = 'aguarde'
-    this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
-    this.socket.on.sorteio = bola => this.sorteio(bola)
+    console.log(this.socket.socket)
+    socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
+    socket.on('bola sorteada', bola => this.sorteio(bola))
+    //this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
+    //this.socket.on.sorteio = bola => this.sorteio(bola)
+    //this.socket.sorteio()
     this.entrarNaSala()
   }
 
@@ -58,12 +65,13 @@ export class Sala1Page implements OnInit {
     this.axios.put('membro-sala', { sala_d: 0, telefone: this.telefone })
   }
 
-  sorteio(bola){
+  sorteio(bola) {
     this.playAudio(bola)
     this.data.bola = bola
   }
 
   entrarNaSala() {
+    console.log('entrar na sala')
     return this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
       .catch(_ => this.location.back())
   }

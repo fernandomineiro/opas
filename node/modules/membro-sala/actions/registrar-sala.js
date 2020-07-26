@@ -6,6 +6,7 @@ const socket = require('../../../io/sockets')
 const partida = async (req, res) => {
     const telefone = _.get(req.body, 'telefone')
     const sala_id = _.get(req.body, 'sala_id')
+    console.log(telefone)
     const {sala_id: salaMembro} = await getSalaByMembroTelefone(telefone)
     const entrou = await membroSala({sala_id: sala_id, telefone})
     

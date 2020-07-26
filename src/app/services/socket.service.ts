@@ -6,29 +6,19 @@ import * as io from 'socket.io-client'
 export class SocketService {
 
   constructor() {
-    this.connect(sessionStorage.getItem('telefone'))
   }
   socket: any;
-  on = {
-    start() { },
-    sorteio(bola) { }
-  };
   connect(telefone) {
-    if (this.socket && this.socket.connected) return
-    const socket = io('http://localhost:3000')
-    socket.on('connect', () => {
-      console.log('conectou')
-      socket.emit("register", telefone)
-      this.socket = socket
-      this.iniciarPartida()
-      this.sorteio()
+    return new Promise((resolve, reject) => {
+      if (this.socket && this.socket.connected) return resolve(this.socket)
+      const socket = io('http://localhost:3000')
+      socket.on('connect', () => {
+        console.log('conectou')
+        socket.emit("register", telefone)
+        this.socket = socket
+        resolve(socket)
+      })
     })
-  }
 
-  iniciarPartida() {
-    this.socket.on('iniciar partida', this.on.start)
-  }
-  sorteio(){
-    this.socket.on('bola sorteada', this.on.sorteio)
   }
 }

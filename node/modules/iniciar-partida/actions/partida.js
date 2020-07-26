@@ -30,6 +30,7 @@ const partida = async (req, res) => {
        return res.status(400).json({err: err.stack})
    }
    sockets.io.emit('iniciar partida')
+   console.log('partida iniciada:', sala_id)
    sortearBolas(sala_id)
     res.json({ status: "ok" })
 }
