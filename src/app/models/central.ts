@@ -1,4 +1,5 @@
 export class Central {
+    socket: any;
     sala1:string;
     sala2:string;
     sala3:string;

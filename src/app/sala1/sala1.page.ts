@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Student } from '../models/student';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { mapTo, delay } from 'rxjs/operators';
@@ -8,8 +8,9 @@ import { Platform } from '@ionic/angular';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { timer } from 'rxjs';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
-import * as io from 'socket.io-client'
-
+import { AxiosService } from '../services/axios.service';
+import { SocketService } from '../services/socket.service';
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
@@ -24,27 +25,62 @@ export class Sala1Page implements OnInit {
   getdata: boolean;
   partida:any;
   saida:any;
+  sala: number;
+  axios: any;
+  contagem: any = 90;
+  partidaIniciada: boolean = false;
+  telefone: any;
   constructor(
     public apiService: ApiService,
     public router: Router,
-    private screenOrientation: ScreenOrientation
-
+    private screenOrientation: ScreenOrientation,
+    private Axios: AxiosService,
+    private route: ActivatedRoute,
+    private socket: SocketService,
+    private location: Location
   ) {
+    this.axios = this.Axios.axios
     this.data = new Student();
-    // logs the current orientation, example: 'landscape'
-    // detect orientation changes
-
-    const socket = io('http://localhost:3000')
-
-    socket.on('sorteio', bola => {
-      console.log('sorteada', bola)
-      this.data.bolas.push(bola)
-    })
+    this.telefone = sessionStorage.getItem('telefone')
+    this.data.nome = sessionStorage.getItem('nome')
+    this.route.params.subscribe(params => this.sala = params.sala)
   }
 
   async ngOnInit() {
     this.data.bola = 'aguarde'
+    this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
+    this.entrarNaSala()
   }
+
+  async ngOnDestroy(){
+    this.axios.put('membro-sala', {sala_d: 0, telefone: this.telefone})
+  }
+
+  entrarNaSala(){
+    return this.axios.put('membro-sala', {sala_id: this.sala, telefone: this.telefone})
+    .catch(_ => this.location.back())
+  }
+
+  iniciarPartida(){
+    this.partidaIniciada = true
+    this.data.botao = true
+    this.contagemRegressiva()
+  }
+
+  contagemRegressiva(){
+    this.contagem = this.contagem - 1
+    if(!this.contagem){
+      this.partidaIniciada = false
+      this.contagem = 90
+      return this.data.botao = false
+    }
+    setTimeout(()=>this.contagemRegressiva(), 1000)
+  }
+
+  async getPartida(salaId){
+    const partida = await this.axios.get('/get-partida', {salaId})
+  }
+
   async getData()
   {
       
