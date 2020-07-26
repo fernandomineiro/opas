@@ -10,24 +10,25 @@ import { timer } from 'rxjs';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { AxiosService } from '../services/axios.service';
 import { SocketService } from '../services/socket.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
   styleUrls: ['./sala1.page.scss'],
 })
-export class Sala1Page implements OnInit {  
+export class Sala1Page implements OnInit {
   data: Student;
 
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
   subscribeTimer: number;
   timeLeft: number;
   getdata: boolean;
-  partida:any;
-  saida:any;
+  partida: any;
+  saida: any;
   sala: number;
   axios: any;
-  contagem: any = 90;
+  contagem: any = 95;
   partidaIniciada: boolean = false;
   telefone: any;
   constructor(
@@ -49,41 +50,55 @@ export class Sala1Page implements OnInit {
   async ngOnInit() {
     this.data.bola = 'aguarde'
     this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
+    this.socket.on.sorteio = bola => this.sorteio(bola)
     this.entrarNaSala()
   }
 
-  async ngOnDestroy(){
-    this.axios.put('membro-sala', {sala_d: 0, telefone: this.telefone})
+  async ngOnDestroy() {
+    this.axios.put('membro-sala', { sala_d: 0, telefone: this.telefone })
   }
 
-  entrarNaSala(){
-    return this.axios.put('membro-sala', {sala_id: this.sala, telefone: this.telefone})
-    .catch(_ => this.location.back())
+  sorteio(bola){
+    this.playAudio(bola)
+    this.data.bola = bola
   }
 
-  iniciarPartida(){
+  entrarNaSala() {
+    return this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
+      .catch(_ => this.location.back())
+  }
+
+  iniciarPartida() {
     this.partidaIniciada = true
     this.data.botao = true
     this.contagemRegressiva()
+
+    Swal.fire({
+      title: 'Partida Iniciada, compra de cartelas liberada!',
+      timer: 5000,
+      text: 'você tem 90 segundos para efetuar suas compras',
+      icon: 'success',
+      showConfirmButton: false,
+    })
+
   }
 
-  contagemRegressiva(){
+  contagemRegressiva() {
     this.contagem = this.contagem - 1
-    if(!this.contagem){
+    if (!this.contagem) {
       this.partidaIniciada = false
       this.contagem = 90
       return this.data.botao = false
     }
-    setTimeout(()=>this.contagemRegressiva(), 1000)
+    setTimeout(() => this.contagemRegressiva(), 1000)
   }
 
-  async getPartida(salaId){
-    const partida = await this.axios.get('/get-partida', {salaId})
+  async getPartida(salaId) {
+    const partida = await this.axios.get('/get-partida', { salaId })
   }
 
-  async getData()
-  {
-      
+  async getData() {
+
   }
 
   setLandscape() {
@@ -99,7 +114,7 @@ export class Sala1Page implements OnInit {
   }
 
   async comprarSeries() {
-    
+
   }
   observableTimer() {
     const source = timer(1000, 5000);
@@ -112,7 +127,7 @@ export class Sala1Page implements OnInit {
   }
 
   async verificainicio() {
-   
+
   }
 
   randomInt(min, max) {
@@ -120,7 +135,7 @@ export class Sala1Page implements OnInit {
   }
   timer(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-  traz(){
+  traz() {
 
   }
 
@@ -415,7 +430,7 @@ export class Sala1Page implements OnInit {
     var result = first.filter(function (item) { return last.indexOf(item) > -1 });
     return result.length;
   }
-  
+
   async linha() {
 
     this.data.numerolinha = [];
@@ -442,10 +457,10 @@ export class Sala1Page implements OnInit {
       for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
         this.data.mina[tt] = linha;
         this.data.min[tt] = 'LINHA';
-        
+
 
       }
-      
+
       this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
       this.data.linhafoi = true;
       this.data.linhasim = true;
@@ -455,7 +470,7 @@ export class Sala1Page implements OnInit {
 
       this.data.pes = true;
       this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
-     
+
     }
   }
 

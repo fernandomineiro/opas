@@ -1,12 +1,23 @@
-const knex = require("../../../db/knex")
 const sockets = require('../../../io/sockets')
 const getPartidaIniciadaBySalaId = require('../../../db/getPartidaIniciadaBySalaId')
 const criarPartida = require('../../../db/criarPartida')
+const getBolas = require('../../../helpers/get-bolas')
+const config = require('../../../config.json')
+
+const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
+
+const sortearBolas = async sala => {
+    const bolas = getBolas()
+    await timer(config.tempoDeInicio)
+    for(const bola of bolas){
+        sockets.io.to(sala).emit('bola sorteada', bola)
+        await timer(config.tempoDeSorteio)
+    }
+}
 
 const partida = async (req, res) => {
-    const {salaId} = req.params
-
-    const partidaIniciada = await getPartidaIniciadaBySalaId(salaId)
+    const {sala_id} = req.params
+    const partidaIniciada = await getPartidaIniciadaBySalaId(sala_id)
     if (partidaIniciada) {
         return res.status(400).json({status: false, message: 'partida já iniciada' })
     }
@@ -14,11 +25,12 @@ const partida = async (req, res) => {
     const dia = date.getDate()
     const mes = date.getMonth()
 
-   const partida = await criarPartida(salaId, dia, mes)
+   const partida = await criarPartida(sala_id, dia, mes)
    if(partida.err){
        return res.status(400).json({err: err.stack})
    }
-   sockets.all.broadcast.emit('iniciar partida')
+   sockets.io.emit('iniciar partida')
+   sortearBolas(sala_id)
     res.json({ status: "ok" })
 }
 

@@ -8,7 +8,7 @@ const register = (socket) => {
 
 const connect = (server) =>{
     const socketIo = io(server)
-    socketIo.on('connect', async socket => {
+    socketIo.on('connect', socket => {
         sockets.io = socketIo
         socket.on('register', telefone => {
             if(sockets[telefone]){
