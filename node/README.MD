@@ -4,6 +4,8 @@ https://cliente.hostgator.com.br/meus-sites
 
 NPM Modules
 
+tabela de salas = lotes
+
 ```
 just run the npm install
 ```

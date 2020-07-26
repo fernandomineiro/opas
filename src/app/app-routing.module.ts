@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'sala1',
+    path: 'sala1/:sala',
     loadChildren: () => import('./sala1/sala1.module').then( m => m.Sala1PageModule)
   },
   {

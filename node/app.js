@@ -4,12 +4,12 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 const helmet = require('helmet')
-
+const cors = require('cors')
 const loadModules = require('./helpers/loadModules')
 const loadMiddleware = require('./helpers/loadMiddlewares')
 
 var app = express()
-
+app.use(cors())
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 

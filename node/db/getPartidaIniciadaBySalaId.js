@@ -1,0 +1,6 @@
+const knex = require("./knex")
+module.exports = sala_id => knex('partida1')
+    .select('status')
+    .where({sala_id, status: 1})
+    .first()
+    .catch(err => ({err}))

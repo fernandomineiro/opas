@@ -37,7 +37,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Bem vindo {{nome}}</h1>
+                <h1 class="mt-4">Bem vindo {{nome}} {{this.telefone}}</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Você tem  de saldo {{saldo}}</li>
                 </ol>
@@ -48,7 +48,7 @@
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-body"><div *ngIf="data.status1; else templateName"> Aberto - {{data.sala1}}</div><ng-template #templateName>Fechado - {{data.sala1}}</ng-template> </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao1}}
-                                <a class="small text-white stretched-link" routerLink='../sala1'></a>
+                                <a class="small text-white stretched-link" routerLink='../sala1/1'></a>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
                         </div>

@@ -84,12 +84,19 @@
 
 <div class="row" >
   <div class="col-sm-2" style="border: 1px solid blue; margin-top:20px; top: -15px; left: 20px; width: 80px;" >
-  <p class="text-center" style="padding-top: -20px;">{{data.nome}}</p>
+    <div style="text-align: center;">
+      {{data.nome}}
+    </div>
+    <div style="font-size: 12px; font-weight: 900; text-align: center;">
+      Saldo {{data.saldo}}
+    </div>
+    <div style="text-align: center;" *ngIf="data.botao">
+     <label for="asdas" style="font-weight: 900; font-size: 8pt;">Apostar</label>
+     <input type="number" [(ngModel)]="data.cartela" class="" id="asdas" style="border: solid 1px black; height: 20px; width: 90px;">
+    </div>
     
-    <p class="text-center" style="font-size: 12px; position: relative; width: 100px; font-weight: 900; margin-top: -15px; left: -8px" >  Saldo {{data.saldo}}</p> 
-    <p class="text-center" style="font-size: 10px; position: relative; width: 100px; font-weight: 900; margin-top: -15px; left: -8px">  Apostar  <input type="number" [(ngModel)]="data.cartela" class="form-control" id="asdas" style="width: 100px; border: solid 1px black; height: 20px; width: 90px;"></p> 
-      <button *ngIf="data.botao" class="form-inline" type="button" style="background-color: white; color: black; font-weight: 900; font-size: 12px; left: -7px; position: relative; top: -10px; width: 85px;" (click)="comprarSeries()" class="btn btn-primary">Confirmar</button>
-      <p class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative;">    Cartões em Jogo:</p> 
+      <button *ngIf="data.botao" class="form-inline" type="button" style="background-color: white; color: black; font-weight: 900; font-size: 12px; position: relative; " (click)="comprarSeries()" class="btn btn-primary">Confirmar {{contagem}}</button>
+      <div class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative;">Cartões em Jogo:</div> 
       <p class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative; margin-top: -10px; margin-bottom: -10px;"> {{data.tantascartela}}</p><br>
       <p *ngIf="data.minimo" class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative;">   {{data.minimo}} até {{data.maximo}} cartões em jogo </p> 
   </div>
