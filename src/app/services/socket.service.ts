@@ -15,7 +15,7 @@ export class SocketService {
   };
   connect(telefone) {
     if (this.socket && this.socket.connected) return
-    const socket = io('http://localhost:3000')
+    const socket = io('http://192.168.100.37:3000')
     socket.on('connect', () => {
       console.log('conectou')
       socket.emit("register", telefone)
