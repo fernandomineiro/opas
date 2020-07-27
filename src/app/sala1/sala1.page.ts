@@ -31,6 +31,7 @@ export class Sala1Page implements OnInit {
   contagem: any = 95;
   partidaIniciada: boolean = false;
   telefone: any;
+  bolasSorteadas: any = [];
   constructor(
     public apiService: ApiService,
     public router: Router,
@@ -58,10 +59,11 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnDestroy() {
-    this.axios.put('membro-sala', { sala_d: 0, telefone: this.telefone })
+    this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
   }
 
   sorteio(bola) {
+    this.bolasSorteadas.push(bola)
     this.playAudio(bola)
     this.data.bola = bola
   }

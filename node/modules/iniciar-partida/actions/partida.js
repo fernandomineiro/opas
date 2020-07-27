@@ -4,10 +4,10 @@ const criarPartida = require('../../../db/criarPartida')
 const getBolas = require('../../../helpers/get-bolas')
 const config = require('../../../config.json')
 const setPartidaBySalaId = require('../../../db/set-partida-by-salaId')
-const getPartidaBySalaId = require('../../../db/get-partida-by-salaId')
 const getFilaBySalaId = require('../../../db/get-fila-by-salaId')
 const comprarCartelas = require('../../../db/comprar-cartelas')
 const removeFila = require('../../../db/remove-fila')
+const updateBolasSorteadas = require('../../../db/update-bolas-sorteadas')
 
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
 
@@ -19,12 +19,15 @@ const comprarCartelasDaFila = async (sala_id) => {
     }
 }
 
-const sortearBolas = async sala_id => {
+const sortearBolas = async (sala_id, bolasSorteadasId) => {
     const bolas = getBolas()
     await timer(config.tempoDeInicio)
     await comprarCartelasDaFila(sala_id)
     await removeFila(sala_id)
+    const bolasSorteadas = []
     for (const bola of bolas) {
+        bolasSorteadas.push(bola)
+        await updateBolasSorteadas(bolasSorteadasId, JSON.stringify(bolasSorteadas))
         sockets.io.to(sala_id).emit('bola sorteada', bola)
         await timer(config.tempoDeSorteio)
     }
@@ -46,8 +49,8 @@ const partida = async (req, res) => {
     const mes = date.getMonth()
 
     const isnertPartida = await criarPartida(sala_id, dia, mes)
-    const getPartida = await getPartidaBySalaId(sala_id)
-    await setPartidaBySalaId(sala_id, getPartida.id)
+    
+   const bolasSorteadas = await setPartidaBySalaId(sala_id, isnertPartida.id)
     if (isnertPartida.err) {
         return res.status(400).json({
             err: err.stack
@@ -55,7 +58,7 @@ const partida = async (req, res) => {
     }
     sockets.io.emit('iniciar partida')
     console.log('partida iniciada:', sala_id)
-    sortearBolas(sala_id)
+    sortearBolas(sala_id, bolasSorteadas.id)
     res.json({
         status: "ok"
     })
