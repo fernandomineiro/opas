@@ -23,6 +23,7 @@ export class CentralPage implements OnInit {
   telefone: any;
 
   async ngOnInit() {
+    this.socket.connect(this.telefone)
     this.status();
     
     this.apiService.home(this.telefone).subscribe((response) => {

@@ -31,6 +31,7 @@ export class Sala1Page implements OnInit {
   contagem: any = 95;
   partidaIniciada: boolean = false;
   telefone: any;
+  bolasSorteadas: any = [];
   constructor(
     public apiService: ApiService,
     public router: Router,
@@ -48,17 +49,21 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
+    const socket: any = await this.socket.connect(this.telefone)
     this.data.bola = 'aguarde'
-    this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
-    this.socket.on.sorteio = bola => this.sorteio(bola)
+    socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
+    socket.on('bola sorteada', bola => this.sorteio(bola))
     this.entrarNaSala()
+    //TODO
+    this.data.botao = true
   }
 
   async ngOnDestroy() {
-    this.axios.put('membro-sala', { sala_d: 0, telefone: this.telefone })
+    this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
   }
 
-  sorteio(bola){
+  sorteio(bola) {
+    this.bolasSorteadas.push(bola)
     this.playAudio(bola)
     this.data.bola = bola
   }
@@ -114,8 +119,9 @@ export class Sala1Page implements OnInit {
   }
 
   async comprarSeries() {
-
+    this.axios.post('/comprar-series', {qtd: this.data.cartela, telefone: this.telefone})
   }
+
   observableTimer() {
     const source = timer(1000, 5000);
     const abc = source.subscribe(async val => {

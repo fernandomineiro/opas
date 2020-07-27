@@ -1,0 +1,48 @@
+version: "3"
+services:
+  node:
+    image: node_12
+    container_name: node
+    working_dir: /app
+    volumes:
+      - ../:/app
+      - /app/node_modules
+    env_file:
+      - local.env
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    command:
+      - node
+      - "/fake-server.js"
+    networks:
+      - node-network
+
+  mysqlsrv:
+    image: mysql:5.7.22
+    command: --max_allowed_packet=32505856
+    container_name: bingo-mysql
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "bingo"
+      MYSQL_USER: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - node-network
+
+# Networks
+networks:
+  node-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

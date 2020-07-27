@@ -2,12 +2,15 @@ const membroSala = require("../../../db/membro-sala")
 const getSalaByMembroTelefone = require('../../../db/get-sala-by-membro')
 const _ = require('lodash')
 const socket = require('../../../io/sockets')
+const getSala = require("../../../db/get-sala")
 
-const partida = async (req, res) => {
+const gegistraSala = async (req, res) => {
     const telefone = _.get(req.body, 'telefone')
     const sala_id = _.get(req.body, 'sala_id')
+    
     const {sala_id: salaMembro} = await getSalaByMembroTelefone(telefone)
-    const entrou = await membroSala({sala_id: sala_id, telefone})
+    const {partida_id} = await getSala(sala_id)
+    const entrou = await membroSala({sala_id: sala_id, telefone, partida_id})
     
     if( entrou.err || !entrou){
         return res.status(400).json({err: _.get(response, 'err.stack') || entrou})
@@ -29,4 +32,4 @@ const partida = async (req, res) => {
     res.json({status: 'ok'})
 }
 
-module.exports = partida
+module.exports = gegistraSala
