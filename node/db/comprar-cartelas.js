@@ -5,7 +5,6 @@ const comprarCartelas = async (params) => {
         .whereNotIn('cartela_id', knex.raw('SELECT cartela_id FROM membro_cartelas WHERE sala_id = ? ', params.sala_id))
         .groupBy('cartela_id')
         .limit(params.qtd * 6)
-        console.log(cartelas.length)
     return knex('membro_cartelas').insert(cartelas)
 }
 module.exports = comprarCartelas

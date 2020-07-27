@@ -28,6 +28,7 @@ const sortearBolas = async (sala_id, bolasSorteadasId) => {
     for (const bola of bolas) {
         bolasSorteadas.push(bola)
         await updateBolasSorteadas(bolasSorteadasId, JSON.stringify(bolasSorteadas))
+
         sockets.io.to(sala_id).emit('bola sorteada', bola)
         await timer(config.tempoDeSorteio)
     }
