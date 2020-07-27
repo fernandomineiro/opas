@@ -48,17 +48,13 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
-
     const socket: any = await this.socket.connect(this.telefone)
-    console.log('component iniciado')
     this.data.bola = 'aguarde'
-    console.log(this.socket.socket)
     socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
     socket.on('bola sorteada', bola => this.sorteio(bola))
-    //this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
-    //this.socket.on.sorteio = bola => this.sorteio(bola)
-    //this.socket.sorteio()
     this.entrarNaSala()
+    //TODO
+    this.data.botao = true
   }
 
   async ngOnDestroy() {
@@ -71,7 +67,6 @@ export class Sala1Page implements OnInit {
   }
 
   entrarNaSala() {
-    console.log('entrar na sala')
     return this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
       .catch(_ => this.location.back())
   }
@@ -122,8 +117,9 @@ export class Sala1Page implements OnInit {
   }
 
   async comprarSeries() {
-
+    this.axios.post('/comprar-series', {qtd: this.data.cartela, telefone: this.telefone})
   }
+
   observableTimer() {
     const source = timer(1000, 5000);
     const abc = source.subscribe(async val => {
