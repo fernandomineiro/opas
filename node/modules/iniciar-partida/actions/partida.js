@@ -66,8 +66,6 @@ const gerarCartelas = (bolasCompradas, bolasSorteadas) => {
     }, [])
 }
 
-const getCartela = (bolasCompradas, cartela_id) => {}
-
 const sendLinhasSorteada = (linhas, parar) => {
     if(parar) return false
     let response = false
