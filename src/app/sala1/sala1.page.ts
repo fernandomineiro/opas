@@ -31,6 +31,9 @@ export class Sala1Page implements OnInit {
   contagem: any = 95;
   partidaIniciada: boolean = false;
   telefone: any;
+  bolasSorteadas: any = [];
+  cartelas: any = [];
+  ganhou: boolean = false;
   constructor(
     public apiService: ApiService,
     public router: Router,
@@ -48,30 +51,88 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
-
+    this.entrarNaSala()
     const socket: any = await this.socket.connect(this.telefone)
-    console.log('component iniciado')
     this.data.bola = 'aguarde'
-    console.log(this.socket.socket)
     socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
     socket.on('bola sorteada', bola => this.sorteio(bola))
-    //this.socket.on.start = () => !this.partidaIniciada ? this.iniciarPartida() : null
-    //this.socket.on.sorteio = bola => this.sorteio(bola)
-    //this.socket.sorteio()
-    this.entrarNaSala()
+    socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
+    socket.on('bingo linha', linha => this.bingoLinha(linha))
+    socket.on('bateram linha', ()=>this.bateramLinha())
+    socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
+    socket.on('voce ganhou', cartela => {
+      Swal.fire('BINGOOOOOO')
+    })
+    
+    //TODO
+    this.data.botao = true
+  }
+
+  bateramLinha(){
+    if(!this.ganhou){
+      Swal.fire({
+        title: `Você agora está concorrendo ao prêmio cartela cheia`,
+        timer: 8000,
+        text: 'Alguém já ganhou o primeior prêmio mas você continua concorrendo ao maior preio de cartela cheia',
+        icon: 'error',
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  bingoLinha(linhas){
+    this.ganhou = true
+    Swal.fire({
+      title: `Bingooooo voce foi premiado por completar uma linha(s) ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
+      timer: 8000,
+      html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg"> 500',
+      icon: 'success',
+      showConfirmButton: false,
+    })
+  }
+
+  melhoresCartelas(cartelas){
+    this.cartelas = cartelas
+    this.data.mina[0] = cartelas[0].cartela_id
+    this.data.min[0] = cartelas[0].faltam
+    this.data.mina[1] = cartelas[1].cartela_id
+    this.data.min[1] = cartelas[1].faltam
+    this.data.mina[2] = cartelas[2].cartela_id
+    this.data.min[2] = cartelas[2].faltam
+    this.data.mina[3] = cartelas[3].cartela_id
+    this.data.min[3] = cartelas[3].faltam
+    this.data.mina[4] = cartelas[4].cartela_id
+    this.data.min[4] = cartelas[4].faltam
+
+  }
+
+  melhoresLinhas(linhas){
+    this.cartelas = linhas
+    this.data.mina[0] = linhas[0].cartela_id
+    this.data.min[0] = linhas[0].faltam
+    this.data.mina[1] = linhas[1].cartela_id
+    this.data.min[1] = linhas[1].faltam
+    this.data.mina[2] = linhas[2].cartela_id
+    this.data.min[2] = linhas[2].faltam
+    this.data.mina[3] = linhas[3].cartela_id
+    this.data.min[3] = linhas[3].faltam
+    this.data.mina[4] = linhas[4].cartela_id
+    this.data.min[4] = linhas[4].faltam
   }
 
   async ngOnDestroy() {
-    this.axios.put('membro-sala', { sala_d: 0, telefone: this.telefone })
+    this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
   }
 
   sorteio(bola) {
-    this.playAudio(bola)
-    this.data.bola = bola
+    bola.sorteadas.forEach(bola => this.data.a[bola] = bola );
+    
+    this.data.sorteadas = bola.sorteadas.length
+    this.playAudio(bola.bola)
+    this.data.bola = bola.bola
   }
 
   entrarNaSala() {
-    console.log('entrar na sala')
     return this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
       .catch(_ => this.location.back())
   }
@@ -122,8 +183,9 @@ export class Sala1Page implements OnInit {
   }
 
   async comprarSeries() {
-
+    this.axios.post('/comprar-series', {qtd: this.data.cartela, telefone: this.telefone})
   }
+
   observableTimer() {
     const source = timer(1000, 5000);
     const abc = source.subscribe(async val => {
