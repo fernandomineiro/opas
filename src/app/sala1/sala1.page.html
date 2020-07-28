@@ -1,183 +1,421 @@
-
 <ion-content>
 <div class="game">
-  <div class="row">
-    <div class="col-sm-6">
-      <div style="background-color: black; height: 145px; margin-top: 5px; margin-left: 5px; border: 2px solid white;">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm">
-              <p id="b" class="text-center" style="color: white; background-color: #009a99; border: 2px solid white; width: 50px; font-weight: 500; font-size: 15px; top: 12px; height: 25px; padding-top: -20px;">{{data.mina[0]}}</p>
-              <p id="b" class="text-center" style="color: white; background-color: #009a99; border: 2px solid white; width: 50px; font-weight: 500; font-size: 15px; margin-top: -12px; height: 25px;">{{data.mina[1]}}</p>
-              <p id="b" class="text-center" style="color: white; background-color: #009a99; border: 2px solid white; width: 50px; font-weight: 500; font-size: 15px; margin-top: -12px; height: 25px;">{{data.mina[2]}}</p>
-              <p id="b" class="text-center" style="color: white; background-color: #009a99; border: 2px solid white; width: 50px; font-weight: 500; font-size: 15px; margin-top: -12px; height: 25px;">{{data.mina[3]}}</p>
-              <p id="b" class="text-center" style="color: white; background-color: #009a99; border: 2px solid white; width: 50px; font-weight: 500; font-size: 15px; margin-top: -12px; height: 25px;">{{data.mina[4]}}</p>
-            </div>
-            <div class="col-sm">
-              <p id="b" style="color: white; position: relative; left: -60px; font-weight: 800; font-size: 14px; width: 200px; top: 5px">{{data.min[0]}}</p>
-              <p id="b" style="color: white; position: relative; left: -60px; font-weight: 800; font-size: 14px; top: -3px; width: 200px;" >{{data.min[1]}}</p>
-              <p id="b" style="color: white; position: relative; left: -60px; font-weight: 800; font-size: 14px; top: -12px; width: 200px;">{{data.min[2]}}</p>
-              <p id="b" style="color: white; position: relative; left: -60px; font-weight: 800; font-size: 14px; top: -21px; width: 200px;">{{data.min[3]}}</p>
-              <p id="b" style="color: white; position: relative; left: -60px; font-weight: 800; font-size: 14px; top: -30px; width: 200px;">{{data.min[4]}}</p>
-            </div>
+  <div class = itens-left>
+    <div class=blackboard>
+      <div class="topfive">
+         <span class="cartelas"> 250 </span> 
+         <span class="numeros">10 25 05 85 85 10 25 05 85 85 </span>
+        </div>
+        <div class="topfive">
+            <span  class="cartelas">8000</span> 
+            <span  class="numeros"> 85 10 25 05 85 85 </span>
+        </div>
+        <div class="topfive">
+          <span  class="cartelas">300</span> 
+          <span  class="numeros">10 25 0 </span>
+        </div>
+        <div class="topfive">
+          <span class="cartelas">500</span> 
+          <span  class="numeros">10 25 05 85 85 10 25 05 85 5  </span>
+        </div>
+        <div class="topfive">
+            <span  class="cartelas">250</span>
+            <span  class="numeros">10 25 05 85 8 85 85 </span>
+        </div> 
+      </div>
+      <div class ="itens-buttom">
+        <div class="membro-info b">
+          <div class="membronome"> Roberval </div>
+          
+          <div class="saldo">Saldo 
+            <span class=saldo> {{data.saldo || 0}} </span>
+          </div>
+          <div class="compra-serie ">
+              <label for="apostar" >Apostar</label>
+              <input  type="number"   [(ngModel)]="data.cartela" id="apostar">
+          </div>
+          <div *ngIf="data.botao || true" class="confirma-compra btn btn-primary" (click)="comprarSeries()" >
+            Confirmar {{contagem}}
+          </div>
+          <div class="cartoes-em-jogo ">
+            <span> 
+              {{data.tantascartela || 0}}
+            </span>
+            <div class="" >Cartões em Jogo </div> 
+          
+            <span *ngIf="data.minimo || 2"> 
+              {{data.minimo || 2 }} até  
+            </span>
+            <span *ngIf="data.minimo || 2"> 
+              {{data.maximo || 300 }} cartões em jogo 
+            </span>
           </div>
         </div>
-      </div>
-    </div>
-  <div class="col-sm-5" >
-    <span class="form-inline" style="width: 400px;">
-      <p>Cartão&nbsp; </p>
-      <p style="border: 1px solid black; width: 60px; height: 20px; left: 20px; border-radius: 2px;"> </p>
-      <p style="position: relative; left: -35px">{{data.mina[0]}}</p>&nbsp;
-      <p>  - Melhor Chance</p></span>
-
-    <div>
-      <table border="1" cellpadding="10">
-        <tr>          
-          <td><div *ngIf="data.vela[0]; else templateName">{{data.vela[0]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[1]; else templateName">{{data.vela[1]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[2]; else templateName">{{data.vela[2]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[3]; else templateName">{{data.vela[3]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[4]; else templateName">{{data.vela[4]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[5]; else templateName">{{data.vela[5]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[6]; else templateName">{{data.vela[6]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[7]; else templateName">{{data.vela[7]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[8]; else templateName">{{data.vela[8]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-        </tr>
-        <tr>
-          <td><div *ngIf="data.vela[10]; else templateName">{{data.vela[10]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[11]; else templateName">{{data.vela[11]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[12]; else templateName">{{data.vela[12]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[13]; else templateName">{{data.vela[13]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[14]; else templateName">{{data.vela[14]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[15]; else templateName">{{data.vela[15]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[16]; else templateName">{{data.vela[16]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[17]; else templateName">{{data.vela[17]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[18]; else templateName">{{data.vela[18]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-        </tr>
-        <tr>
-          <td><div *ngIf="data.vela[20]; else templateName">{{data.vela[20]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[21]; else templateName">{{data.vela[21]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[22]; else templateName">{{data.vela[22]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[23]; else templateName">{{data.vela[23]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[24]; else templateName">{{data.vela[24]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[25]; else templateName">{{data.vela[25]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[26]; else templateName">{{data.vela[26]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[27]; else templateName">{{data.vela[27]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-          <td><div *ngIf="data.vela[28]; else templateName">{{data.vela[28]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
-        </tr>
-      </table>
-      <div *ngIf="data.resultadolinha">
-        <div  class="alert alert-danger" style="z-index: 1; width: 450px; position: relative; left: -250px" role="alert">
-          {{data.linhaaaaa}}
+      <div class="partida-info b"> 
+        <div class="info">
+          <span>Valor da Série {{data.price || 1000}} </span>
+          <span></span>
+        </div>
+        <div class="info">
+          <span>Cartões Vendidos: {{data.quant || 1000}} </span>
+          <span></span>
+        </div>
+        <div class="info">
+          <span>
+            Prêmio de Linha: {{data.plinha || 1000 }} 
+            <img style="width: 10px; height: 10px" src="assets/a.jpeg">
+          </span>
+          
+        </div>
+        <div class="info">
+          <span>
+          Prêmio de Bingo: {{data.pbingo || 1000}}  <img style="width: 10px; height: 10px" src="assets/a.jpeg">
+          </span> 
+          
+        </div>
+        <div class="info">
+          <span> Acumulado: 1000  <img style="width: 10px; height: 10px" src="assets/a.jpeg"> Até 40 bolas  </span>
         </div>
       </div>
+      <div class="sorteio b">
+          <div class="bigNumberDisplay" >
+            {{data.numbers}}
+          </div>
+          <span>Bola</span>
+          <img src="assets/b{{data.bola}}.gif">
+          <audio></audio>
+          <audio #audioPlayer>
+            <source src="assets/{{data.bola}}.mp3">
+          </audio>
+          <span class="text-center" ></span>
+          <span class="text-center">Sorteio {{data.tipo || 'bingo'}}</span>
+        
+      </div>
     </div>
-  </div>
   </div>
 
-<div class="row" >
-  <div class="col-sm-2" style="border: 1px solid blue; margin-top:20px; top: -15px; left: 20px; width: 80px;" >
-    <div style="text-align: center;">
-      {{data.nome}}
-    </div>
-    <div style="font-size: 12px; font-weight: 900; text-align: center;">
-      Saldo {{data.saldo}}
-    </div>
-    <div style="text-align: center;" *ngIf="data.botao">
-      <label for="asdas" style="font-weight: 900; font-size: 8pt;">Apostar</label>
-      <input type="number" [(ngModel)]="data.cartela" class="" id="asdas" style="border: solid 1px black; height: 20px; width: 90px;">
-    </div>
-      <button *ngIf="data.botao" class="form-inline" type="button" style="background-color: white; color: black; font-weight: 900; font-size: 12px; position: relative; " (click)="comprarSeries()" class="btn btn-primary">Confirmar {{contagem}}</button>
-      <div class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative;">Cartões em Jogo:</div> 
-      <p class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative; margin-top: -10px; margin-bottom: -10px;"> {{data.tantascartela}}</p><br>
-      <p *ngIf="data.minimo" class="text-center" style="font-size: 8px; position: relative; width: 100px; font-weight: 900; left: -7px; position: relative;">   {{data.minimo}} até {{data.maximo}} cartões em jogo </p> 
-  </div>
-<div class="col-sm-2" style="border: 1px solid blue;margin-top: 20px;  top: -15px; left: 20px; width: 50px; margin-left: 10px;">
-<p class="form-inline" style="font-size: 10px; position: relative; width: 100px; font-weight: 900; left: -5px; margin-top: 10px;">  Valor da Série {{data.price}} <img style="width: 10px; height: 10px" src="assets/a.jpeg"> </p> 
-  <p class="form-inline" style="font-size: 9px; position: relative; width: 100px; font-weight: 900; left: -10px; margin-top: -10px; padding-right: -100px;">  Cartões Vendidos: {{data.quant}} </p> 
-  <p class="form-inline" style="font-size: 9px; position: relative; width: 100px; font-weight: 900; left: -10px; margin-top: -10px;">  Prêmio de Linha: {{data.plinha}} <img style="width: 10px; height: 10px" src="assets/a.jpeg">  </p> 
-  <p class="form-inline" style="font-size: 9px; position: relative; width: 100px; font-weight: 900; left: -10px; margin-top: -10px;">  Prêmio de Bingo: {{data.pbingo}} <img style="width: 10px; height: 10px" src="assets/a.jpeg">  </p> 
-  <p  class="form-inline" style="font-size: 9px; position: relative; width: 100px; font-weight: 900; left: -10px; margin-top: -10px;">  Prêmio Acumulado: 
-  1000 <img style="width: 10px; height: 10px" src="assets/a.jpeg">&nbsp; Até 40 bolas </p> 
-</div>
-{{subscribeTimer}}
-<div class="col-sm-2" style="background-color: #ffffff; border: 1px solid blue; margin-top: 20px;  top: -15px; left: 20px; width: 50px; margin-left: 10px;">
-  <div class="text-center" style="padding-top: 20px;" class="bigNumberDisplay" >
-    {{data.numbers}}
-  </div>
-  <p class="text-center" style="margin-top: -20px;">bola</p>
-  <img src="assets/b{{data.bola}}.gif">
-  <audio></audio>
-  <audio #audioPlayer>
-    <source src="assets/{{data.bola}}.mp3">
-  </audio>
-  <span class="text-center" style="left: 30px; position: relative;"></span>
-  <p class="text-center" style="font-size: 10px; font-weight: 500; margin-top: 20px;">Sorteio {{data.tipo}}</p>
-</div>
-<div class="col-sm-5">
-  <div style="width: 200px; background-color: black; height: 50px; top: -50px; left: 80px; position: relative;">
-  <p class="text-center" style="font-size: 7px; left:0px; position: relative; width: 100px; font-weight: 700; margin-top: 30px; color: darkgoldenrod; font-size: 15px; width: 200px;">Número de bolas sorteadas</p>
-  <p style="color: blanchedalmond; font-weight: 700; font-size: 15px; position: relative; left: 90px; margin-top: -20px;">{{data.sorteadas}}</p>
-  <p *ngIf="partida">Partida começa em 1 minuto e meio</p>
-</div>
-  <div class="numbersTable" style="position: relative; top: -40px; position: relative; height: 120px; font-size: 12px; left: 20px">
+  <div class="leftColum ">
+    <div class="cartela-diamante">
+      <div class="cartao-dados">
+          <span >Cartão </span>
+          <span id="mostra-numero" >{{data.mina[0]}}</span>
+          <span> Melhor Chance</span>
+     </div>
+    
     <table>
-      <tr><th style="font-size: 15px;">{{data.a[1]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[2]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[3]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[4]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[5]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[6]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[7]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[8]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[9]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[10]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[11]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[12]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[13]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[14]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[15]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[16]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[17]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[18]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[19]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[20]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[21]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[22]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[23]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[24]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[25]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[26]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[27]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[28]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[29]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[30]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[31]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[32]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[33]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[34]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[35]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[36]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[37]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[38]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[39]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[40]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[41]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[42]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[43]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[44]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[45]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[46]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[47]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[48]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[49]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[50]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[51]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[52]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[53]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[54]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[55]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[56]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[57]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[58]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[59]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[60]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[61]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[62]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[63]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[64]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[65]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[66]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[67]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[68]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[69]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[70]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[71]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[72]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[73]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[74]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[75]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[76]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[77]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[78]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[79]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[80]}}</th></tr>
-      <tr><th style="font-size: 15px;">{{data.a[81]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[82]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[83]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[84]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[85]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[86]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[87]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[88]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[89]}}</th>&nbsp;&nbsp;<th style="font-size: 15px;">{{data.a[90]}}</th></tr> 
+      <tr>          
+        <td><div *ngIf="data.vela[0]; else templateName">{{data.vela[0]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[1]; else templateName">{{data.vela[1]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[2]; else templateName">{{data.vela[2]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[3]; else templateName">{{data.vela[3]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[4]; else templateName">{{data.vela[4]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[5]; else templateName">{{data.vela[5]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[6]; else templateName">{{data.vela[6]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[7]; else templateName">{{data.vela[7]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[8]; else templateName">{{data.vela[8]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+      </tr>
+      <tr>
+        <td><div *ngIf="data.vela[10]; else templateName">{{data.vela[10]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[11]; else templateName">{{data.vela[11]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[12]; else templateName">{{data.vela[12]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[13]; else templateName">{{data.vela[13]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[14]; else templateName">{{data.vela[14]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[15]; else templateName">{{data.vela[15]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[16]; else templateName">{{data.vela[16]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[17]; else templateName">{{data.vela[17]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[18]; else templateName">{{data.vela[18]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+      </tr>
+      <tr>
+        <td><div *ngIf="data.vela[20]; else templateName">{{data.vela[20]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[21]; else templateName">{{data.vela[21]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[22]; else templateName">{{data.vela[22]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[23]; else templateName">{{data.vela[23]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[24]; else templateName">{{data.vela[24]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[25]; else templateName">{{data.vela[25]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[26]; else templateName">{{data.vela[26]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[27]; else templateName">{{data.vela[27]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+        <td><div *ngIf="data.vela[28]; else templateName">{{data.vela[28]}}</div> <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.jpeg"></ng-template></td>
+      </tr>
     </table>
-  </div>
-  <iframe src="https://minnit.chat/bigbig1?embed&nickname=" style="border:none;width:90%;height:300px;" allowTransparency="true"></iframe><br><a href="https://minnit.chat/bigbig1" target="_blank"></a>
+    <div *ngIf="data.resultadolinha">
+      <div  class="alert alert-danger"  role="alert">
+        {{data.linhaaaaa}}
+      </div>
+    </div>
+  
 
+</div>
+<div class="dados-cartoes">
+  <span class="text-center" >Número de bolas sorteadas</span>
+  <span id="numero-sorteado">{{data.sorteadas}}</span>
+  <span *ngIf="partida">a partida começa em 1 minuto e meio</span>
+  
+</div>
+<div class="bolas-que-sairam">
+  <table>
+    <tr><td [ngClass]="{'marcar' : data.a[1] }" >{{data.a[1]||1}}</td><td [ngClass]="{'marcar' : data.a[2] }" >{{data.a[2]|| 2}}</td><td [ngClass]="{'marcar' : data.a[3] }" >{{data.a[3] || 3}}</td><td [ngClass]="{'marcar' : data.a[4] }" >{{data.a[4] || 4}}</td><td [ngClass]="{'marcar' : data.a[5] }" >{{data.a[5]|| 5}}</td><td [ngClass]="{'marcar' : data.a[6] }" >{{data.a[6]|| 6}}</td><td [ngClass]="{'marcar' : data.a[7] }" >{{data.a[7]||7}}</td><td [ngClass]="{'marcar' : data.a[8] }" >{{data.a[8]||8}}</td><td [ngClass]="{'marcar' : data.a[9] }" >{{data.a[9]||9}}</td><td [ngClass]="{'marcar' : data.a[10] }" >{{data.a[10]||10}}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[11] }" >{{data.a[11] || 11 }}</td><td [ngClass]="{'marcar' : data.a[12] }" >{{data.a[12]|| 12}}  </td><td [ngClass]="{'marcar' : data.a[13] }" >{{data.a[13] || 13}}</td><td [ngClass]="{'marcar' : data.a[14] }" >{{data.a[14] || 14}}</td><td [ngClass]="{'marcar' : data.a[15] }" >{{data.a[15] || 15 }}</td><td [ngClass]="{'marcar' : data.a[16] }" >{{data.a[16] || 16 }}</td><td [ngClass]="{'marcar' : data.a[17] }" >{{data.a[17] || 17 }}</td><td [ngClass]="{'marcar' : data.a[18] }" >{{data.a[18] || 18}}</td><td [ngClass]="{'marcar' : data.a[19] }" >{{data.a[19] || 19 }}</td><td [ngClass]="{'marcar' : data.a[20] }" >{{data.a[20] || 20 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[21] }" >{{data.a[21] || 21 }}</td><td [ngClass]="{'marcar' : data.a[22] }" >{{data.a[22] || 22 }}</td><td [ngClass]="{'marcar' : data.a[23] }" >{{data.a[23] || 23}}</td><td [ngClass]="{'marcar' : data.a[24] }" >{{data.a[24] || 24}}</td><td [ngClass]="{'marcar' : data.a[25] }" >{{data.a[25] || 25 }}</td><td [ngClass]="{'marcar' : data.a[26] }" >{{data.a[26] || 26 }}</td><td [ngClass]="{'marcar' : data.a[27] }" >{{data.a[27] || 27 }}</td><td [ngClass]="{'marcar' : data.a[28] }" >{{data.a[28] || 28}}</td><td [ngClass]="{'marcar' : data.a[29] }" >{{data.a[29] || 29 }}</td><td [ngClass]="{'marcar' : data.a[30] }" >{{data.a[30] || 30 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[31] }" >{{data.a[31] || 31 }}</td><td [ngClass]="{'marcar' : data.a[32] }" >{{data.a[32] || 32 }}</td><td [ngClass]="{'marcar' : data.a[33] }" >{{data.a[33] || 33}}</td><td [ngClass]="{'marcar' : data.a[34] }" >{{data.a[34] || 34}}</td><td [ngClass]="{'marcar' : data.a[35] }" >{{data.a[35] || 35 }}</td><td [ngClass]="{'marcar' : data.a[36] }" >{{data.a[36] || 36 }}</td><td [ngClass]="{'marcar' : data.a[37] }" >{{data.a[37] || 37 }}</td><td [ngClass]="{'marcar' : data.a[38] }" >{{data.a[38] || 38}}</td><td [ngClass]="{'marcar' : data.a[39] }" >{{data.a[39] || 39 }}</td><td [ngClass]="{'marcar' : data.a[40] }" >{{data.a[40] || 40 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[41] }" >{{data.a[41] || 41 }}</td><td [ngClass]="{'marcar' : data.a[42] }" >{{data.a[42] || 42 }}</td><td [ngClass]="{'marcar' : data.a[43] }" >{{data.a[43] || 43}}</td><td [ngClass]="{'marcar' : data.a[44] }" >{{data.a[44] || 44}}</td><td [ngClass]="{'marcar' : data.a[45] }" >{{data.a[45] || 45 }}</td><td [ngClass]="{'marcar' : data.a[46] }" >{{data.a[46] || 46 }}</td><td [ngClass]="{'marcar' : data.a[47] }" >{{data.a[47] || 47 }}</td><td [ngClass]="{'marcar' : data.a[48] }" >{{data.a[48] || 48}}</td><td [ngClass]="{'marcar' : data.a[49] }" >{{data.a[49] || 49 }}</td><td [ngClass]="{'marcar' : data.a[50] }" >{{data.a[50] || 50 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[51] }" >{{data.a[51] || 51 }}</td><td [ngClass]="{'marcar' : data.a[52] }" >{{data.a[52] || 52 }}</td><td [ngClass]="{'marcar' : data.a[53] }" >{{data.a[53] || 53}}</td><td [ngClass]="{'marcar' : data.a[54] }" >{{data.a[54] || 54}}</td><td [ngClass]="{'marcar' : data.a[55] }" >{{data.a[55] || 55 }}</td><td [ngClass]="{'marcar' : data.a[56] }" >{{data.a[56] || 56 }}</td><td [ngClass]="{'marcar' : data.a[57] }" >{{data.a[57] || 57 }}</td><td [ngClass]="{'marcar' : data.a[58] }" >{{data.a[58] || 58}}</td><td [ngClass]="{'marcar' : data.a[59] }" >{{data.a[59] || 59 }}</td><td [ngClass]="{'marcar' : data.a[60] }" >{{data.a[60] || 60 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[61] }" >{{data.a[61] || 61 }}</td><td [ngClass]="{'marcar' : data.a[62] }" >{{data.a[62] || 62 }}</td><td [ngClass]="{'marcar' : data.a[63] }" >{{data.a[63] || 63}}</td><td [ngClass]="{'marcar' : data.a[64] }" >{{data.a[64] || 64}}</td><td [ngClass]="{'marcar' : data.a[65] }" >{{data.a[65] || 65 }}</td><td [ngClass]="{'marcar' : data.a[66] }" >{{data.a[66] || 66 }}</td><td [ngClass]="{'marcar' : data.a[67] }" >{{data.a[67] || 67 }}</td><td [ngClass]="{'marcar' : data.a[68] }" >{{data.a[68] || 68}}</td><td [ngClass]="{'marcar' : data.a[69] }" >{{data.a[69] || 69 }}</td><td [ngClass]="{'marcar' : data.a[70] }" >{{data.a[70] || 70 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[71] }" >{{data.a[71] || 71 }}</td><td [ngClass]="{'marcar' : data.a[72] }" >{{data.a[72] || 72 }}</td><td [ngClass]="{'marcar' : data.a[73] }" >{{data.a[73] || 73}}</td><td [ngClass]="{'marcar' : data.a[74] }" >{{data.a[74] || 74}}</td><td [ngClass]="{'marcar' : data.a[75] }" >{{data.a[75] || 75 }}</td><td [ngClass]="{'marcar' : data.a[76] }" >{{data.a[76] || 76 }}</td><td [ngClass]="{'marcar' : data.a[77] }" >{{data.a[77] || 77 }}</td><td [ngClass]="{'marcar' : data.a[78] }" >{{data.a[78] || 78}}</td><td [ngClass]="{'marcar' : data.a[79] }" >{{data.a[79] || 79 }}</td><td [ngClass]="{'marcar' : data.a[80] }" >{{data.a[80] || 80 }}</td></tr>
+    <tr><td [ngClass]="{'marcar' : data.a[81] }" >{{data.a[81] || 81 }}</td><td [ngClass]="{'marcar' : data.a[82] }" >{{data.a[82] || 82 }}</td><td [ngClass]="{'marcar' : data.a[83] }" >{{data.a[83] || 83}}</td><td [ngClass]="{'marcar' : data.a[84] }" >{{data.a[84] || 84}}</td><td [ngClass]="{'marcar' : data.a[85] }" >{{data.a[85] || 85 }}</td><td [ngClass]="{'marcar' : data.a[86] }" >{{data.a[86] || 86 }}</td><td [ngClass]="{'marcar' : data.a[87] }" >{{data.a[87] || 87 }}</td><td [ngClass]="{'marcar' : data.a[88] }" >{{data.a[88] || 88}}</td><td [ngClass]="{'marcar' : data.a[89] }" >{{data.a[89] || 89 }}</td><td [ngClass]="{'marcar' : data.a[90] }" >{{data.a[90] || 90 }}</td></tr>
+  </table> 
+</div>
+  <div class="chat-toggle">
+    <iframe src="https://minnit.chat/bigbig1?embed&nickname=" 
+    allowTransparency="true">
+    </iframe>
+    <a href="https://minnit.chat/bigbig1" target="_blank"></a>
   </div>
-  </div>
+</div>
+
 </div>
 </ion-content>
+
+
 <style>
- .game{
-   display: flex;
- }
 
- .black-board{ 
-  left: -20px;
-  height: 78px;
-  width: 350px;
-  border: 1px solid black;
-   
-   
+#mostra-numero{
+  border: 1px solid yellow;
+  color: yellow;
+  padding: 1px;
+  min-width: 60px;
+  text-align: center;
+  font-weight: 800;
+}
+.cartao-dados{
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.cartela-diamante {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.cartela-diamante table{
+  text-align: center;
+  border: 3px inset white;
+ 
+}
+
+.chat-toggle{
+max-height: 30px;
+width: 100%;
+
+}
+.bolas-que-sairam table{
+color: rgba(216, 217, 218, 0.952);
+width: 100%;
+text-align: center;
+font-size: 0.8em;
+font-weight: 700;
+
+border: 2px outset white;
+}
+
+.marcar  {
+color:rgb(5, 8, 209);
+}
+
+.diamante{
+background-image: url("assets/a.jpeg") ;
+}
+
+.info{
+display: flex;
+font-size: 10px; 
+width: 100px; 
+font-weight: 900;
+justify-content:  center;
+text-align: center;
+flex-direction: column;
+
+}
+
+.membronome {
+font-weight: 900;
+}
+
+.cartoes-em-jogo{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+font-size: 0.6em;
+font-weight: 900;
+
+}
+
+.saldo{
+font-weight: 900;
+font-size: 12px;
+
+}
+
+.confirma-compra{
+margin-top: 3px;
+font-weight: 900;
+font-size: 10px;
+}
+
+.b{
+box-sizing: border-box;
+border: 2px outset white;
+border-radius: 5px;
+margin: 1px 1px 1px 1px;
+}  
+.game{
+display:flex;
+height: 100%;
+width: 100%;
+padding: 5px;
+justify-content: center;
+align-items: center;
+background-color: #87cefa;
+}
+.itens-left{
+display: flex;
+height: 100%;
+width: 60%;
+
+border-radius: 2px;
+flex-direction: column;
+
+}
+
+.itens-buttom{
+padding-top: 10px;
+display: flex;
+height: 60%;
+
+}
+
+.membro-info{
+width: 30%;
+display: flex;
+padding-bottom: 20px;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
+}
+
+.compra-input{
+
+border: solid 1px black;
+height: 20px;
+width: 30%;
+}
+
+.compra-serie{
+display: flex;
+flex-direction: column;
+width: 100px;
+font-weight: 900;
+font-size: 8pt;
+text-align: center;
+
+}
+
+
+.partida-info{
+display: flex;  
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
+width: 35%;
+padding: 3px 0 5px 0 ;
+
+} 
+.sorteio{
+width: 35%;
+display: flex; 
+flex-direction: column;
+text-align: center;
+font-weight: 800;
+background-color: white;
+}
+
+.leftColum{
+display: flex;
+width: 40%;
+
+justify-content: space-between;
+flex-direction: column;
+
+}
+.blackboard{
+padding: 2px;
+padding-left: 5px;
+display: flex;
+justify-content: space-between;
+flex-direction: column;
+height: 50%;
+width: 100%;
+border: 3px ridge white;
+border-radius: 10px;
+
+background-color: black;
+}
+.topfive {
+height: 100%;
+display: flex;
+flex-wrap: nowrap;
+align-items: center;
+
+}
+.cartelas{
+color: white;
+font-size: medium;
+border: 1px solid white;
+background-color: #009a98;
+padding-left: 10px; 
+padding-right: 10px;
+padding-top: 2px; 
+text-align: center;
+margin-right: 10px;
+min-width: 80px;
+}
+.numeros{
+min-width: 250px;
+font: 1em sans-serif;
+text-align: center;
+color: white;
+text-align: left;
+}
+.bolas-que-sairam{
+
+}
+.dados-cartoes{ 
+display: flex;
+flex-direction: column;
+justify-items: center;
+align-items: center;
+min-width: 65px;
+background-color: black;
+font-size: 7px;
+font-weight: 700;
+color: darkgoldenrod;
+font-size: 15px;
   
-  border-radius: 2px;
- }
- 
- .client-guiche{
 
- }
- 
- .game-info{
-
- }
-
-.ball{
+}
+#numero-sorteado{
+color: blanchedalmond; 
+font-weight: 700; 
+font-size: 15px; 
 
 }
 
-.card{
-
+input:focus {
+background-color:lightblue;
 }
-
-.turn-info{
-
-}
-
-.spelled-balls{
-
-}
-
 </style>
