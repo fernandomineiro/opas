@@ -69,29 +69,36 @@ const gerarCartelas = (bolasCompradas, bolasSorteadas) => {
 const sendLinhasSorteada = (linhas, parar) => {
     if(parar) return false
     let response = false
-    for(const linha of linhas){
-        if(linha.ganhou){
-            response = true
-            sockets.io.to(linha.sala_id).emit('bateu linha', linha.cartela_id)
-            if(sockets[linha.telefone]){
-                sockets[linha.telefone].emit('bingo linha', linha)
-            }
+    const bingouLinhas = linhas.filter(linha => linha.ganhou)
+    if(bingouLinhas.length){
+        if(sockets[bingouLinhas[0].telefone]){
+            sockets[bingouLinhas[0].telefone].emit('bingo linha', bingouLinhas)
         }
+        sockets.io.to(bingouLinhas[0].sala_id).emit('bateu linha')
+        response = true;
     }
+    // for(const linha of linhas){
+    //     if(linha.ganhou){
+    //         response = true
+    //         sockets.io.to(linha.sala_id).emit('bateu linha', linha.cartela_id)
+    //         if(sockets[linha.telefone]){
+    //             sockets[linha.telefone].emit('bingo linha', linha)
+    //         }
+    //     }
+    // }
     return response
 }
 
 const sendCartelasSorteadas = (linhas, parar) => {
     if(parar) return false
     let response = false
-    for(const linha of linhas){
-        if(linha.ganhou){
-            response = true
-            sockets.io.to(linha.sala_id).emit('bingou', linha.cartela_id)
-            if(sockets[linha.telefone]){
-                sockets[linha.telefone].emit('voce ganhou', linha)
-            }
+    const bingouCartela = linhas.filter(linha => linha.ganhou)
+    if(bingouCartela.length){
+        if(sockets[bingouCartela[0].telefone]){
+            sockets[bingouCartela[0].telefone].emit('voce ganhou', bingouCartela)
         }
+        sockets.io.to(bingouCartela[0].sala_id).emit('bingou')
+        response = true
     }
     return response
 }
@@ -118,8 +125,8 @@ const sendMelhoresCartelas = cartelas => {
     }
 }
 
-const sendBola = (sala_id, bola) => {
-    sockets.io.to(sala_id).emit('bola sorteada', bola)
+const sendBola = (sala_id, bola, bolasSorteadas) => {
+    sockets.io.to(sala_id).emit('bola sorteada', {bola, sorteadas: bolasSorteadas})
 }
 
 const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
@@ -136,6 +143,7 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
     let pararDeVerificarBingo = false
     for (const bola of bolas) {
         bolasSorteadas.push(bola)
+        sendBola(sala_id, bola, bolasSorteadas)
         await updateBolasSorteadas(bolasSorteadasId, JSON.stringify(bolasSorteadas))
         
         // TODO
@@ -144,7 +152,7 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
         const bateuLinha = sendLinhasSorteada(linhas, pararDeVerificarLinha)
         const bingou = sendCartelasSorteadas(cartelas, pararDeVerificarBingo)
 
-        if(!pararDeVerificarLinha){
+        if(!pararDeVerificarLinha && !bateuLinha){
             sendMelhoresLinhas(linhas)
         }else{
             sendMelhoresCartelas(cartelas)
@@ -159,7 +167,7 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
             break
         }
 
-        sendBola(sala_id, bola)
+        
         await timer(config.tempoDeSorteio)
     }
 }

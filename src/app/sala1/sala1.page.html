@@ -2,26 +2,26 @@
   <div class="game">
     <div class = itens-left>
       <div class=blackboard>
-        <div class="topfive">
-           <span class="cartelas"> 250 </span> 
-           <span class="numeros">10 25 05 85 85 10 25 05 85 85 </span>
+        <div class="topfive" *ngFor="let cartela of cartelas; index as i; first as isFirst">
+           <span class="cartelas"> {{cartela.cartela_id}} </span> 
+           <span class="numeros">{{cartela.faltam}}</span>
+          </div>
+          <!-- <div class="topfive">
+              <span  class="cartelas">{{cartelas[1].cartela_id}}</span> 
+              <span  class="numeros"> {{cartelas[1].faltam}} </span>
           </div>
           <div class="topfive">
-              <span  class="cartelas">8000</span> 
-              <span  class="numeros"> 85 10 25 05 85 85 </span>
-          </div>
-          <div class="topfive">
-            <span  class="cartelas">300</span> 
+            <span  class="cartelas">{{cartelas[2].cartela_id}}</span> 
             <span  class="numeros">10 25 0 </span>
           </div>
           <div class="topfive">
-            <span class="cartelas">500</span> 
+            <span class="cartelas">{{cartelas[3].cartela_id}}</span> 
             <span  class="numeros">10 25 05 85 85 10 25 05 85 5  </span>
           </div>
           <div class="topfive">
-              <span  class="cartelas">250</span>
+              <span  class="cartelas">{{cartelas[4].cartela_id}}</span>
               <span  class="numeros">10 25 05 85 8 85 85 </span>
-          </div> 
+          </div>  -->
         </div>
         <div class ="itens-buttom">
           <div class="membro-info b">
@@ -34,7 +34,7 @@
                 <label for="apostar" >Apostar</label>
                 <input  type="number"   [(ngModel)]="data.cartela" id="apostar">
             </div>
-            <div *ngIf="data.botao || true" class="confirma-compra btn btn-primary" (click)="comprarSeries()" >
+            <div *ngIf="data.botao" class="confirma-compra btn btn-primary" (click)="comprarSeries()" >
               Confirmar {{contagem}}
             </div>
             <div class="cartoes-em-jogo ">

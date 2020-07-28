@@ -32,6 +32,8 @@ export class Sala1Page implements OnInit {
   partidaIniciada: boolean = false;
   telefone: any;
   bolasSorteadas: any = [];
+  cartelas: any = [];
+  ganhou: boolean = false;
   constructor(
     public apiService: ApiService,
     public router: Router,
@@ -49,24 +51,39 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
+    this.entrarNaSala()
     const socket: any = await this.socket.connect(this.telefone)
     this.data.bola = 'aguarde'
     socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
     socket.on('bola sorteada', bola => this.sorteio(bola))
     socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
     socket.on('bingo linha', linha => this.bingoLinha(linha))
+    socket.on('bateram linha', ()=>this.bateramLinha())
     socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
     socket.on('voce ganhou', cartela => {
       Swal.fire('BINGOOOOOO')
     })
-    this.entrarNaSala()
+    
     //TODO
     this.data.botao = true
   }
 
-  bingoLinha(linha){
+  bateramLinha(){
+    if(!this.ganhou){
+      Swal.fire({
+        title: `Você agora está concorrendo ao prêmio cartela cheia`,
+        timer: 8000,
+        text: 'Alguém já ganhou o primeior prêmio mas você continua concorrendo ao maior preio de cartela cheia',
+        icon: 'error',
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  bingoLinha(linhas){
+    this.ganhou = true
     Swal.fire({
-      title: `Bongooooo voce foi premiado por completar uma linha ${linha.cartela_id}!!!`,
+      title: `Bingooooo voce foi premiado por completar uma linha(s) ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
       timer: 8000,
       html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg"> 500',
       icon: 'success',
@@ -75,6 +92,7 @@ export class Sala1Page implements OnInit {
   }
 
   melhoresCartelas(cartelas){
+    this.cartelas = cartelas
     this.data.mina[0] = cartelas[0].cartela_id
     this.data.min[0] = cartelas[0].faltam
     this.data.mina[1] = cartelas[1].cartela_id
@@ -89,6 +107,7 @@ export class Sala1Page implements OnInit {
   }
 
   melhoresLinhas(linhas){
+    this.cartelas = linhas
     this.data.mina[0] = linhas[0].cartela_id
     this.data.min[0] = linhas[0].faltam
     this.data.mina[1] = linhas[1].cartela_id
@@ -106,9 +125,11 @@ export class Sala1Page implements OnInit {
   }
 
   sorteio(bola) {
-    this.bolasSorteadas.push(bola)
-    this.playAudio(bola)
-    this.data.bola = bola
+    bola.sorteadas.forEach(bola => this.data.a[bola] = bola );
+    
+    this.data.sorteadas = bola.sorteadas.length
+    this.playAudio(bola.bola)
+    this.data.bola = bola.bola
   }
 
   entrarNaSala() {
