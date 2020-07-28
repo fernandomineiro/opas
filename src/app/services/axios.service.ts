@@ -7,7 +7,7 @@ import axios from 'axios'
 export class AxiosService {
 
   constructor() {
-    this.axios = axios.create({baseURL:'http://localhost:3000'})
+    this.axios = axios.create({baseURL:'http://64.227.105.89:3000'})
   }
   axios: any;
 }
