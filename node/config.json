@@ -1,1 +1,1 @@
-{"tempoDeInicio": 20000, "tempoDeSorteio": 3000, "mock": true, "minimoDeBolasParaPremioAcumulado": 40}
+{"tempoDeInicio": 10000, "tempoDeSorteio": 3000, "mock": true, "minimoDeBolasParaPremioAcumulado": 40, "tempoBateuLinha": 8000}

@@ -53,9 +53,52 @@ export class Sala1Page implements OnInit {
     this.data.bola = 'aguarde'
     socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
     socket.on('bola sorteada', bola => this.sorteio(bola))
+    socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
+    socket.on('bingo linha', linha => this.bingoLinha(linha))
+    socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
+    socket.on('voce ganhou', cartela => {
+      Swal.fire('BINGOOOOOO')
+    })
     this.entrarNaSala()
     //TODO
     this.data.botao = true
+  }
+
+  bingoLinha(linha){
+    Swal.fire({
+      title: `Bongooooo voce foi premiado por completar uma linha ${linha.cartela_id}!!!`,
+      timer: 8000,
+      html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg"> 500',
+      icon: 'success',
+      showConfirmButton: false,
+    })
+  }
+
+  melhoresCartelas(cartelas){
+    this.data.mina[0] = cartelas[0].cartela_id
+    this.data.min[0] = cartelas[0].faltam
+    this.data.mina[1] = cartelas[1].cartela_id
+    this.data.min[1] = cartelas[1].faltam
+    this.data.mina[2] = cartelas[2].cartela_id
+    this.data.min[2] = cartelas[2].faltam
+    this.data.mina[3] = cartelas[3].cartela_id
+    this.data.min[3] = cartelas[3].faltam
+    this.data.mina[4] = cartelas[4].cartela_id
+    this.data.min[4] = cartelas[4].faltam
+
+  }
+
+  melhoresLinhas(linhas){
+    this.data.mina[0] = linhas[0].cartela_id
+    this.data.min[0] = linhas[0].faltam
+    this.data.mina[1] = linhas[1].cartela_id
+    this.data.min[1] = linhas[1].faltam
+    this.data.mina[2] = linhas[2].cartela_id
+    this.data.min[2] = linhas[2].faltam
+    this.data.mina[3] = linhas[3].cartela_id
+    this.data.min[3] = linhas[3].faltam
+    this.data.mina[4] = linhas[4].cartela_id
+    this.data.min[4] = linhas[4].faltam
   }
 
   async ngOnDestroy() {
