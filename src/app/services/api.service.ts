@@ -78,6 +78,15 @@ export class ApiService {
         catchError(this.handleError)
       )
   }
+  pegaagente(nome){
+    return this.http
+    .get<any>(this.base_path+'/pegaagente/'+nome)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+
 
   compracartela(nome, quantidade){
     return this.http
