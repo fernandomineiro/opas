@@ -3,7 +3,10 @@ export class Student {
     senha:string;
     novasenha:string;
     repetesenha:string;
+    seriesAComprar: number = 2;
+    minmimoAComprar: number;
     nome: string;
+    cartelas: any;
     sobre: string;
     telefone: string;
     indicou: string;
@@ -11,6 +14,11 @@ export class Student {
     repita: string;
     verdade: string;
     verdadee:boolean;
+    premioLinha: number;
+    premioBingo: number;
+    totalBolasCompradas: number;
+    acumulado: number;
+    acumuladoAte: number;
     z: any;
     x: any;
     c: any;
@@ -32,7 +40,6 @@ export class Student {
     safraaaaa: any = [];
     safraaaaaa: any = [];
     a: any = [];
-    cartela: any = [];
     teste: any;
     tantascartela: any;
     serie: any = [];
@@ -88,8 +95,6 @@ export class Student {
     pes: any;
     sala: any;
     price: any;
-    pbingo: any;
-    plinha: any;
     quant: any;
     lapa: any;
     seriea: any = [];

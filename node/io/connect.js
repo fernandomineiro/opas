@@ -14,10 +14,13 @@ const connect = (server) =>{
             if(sockets[telefone]){
                 sockets[telefone].disconnect()
             }
-            knex('membro').select('telefone').where({
+            knex('membro').select('telefone', 'first_name').where({
                     telefone
                 }).first().then(user => {
-                    console.log(user)
+                    console.log("usuário:", user.first_name, "conectado!")
+                    if(user.sala_id){
+                        socket.join(sala_id)
+                    }
                     socket.telefone = user ? user.telefone : user
                     register(socket)
                 })

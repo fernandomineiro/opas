@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client'
+import config from './config'
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class SocketService {
   connect(telefone) {
     return new Promise((resolve, reject) => {
       if (this.socket && this.socket.connected) return resolve(this.socket)
-      const socket = io('http://64.227.105.89:3000')
+      const socket = io(config.baseURL)
       socket.on('connect', () => {
         console.log('conectou')
         socket.emit("register", telefone)

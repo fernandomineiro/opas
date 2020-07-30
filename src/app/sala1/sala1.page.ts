@@ -12,6 +12,7 @@ import { AxiosService } from '../services/axios.service';
 import { SocketService } from '../services/socket.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2'
+import _ from 'lodash'
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
@@ -32,7 +33,7 @@ export class Sala1Page implements OnInit {
   partidaIniciada: boolean = false;
   telefone: any;
   bolasSorteadas: any = [];
-  cartelas: any = [];
+  cartelas: any = [{cartela_id: 0}];
   ganhou: boolean = false;
   constructor(
     public apiService: ApiService,
@@ -51,7 +52,9 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
-    this.entrarNaSala()
+    this.data.botao = true
+    await this.entrarNaSala()    
+    this.data.tipo = 'Linha'
     const socket: any = await this.socket.connect(this.telefone)
     this.data.bola = 'aguarde'
     socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
@@ -63,19 +66,23 @@ export class Sala1Page implements OnInit {
     socket.on('voce ganhou', cartela => {
       Swal.fire('BINGOOOOOO')
     })
-    
-    //TODO
-    this.data.botao = true
   }
 
   bateramLinha(){
+    
+    this.data.tipo = 'Bingo'
     if(!this.ganhou){
       Swal.fire({
         title: `Você agora está concorrendo ao prêmio cartela cheia`,
         timer: 8000,
         text: 'Alguém já ganhou o primeior prêmio mas você continua concorrendo ao maior preio de cartela cheia',
-        icon: 'error',
+        icon: 'success',
         showConfirmButton: false,
+        backdrop: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        timerProgressBar: true
       })
     }
   }
@@ -83,41 +90,32 @@ export class Sala1Page implements OnInit {
   bingoLinha(linhas){
     this.ganhou = true
     Swal.fire({
-      title: `Bingooooo voce foi premiado por completar uma linha(s) ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
+      title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
       timer: 8000,
       html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg"> 500',
       icon: 'success',
       showConfirmButton: false,
+      backdrop: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
     })
   }
 
   melhoresCartelas(cartelas){
+    this.data.cartelas = cartelas[0].linha
     this.cartelas = cartelas
-    this.data.mina[0] = cartelas[0].cartela_id
-    this.data.min[0] = cartelas[0].faltam
-    this.data.mina[1] = cartelas[1].cartela_id
-    this.data.min[1] = cartelas[1].faltam
-    this.data.mina[2] = cartelas[2].cartela_id
-    this.data.min[2] = cartelas[2].faltam
-    this.data.mina[3] = cartelas[3].cartela_id
-    this.data.min[3] = cartelas[3].faltam
-    this.data.mina[4] = cartelas[4].cartela_id
-    this.data.min[4] = cartelas[4].faltam
-
+    this.data.minimo = cartelas[0].primeiroCartaoId
+    this.data.maximo = cartelas[0].ultimoCartaoId
+    this.cartelao()
   }
 
   melhoresLinhas(linhas){
+    this.data.cartelas = linhas[0].cartelas
     this.cartelas = linhas
-    this.data.mina[0] = linhas[0].cartela_id
-    this.data.min[0] = linhas[0].faltam
-    this.data.mina[1] = linhas[1].cartela_id
-    this.data.min[1] = linhas[1].faltam
-    this.data.mina[2] = linhas[2].cartela_id
-    this.data.min[2] = linhas[2].faltam
-    this.data.mina[3] = linhas[3].cartela_id
-    this.data.min[3] = linhas[3].faltam
-    this.data.mina[4] = linhas[4].cartela_id
-    this.data.min[4] = linhas[4].faltam
+    this.data.minimo = linhas[0].primeiroCartaoId
+    this.data.maximo = linhas[0].ultimoCartaoId
+    this.cartelao()
   }
 
   async ngOnDestroy() {
@@ -126,20 +124,28 @@ export class Sala1Page implements OnInit {
 
   sorteio(bola) {
     bola.sorteadas.forEach(bola => this.data.a[bola] = bola );
-    
+    this.data.quant = bola.totalCompradas
     this.data.sorteadas = bola.sorteadas.length
     this.playAudio(bola.bola)
     this.data.bola = bola.bola
   }
 
-  entrarNaSala() {
-    return this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
+  async entrarNaSala() {
+    const {data} = await this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
       .catch(_ => this.location.back())
+      this.data.saldo = data.saldo
+      this.data.totalBolasCompradas = data.totalBolasCompradasByMembro
+      this.data.quant = data.totalBolasCompradas
+      this.data.price = data.price
+      this.data.premioBingo = data.bingo
+      this.data.premioLinha = data.linha
+      this.data.acumuladoAte = data.acumulado_ate
+      this.data.minmimoAComprar = data.min_qtd
   }
 
   iniciarPartida() {
     this.partidaIniciada = true
-    this.data.botao = true
+ 
     this.contagemRegressiva()
 
     Swal.fire({
@@ -148,6 +154,13 @@ export class Sala1Page implements OnInit {
       text: 'você tem 90 segundos para efetuar suas compras',
       icon: 'success',
       showConfirmButton: false,
+      backdrop: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        timerProgressBar: true
+    }).then(()=>{
+      this.data.botao = true
     })
 
   }
@@ -160,14 +173,6 @@ export class Sala1Page implements OnInit {
       return this.data.botao = false
     }
     setTimeout(() => this.contagemRegressiva(), 1000)
-  }
-
-  async getPartida(salaId) {
-    const partida = await this.axios.get('/get-partida', { salaId })
-  }
-
-  async getData() {
-
   }
 
   setLandscape() {
@@ -183,7 +188,26 @@ export class Sala1Page implements OnInit {
   }
 
   async comprarSeries() {
-    this.axios.post('/comprar-series', {qtd: this.data.cartela, telefone: this.telefone})
+    if(this.data.seriesAComprar < this.data.minmimoAComprar){
+      return Swal.fire({
+        text: `Permitida a compra de no mínimo ${this.data.minmimoAComprar} séries`,
+        backdrop: false,
+        timer: 5000,
+        icon: 'error'
+      })
+    }
+   
+    this.axios.post('/comprar-series', {qtd: this.data.seriesAComprar, telefone: this.telefone})
+    .then(data => {
+      this.data.botao = false
+      this.data.totalBolasCompradas = this.data.seriesAComprar * 6
+    })
+    .catch(err => {
+      if(err.response.status){
+        return Swal.fire({icon: "error", title: err.response.data.err, backdrop: false})
+      }
+      Swal.fire({icon: "error", title: err, backdrop: false})
+    })
   }
 
   observableTimer() {
@@ -209,34 +233,31 @@ export class Sala1Page implements OnInit {
 
   }
 
+  between(a, b, value){
+    return value >= a && value <= b
+  }
+
   cartelao() {
-    var rr = this.data.serie[this.data.minaa[0]];
-    rr[0].sort(function (a, b) {
-      return a - b;
-    });
-
-    rr[1].sort(function (a, b) {
-      return a - b;
-    });
-
-    rr[2].sort(function (a, b) {
-      return a - b;
-    });
-    this.data.xs = rr[0][0];
-    this.data.xss = rr[0][1];
-    this.data.xsss = rr[0][2];
-    this.data.xssss = rr[0][3];
-    this.data.xsssss = rr[0][4];
-    this.data.zs = rr[1][0];
-    this.data.zss = rr[1][1];
-    this.data.zsss = rr[1][2];
-    this.data.zssss = rr[1][3];
-    this.data.zsssss = rr[1][4];
-    this.data.cs = rr[2][0];
-    this.data.css = rr[2][1];
-    this.data.csss = rr[2][2];
-    this.data.cssss = rr[2][3];
-    this.data.csssss = rr[2][4];
+    this.data.vela = []
+    const cartelas = this.data.cartelas
+    const numeros = cartelas.map(cartela => cartela.numero)
+    const linhas = _.chunk(numeros, 5)
+    
+    this.data.xs = linhas[0][0]
+    this.data.xss = linhas[0][1]
+    this.data.xsss = linhas[0][2]
+    this.data.xssss = linhas[0][3]
+    this.data.xsssss = linhas[0][4]
+    this.data.zs = linhas[1][0]
+    this.data.zss = linhas[1][1]
+    this.data.zsss = linhas[1][2]
+    this.data.zssss = linhas[1][3]
+    this.data.zsssss = linhas[1][4]
+    this.data.cs = linhas[2][0]
+    this.data.css = linhas[2][1]
+    this.data.csss = linhas[2][2]
+    this.data.cssss = linhas[2][3]
+    this.data.csssss = linhas[2][4]
 
     if (this.data.xs < 10) {
       this.data.vela[0] = this.data.xs;
@@ -417,131 +438,6 @@ export class Sala1Page implements OnInit {
     if (this.data.csssss >= 80) {
       this.data.vela[28] = this.data.csssss;
     }
-
-  }
-
-  ortfunction(a, b) {
-    return (a - b)
-  }
-
-  async percursos() {
-    this.data.valores = [];
-    this.data.minaa = [];
-    this.data.ee;
-
-
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      this.data.soma = 0;
-      for (var zz = 0; zz <= 2; zz++) {
-        var soma = this.data.papa[tt][zz].length;
-
-        this.data.soma = soma + this.data.soma;
-        //this.data.valores.push(this.data.papa[tt][zz]);
-      }
-
-      this.data.valores[tt] = this.data.soma;
-
-    }
-    for (var rt = 0; rt <= 4; rt++) {
-      var menor = Math.min.apply(Math, this.data.valores);
-
-      var posicao = this.data.valores.indexOf(menor);
-      this.data.min[rt] = this.data.papa[posicao].join('       ');
-      this.data.mina[rt] = posicao + this.data.posicao;
-      this.data.minaa[rt] = posicao;
-      this.data.valores[posicao] = 99;
-    }
-
-
-  }
-
-  percurso() {
-    this.data.valores = [];
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      this.data.soma = 0;
-      for (var zz = 0; zz <= 2; zz++) {
-        this.data.soma = this.data.papa[tt][zz].length;
-        this.data.valores.push(this.data.papa[tt][zz]);
-      }
-      //this.data.valores[tt] = this.data.soma;
-    }
-    var de = this.data.valores.sort(function compare(a, b) {
-      if (a.length < b.length) return -1;
-      if (a.length > b.length) return 1;
-      return 0;
-    });
-
-    if (de[0] == "") {
-      de[0] = 'linhaaa';
-    }
-
-    if (de[1] == "") {
-      de[1] = 'linhaaa';
-    }
-
-
-    this.data.min[0] = de[0];
-    this.data.min[1] = de[1];
-    this.data.min[2] = de[2];
-    this.data.min[3] = de[3];
-    this.data.min[4] = de[4];
-    for (var zu = 0; zu <= 4; zu++) {
-      for (var tt = 0; tt < this.data.tantascartela; tt++) {
-        for (var zz = 0; zz <= 2; zz++) {
-          if (de[zu] == this.data.papa[tt][zz]) {
-            this.data.mina[zu] = tt + this.data.posicao;
-            this.data.minaa[zu] = tt;
-          }
-        }
-      }
-    }
-  }
-  arrayCompare(first, last) {
-    var result = first.filter(function (item) { return last.indexOf(item) > -1 });
-    return result.length;
-  }
-
-  async linha() {
-
-    this.data.numerolinha = [];
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      for (var zz = 0; zz <= 2; zz++) {
-        this.data.ponto = 0;
-        for (var xx = 0; xx < 5; xx++) {
-          for (var cc = 0; cc < this.data.bolas.length; cc++) {
-            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
-              this.data.ponto = this.data.ponto + 1;
-              if (this.data.ponto == 5) {
-                var linha = tt + (this.data.posicao || 0);
-                this.data.numerolinha.push(linha);
-                var dd = tt;
-
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if (this.data.numerolinha.length != 0) {
-      for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
-        this.data.mina[tt] = linha;
-        this.data.min[tt] = 'LINHA';
-
-
-      }
-
-      this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
-      this.data.linhafoi = true;
-      this.data.linhasim = true;
-      this.data.linex = true;
-      this.data.minaa[0] = dd;
-      this.data.tipo = 'Bingo';
-
-      this.data.pes = true;
-      this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
-
-    }
-  }
-
+    
+  } 
 }
