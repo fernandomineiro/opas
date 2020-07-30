@@ -13,8 +13,9 @@ const partida = async (req, res) => {
 
     if(!membro) return res.status(400).json({err: "membro não encontrado"})
     
-    const {id: membro_id, partida_id, sala_id} = membro
+    const {id: membro_id, sala_id} = membro
     const sala = await getSala(sala_id)
+    const partida_id = sala.partida_id
     const bolasSorteadas = await getBolasSorteadas(partida_id)
     const fila = await getFilaBySalaAndMembro(sala_id, membro_id)
     const custo = sala.price
