@@ -54,13 +54,13 @@ const premiar = async (cartelasPremiadas, premio) => {
         .insert({membro_id: membro.id, sala_id, partida_id, cartelas: JSON.stringify(cartelas), premio})
 }
 
-const comprarCartelasDaFila = async (sala_id) => {
+const comprarCartelasDaFila = async (sala_id, partida_id) => {
     const filaDeCompras = await getFilaBySalaId(sala_id)
     
     let total = 0
     for(const fila of filaDeCompras){
         total = total + fila.qtd
-        await comprarCartelas({sala_id, membro_id: fila.membro_id, partida_id: fila.partida_id, qtd: fila.qtd})
+        await comprarCartelas({sala_id, membro_id: fila.membro_id, partida_id, qtd: fila.qtd})
             .catch(err => console.log("erro ao comprar cartelas", new Error(err)))
     }
     return total
@@ -217,7 +217,7 @@ const sendBola = (sala_id, bola, bolasSorteadas, totalCompradas) => {
 const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
     const bolas = getBolas()
     await timer(config.tempoDeInicio)
-    const totalCompradas = await comprarCartelasDaFila(sala_id)
+    const totalCompradas = await comprarCartelasDaFila(sala_id, partida_id)
     await removeFila(sala_id)
     const bolasCompradas = await getCartelasByMembros(partida_id)
     
