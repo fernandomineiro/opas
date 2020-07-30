@@ -137,7 +137,10 @@ export class Sala1Page implements OnInit {
 
   async entrarNaSala() {
     const {data} = await this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
-      .catch(_ => this.location.back())
+      .catch(err => {
+        Swal.fire(`falha ao entrar na sala ${JSON.stringify(err)}`)
+        this.location.back()
+      })
       this.data.saldo = data.saldo
       this.data.totalBolasCompradas = data.totalBolasCompradasByMembro
       this.data.quant = data.totalBolasCompradas
