@@ -53,6 +53,7 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
+    this.setLandscape()
     await this.entrarNaSala()    
     this.data.tipo = 'Linha'
     const socket = io(config.baseURL)
