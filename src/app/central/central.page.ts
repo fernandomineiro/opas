@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Central } from '../models/central';
-import { SocketService } from '../services/socket.service';
-
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -11,8 +9,7 @@ import { SocketService } from '../services/socket.service';
 export class CentralPage implements OnInit {
   data: Central;
   constructor(
-    public apiService: ApiService,
-    public socket: SocketService
+    public apiService: ApiService
   ) {
     this.data = new Central();
     this.telefone = sessionStorage.getItem("telefone");
@@ -23,7 +20,6 @@ export class CentralPage implements OnInit {
   telefone: any;
 
   async ngOnInit() {
-    this.socket.connect(this.telefone)
     this.status();
     
     this.apiService.home(this.telefone).subscribe((response) => {

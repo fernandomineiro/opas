@@ -13,7 +13,7 @@ const gegistraSala = async (req, res) => {
         const sala_id = _.get(req.body, 'sala_id')
         const {sala_id: salaMembro} = await getSalaByMembroTelefone(telefone)
         const sala = await getSala(sala_id)
-        const entrou = await membroSala({sala_id: sala_id, telefone, partida_id: sala.partida_id})
+        const entrou = await membroSala({sala_id: sala_id, telefone, partida_id: sala ? sala.partida_id : 0})
         const membro = await getMembroByTelefone(telefone)
         delete membro.password
         const {total: totalBolasCompradasByMembro} = await getTotalBolasCompradasByMembro(telefone)
@@ -28,8 +28,10 @@ const gegistraSala = async (req, res) => {
             if(socket[telefone]){
                 if(sala_id){
                     socket[telefone].join(sala_id)
+                    socket[telefone].sala_id = sala_id
                 }else{
                     socket[telefone].leave(salaMembro)
+                    socket[telefone].sala_id = 0
                 } 
                 clearInterval(intervall)
             }

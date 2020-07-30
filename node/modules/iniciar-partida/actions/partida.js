@@ -10,10 +10,53 @@ const removeFila = require('../../../db/remove-fila')
 const updateBolasSorteadas = require('../../../db/update-bolas-sorteadas')
 const getCartelasByMembros = require('../../../db/get-cartelas-by-membros')
 const _ = require('lodash')
+const getSala = require('../../../db/get-sala')
+const alterarSaldo = require('../../../db/alterar-saldo-by-membro')
+const getBolasSorteadas = require('../../../db/get-bolas-sorteadas-by-id')
+const getMembroByTelefone = require('../../../db/get-membro-by-telefone')
+const knex = require('../../../db/knex')
+const resetPartida = require('../../../db/reset-partida')
+
+const reset = (partidas) => partidas.forEach(async partida => {
+    await resetPartida(partida.id)
+  });
+  knex('partida1').select('*').then(reset)
+
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
+
+const premiar = async (cartelasPremiadas, premio) => {
+    console.log("total de cartelas vencedoras:", cartelasPremiadas.length, premio)
+    const {sala_id, telefone, partida_id} = cartelasPremiadas[0]
+    const sala = await getSala(sala_id)
+        .catch(err=>console.log("erro ao pegar sala: ", new Error(err)))
+    const membro = await getMembroByTelefone(telefone)
+        .catch(err => console.log('erro ao pegar membro:', new Error(err)))
+    const bolasSorteadas = await getBolasSorteadas(partida_id)
+        .catch(err=>console.log('erro ao pegar bolas sorteadas', new Error(err)))
+        
+    premio = (premio == 'bingo' && bolasSorteadas.bolas.length <= sala.acumulado_ate)
+        ? 'acumulado'
+        : premio
+
+    const premios = {
+        acumulado: sala.bingo + sala.acumulado,
+        bingo: sala.bingo,
+        linha: sala.linha   
+    }
+
+    const saldo = membro.saldo + premios[premio]
+    await alterarSaldo(membro.id, saldo)
+    const cartelas = cartelasPremiadas.map(cartela => {
+        delete cartela.cartelas
+        return cartela
+    })
+    await knex('ganhadores')
+        .insert({membro_id: membro.id, sala_id, partida_id, cartelas: JSON.stringify(cartelas), premio})
+}
 
 const comprarCartelasDaFila = async (sala_id) => {
     const filaDeCompras = await getFilaBySalaId(sala_id)
+    
     let total = 0
     for(const fila of filaDeCompras){
         total = total + fila.qtd
@@ -25,22 +68,23 @@ const comprarCartelasDaFila = async (sala_id) => {
 
 const gerarLinhas = (bolasCompradas, bolasSorteadas) => {
     bolasCompradas = bolasCompradas.map(bola => {
-        bolasSorteadas.includes(bola.numero)
         bola.checked = bolasSorteadas.includes(bola.numero)
         return bola
     })
+
     const cartelas = _.chunk(bolasCompradas, 15)
     
     const linhas = _.chunk(bolasCompradas, 5)
 
     return linhas.reduce((acc, linha) => {
-        const bolasSorteadasNaLinha = linha.filter(bola => bolasSorteadas.includes(bola.numero))
-        const bolasFaltantesNaLinha = linha.filter(bola => !bolasSorteadas.includes(bola.numero))
+        const bolasSorteadasNaLinha = linha.filter(bola => bola.checked)
+        const bolasFaltantesNaLinha = linha.filter(bola => !bola.checked)
         
         acc.push({
             cartela_id: linha[0].cartela_id,
             telefone: linha[0].telefone,
             sala_id: linha[0].sala_id,
+            partida_id: linha[0].partida_id,
             linha,
             cartelas,
             totalSorteada: bolasSorteadasNaLinha.length,
@@ -66,6 +110,7 @@ const gerarCartelas = (bolasCompradas, bolasSorteadas) => {
             cartela_id: linha[0].cartela_id,
             telefone: linha[0].telefone,
             sala_id: linha[0].sala_id,
+            partida_id: linha[0].partida_id,
             linha,
             totalSorteada: bolasSorteadasNaLinha.length,
             faltam: bolasFaltantesNaLinha.map(bola=>bola.numero).join(' '),
@@ -75,7 +120,7 @@ const gerarCartelas = (bolasCompradas, bolasSorteadas) => {
     }, [])
 }
 
-const sendLinhasSorteada = (linhas, parar) => {
+const sendLinhasSorteada = async (linhas, parar) => {
     
     if(parar) return false
     let response = false
@@ -86,15 +131,18 @@ const sendLinhasSorteada = (linhas, parar) => {
                 linha.faltam = 'Linha!'
                 return linha
             })
+            await premiar(cartelasPremiadas, 'linha')
             sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
         }
-        sockets.io.to(bingouLinhas[0].sala_id).emit('bateram linha')
+        if(sockets.io){
+            sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha')
+        }
         response = true;
     }
     return response
 }
 
-const sendCartelasSorteadas = (linhas, parar) => {
+const sendCartelasSorteadas = async (linhas, parar) => {
     if(parar) return false
     let response = false
     const bingouCartela = linhas.filter(linha => linha.ganhou)
@@ -104,9 +152,12 @@ const sendCartelasSorteadas = (linhas, parar) => {
                 linha.faltam = 'Bingo!'
                 return linha
             })
+            await premiar(cartelasPremiadas, 'bingo')
             sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
         }
-        sockets.io.to(bingouCartela[0].sala_id).emit('bingou')
+        if(sockets.io){
+            sockets.io.in(bingouCartela[0].sala_id).emit('bingou')
+        }
         response = true
     }
     return response
@@ -129,7 +180,9 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
             linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
             return linha
         })
-        if(sockets[telefone]){
+        const socket = sockets[telefone]
+        const salaId = melhores[0].sala_id 
+        if(socket && socket.sala_id == salaId){
             sockets[telefone].emit("melhores linhas", melhores)
         }
     }
@@ -147,14 +200,18 @@ const sendMelhoresCartelas = (cartelas, bolasCompradas) => {
             linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
             return linha
         })
-        if(sockets[telefone]){
+        const socket = sockets[telefone]
+        const salaId = melhores[0].sala_id 
+        if(socket && socket.sala_id == salaId){
             sockets[telefone].emit("melhores cartelas", melhores)
         }
     }
 }
 
 const sendBola = (sala_id, bola, bolasSorteadas, totalCompradas) => {
-    sockets.io.to(sala_id).emit('bola sorteada', {bola, sorteadas: bolasSorteadas, totalCompradas})
+    if(sockets.io){
+        sockets.io.in(sala_id).emit('bola sorteada', {bola, sorteadas: bolasSorteadas, totalCompradas})
+    }
 }
 
 const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
@@ -177,8 +234,8 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
         // TODO
         const linhas = gerarLinhas(bolasCompradas, bolasSorteadas)
         const cartelas = gerarCartelas(bolasCompradas, bolasSorteadas)
-        const bateuLinha = sendLinhasSorteada(linhas, pararDeVerificarLinha)
-        const bingou = sendCartelasSorteadas(cartelas, pararDeVerificarBingo)
+        const bateuLinha = await sendLinhasSorteada(linhas, pararDeVerificarLinha)
+        const bingou = await sendCartelasSorteadas(cartelas, pararDeVerificarBingo)
 
         if(!pararDeVerificarLinha && !bateuLinha){
             sendMelhoresLinhas(linhas, bolasCompradas)
@@ -190,11 +247,12 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
             pararDeVerificarLinha = true
             await timer(config.tempoBateuLinha)
         }
+         
 
         if(bingou){
+            resetPartida(partida_id)
             break
         }
-
         
         await timer(config.tempoDeSorteio)
     }
@@ -223,7 +281,9 @@ const partida = async (req, res) => {
             err: err.stack
         })
     }
-    sockets.io.to(sala_id).emit('iniciar partida')
+    if(sockets.io){
+        sockets.io.in(sala_id).emit('iniciar partida')
+    }
     console.log('partida iniciada:', sala_id)
     sortearBolas(sala_id, bolasSorteadas.id, insertPartida.id)
     res.json({

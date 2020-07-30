@@ -29,6 +29,9 @@ const connect = (server) =>{
                     socket.telefone = null
                 })
         })
+        socket.on('sair da sala', salaId => {
+            socket.leave(salaId)
+        })
         socket.on('disconnect', () => {
             delete sockets[socket.telefone]
         })

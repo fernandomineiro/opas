@@ -9,10 +9,11 @@ import { AppMinimize } from '@ionic-native/app-minimize';
 import { timer } from 'rxjs';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { AxiosService } from '../services/axios.service';
-import { SocketService } from '../services/socket.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2'
 import _ from 'lodash'
+import * as io from 'socket.io-client'
+import config from 'src/config'
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
@@ -35,13 +36,13 @@ export class Sala1Page implements OnInit {
   bolasSorteadas: any = [];
   cartelas: any = [{cartela_id: 0}];
   ganhou: boolean = false;
+  socket
   constructor(
     public apiService: ApiService,
     public router: Router,
     private screenOrientation: ScreenOrientation,
     private Axios: AxiosService,
     private route: ActivatedRoute,
-    private socket: SocketService,
     private location: Location
   ) {
     this.axios = this.Axios.axios
@@ -52,25 +53,26 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
-    this.data.botao = true
     await this.entrarNaSala()    
     this.data.tipo = 'Linha'
-    const socket: any = await this.socket.connect(this.telefone)
+    const socket = io(config.baseURL)
     this.data.bola = 'aguarde'
-    socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
-    socket.on('bola sorteada', bola => this.sorteio(bola))
-    socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
-    socket.on('bingo linha', linha => this.bingoLinha(linha))
-    socket.on('bateram linha', ()=>this.bateramLinha())
-    socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
-    socket.on('voce ganhou', cartela => {
-      Swal.fire('BINGOOOOOO')
+    socket.on('connect', ()=>{
+      this.socket = socket
+      socket.emit("register", this.telefone)
+      socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
+      socket.on('bola sorteada', bola => this.sorteio(bola))
+      socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
+      socket.on('bingo linha', linha => this.bingoLinha(linha))
+      socket.on('bateram linha', ()=>this.bateramLinha())
+      socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
+      socket.on('voce ganhou', cartela => {
+        Swal.fire('BINGOOOOOO')
+      })
     })
   }
 
   bateramLinha(){
-    
-    this.data.tipo = 'Bingo'
     if(!this.ganhou){
       Swal.fire({
         title: `Você agora está concorrendo ao prêmio cartela cheia`,
@@ -78,7 +80,7 @@ export class Sala1Page implements OnInit {
         text: 'Alguém já ganhou o primeior prêmio mas você continua concorrendo ao maior preio de cartela cheia',
         icon: 'success',
         showConfirmButton: false,
-        backdrop: true,
+        backdrop: false,
         allowOutsideClick: false,
         allowEscapeKey: false,
         allowEnterKey: false,
@@ -103,6 +105,7 @@ export class Sala1Page implements OnInit {
   }
 
   melhoresCartelas(cartelas){
+    this.data.tipo = 'Bingo'
     this.data.cartelas = cartelas[0].linha
     this.cartelas = cartelas
     this.data.minimo = cartelas[0].primeiroCartaoId
@@ -119,6 +122,7 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnDestroy() {
+    this.socket.emit('sair da sala', this.sala)
     this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
   }
 
@@ -154,7 +158,7 @@ export class Sala1Page implements OnInit {
       text: 'você tem 90 segundos para efetuar suas compras',
       icon: 'success',
       showConfirmButton: false,
-      backdrop: false,
+      backdrop: true,
         allowOutsideClick: false,
         allowEscapeKey: false,
         allowEnterKey: false,

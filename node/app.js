@@ -7,7 +7,6 @@ const helmet = require('helmet')
 const cors = require('cors')
 const loadModules = require('./helpers/loadModules')
 const loadMiddleware = require('./helpers/loadMiddlewares')
-
 var app = express()
 app.use(cors())
 // view engine setup
