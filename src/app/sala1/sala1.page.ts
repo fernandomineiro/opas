@@ -14,6 +14,7 @@ import Swal from 'sweetalert2'
 import _ from 'lodash'
 import * as io from 'socket.io-client'
 import config from 'src/config'
+import axios from 'axios'
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
@@ -136,7 +137,7 @@ export class Sala1Page implements OnInit {
   }
 
   async entrarNaSala() {
-    const {data} = await this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
+    const {data}:any = await axios.put('http://bingoteste.ddns.net/membro-sala', { sala_id: this.sala, telefone: this.telefone })
       .catch(err => {
         Swal.fire(`falha ao entrar na sala ${JSON.stringify(err)}`)
         this.location.back()
