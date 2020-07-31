@@ -1,5 +1,6 @@
 const knex = require('./knex')
 const resetPartida = async (partida_id) => {
+    console.log("resetando partida:", partida_id)
     await knex('relatorio_partida1')
         .insert(function () {
             this.from('partida1')

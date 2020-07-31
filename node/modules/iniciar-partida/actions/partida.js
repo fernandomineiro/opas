@@ -260,7 +260,7 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
         }
          
 
-        if(bingou){
+        if(bingou || (bolasSorteadas.length == 90)){
             resetPartida(partida_id)
             break
         }
