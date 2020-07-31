@@ -31237,7 +31237,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
     var src_config__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
     /*! src/config */
-    "./src/config.js");
+    "./src/config.js"); // import { mapTo, delay } from 'rxjs/operators';
+    // import { Platform } from '@ionic/angular';
+    // import { AppMinimize } from '@ionic-native/app-minimize';
+    // import { CompileShallowModuleMetadata } from '@angular/compiler';
+
 
     var Sala1Page = /*#__PURE__*/function () {
       function Sala1Page(apiService, router, screenOrientation, Axios, route, location) {
@@ -31288,7 +31292,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                     this.data.bola = 'aguarde';
                     socket.on('connect', function () {
                       _this3.socket = socket;
-                      socket.emit("register", _this3.telefone);
+                      socket.emit("register", "".concat(_this3.telefone, ",").concat(_this3.sala));
                       socket.on('iniciar partida', function () {
                         return !_this3.partidaIniciada ? _this3.iniciarPartida() : null;
                       });
@@ -31314,7 +31318,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire('BINGOOOOOO');
                         _this3.data.saldo = cartela[0].saldo;
                         setTimeout(function () {
-                          return _this3.location.back();
+                          return window.document.location.reload(true);
                         }, 10000);
                       });
                     });
@@ -31330,25 +31334,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "bingou",
         value: function bingou(cartelas) {
-          var _this4 = this;
-
           if (!this.ganhou) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire("Binco, cart\xE3o N\xBA ".concat(cartelas));
           }
 
           setTimeout(function () {
-            return _this4.location.back();
+            return window.document.location.reload(true);
           }, 10000);
         }
       }, {
         key: "bateramLinha",
         value: function bateramLinha(cartelas) {
-          var _this5 = this;
-
-          setTimeout(function () {
-            return _this5.location.back();
-          }, 10000);
-
           if (!this.ganhou) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
               title: "Voc\xEA agora est\xE1 concorrendo ao pr\xEAmio cartela cheia",
@@ -31427,10 +31423,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "sorteio",
         value: function sorteio(bola) {
-          var _this6 = this;
+          var _this4 = this;
 
           bola.sorteadas.forEach(function (bola) {
-            return _this6.data.a[bola] = bola;
+            return _this4.data.a[bola] = bola;
           });
           this.data.quant = bola.totalCompradas;
           this.data.sorteadas = bola.sorteadas.length;
@@ -31441,7 +31437,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         key: "entrarNaSala",
         value: function entrarNaSala() {
           return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-            var _this7 = this;
+            var _this5 = this;
 
             var _yield$this$axios$put, data;
 
@@ -31456,7 +31452,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                     })["catch"](function (err) {
                       sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire("falha ao entrar na sala ".concat(JSON.stringify(err)));
 
-                      _this7.location.back();
+                      _this5.location.back();
                     });
 
                   case 2:
@@ -31482,7 +31478,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "iniciarPartida",
         value: function iniciarPartida() {
-          var _this8 = this;
+          var _this6 = this;
 
           this.partidaIniciada = true;
           this.contagemRegressiva();
@@ -31498,13 +31494,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             allowEnterKey: false,
             timerProgressBar: true
           }).then(function () {
-            _this8.data.botao = true;
+            _this6.data.botao = true;
           });
         }
       }, {
         key: "contagemRegressiva",
         value: function contagemRegressiva() {
-          var _this9 = this;
+          var _this7 = this;
 
           this.contagem = this.contagem - 1;
 
@@ -31515,7 +31511,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           }
 
           setTimeout(function () {
-            return _this9.contagemRegressiva();
+            return _this7.contagemRegressiva();
           }, 1000);
         }
       }, {
@@ -31536,7 +31532,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         key: "comprarSeries",
         value: function comprarSeries() {
           return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-            var _this10 = this;
+            var _this8 = this;
 
             return regeneratorRuntime.wrap(function _callee4$(_context4) {
               while (1) {
@@ -31559,9 +31555,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       qtd: this.data.seriesAComprar,
                       telefone: this.telefone
                     }).then(function (data) {
-                      _this10.data.botao = false;
-                      _this10.data.totalBolasCompradas = _this10.data.seriesAComprar * 6;
-                      _this10.data.saldo = data.data.saldo;
+                      _this8.data.botao = false;
+                      _this8.data.totalBolasCompradas = _this8.data.seriesAComprar * 6;
+                      _this8.data.saldo = data.data.saldo;
                     })["catch"](function (err) {
                       if (err.response.status) {
                         return sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
@@ -31589,11 +31585,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "observableTimer",
         value: function observableTimer() {
-          var _this11 = this;
+          var _this9 = this;
 
           var source = Object(rxjs__WEBPACK_IMPORTED_MODULE_6__["timer"])(1000, 5000);
           var abc = source.subscribe(function (val) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this11, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this9, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
               return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
                   switch (_context5.prev = _context5.next) {

@@ -29858,7 +29858,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// import { mapTo, delay } from 'rxjs/operators';
+// import { Platform } from '@ionic/angular';
+// import { AppMinimize } from '@ionic-native/app-minimize';
 
+// import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 
 
@@ -29893,7 +29897,7 @@ let Sala1Page = class Sala1Page {
             this.data.bola = 'aguarde';
             socket.on('connect', () => {
                 this.socket = socket;
-                socket.emit("register", this.telefone);
+                socket.emit("register", `${this.telefone},${this.sala}`);
                 socket.on('iniciar partida', () => !this.partidaIniciada ? this.iniciarPartida() : null);
                 socket.on('bola sorteada', bola => this.sorteio(bola));
                 socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas));
@@ -29904,7 +29908,7 @@ let Sala1Page = class Sala1Page {
                 socket.on('voce ganhou', cartela => {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire('BINGOOOOOO');
                     this.data.saldo = cartela[0].saldo;
-                    setTimeout(() => this.location.back(), 10000);
+                    setTimeout(() => window.document.location.reload(true), 10000);
                 });
             });
         });
@@ -29913,10 +29917,9 @@ let Sala1Page = class Sala1Page {
         if (!this.ganhou) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire(`Binco, cartão Nº ${cartelas}`);
         }
-        setTimeout(() => this.location.back(), 10000);
+        setTimeout(() => window.document.location.reload(true), 10000);
     }
     bateramLinha(cartelas) {
-        setTimeout(() => this.location.back(), 10000);
         if (!this.ganhou) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
                 title: `Você agora está concorrendo ao prêmio cartela cheia`,

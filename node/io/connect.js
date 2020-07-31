@@ -11,6 +11,8 @@ const connect = (server) =>{
     socketIo.on('connect', socket => {
         sockets.io = socketIo
         socket.on('register', telefone => {
+            const salaId = telefone.split(',')[1]
+            telefone = telefone.split(',')[0]
             if(sockets[telefone]){
                 sockets[telefone].disconnect()
             }
@@ -18,9 +20,9 @@ const connect = (server) =>{
                     telefone
                 }).first().then(user => {
                     console.log("usuário:", user.first_name, "conectado!")
-                    if(user.sala_id){
-                        socket.join(sala_id)
-                    }
+                    
+                    socket.join(salaId)
+                    
                     socket.telefone = user ? user.telefone : user
                     register(socket)
                 })

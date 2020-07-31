@@ -3,11 +3,11 @@ import { ApiService } from '../services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Student } from '../models/student';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { mapTo, delay } from 'rxjs/operators';
-import { Platform } from '@ionic/angular';
-import { AppMinimize } from '@ionic-native/app-minimize';
+// import { mapTo, delay } from 'rxjs/operators';
+// import { Platform } from '@ionic/angular';
+// import { AppMinimize } from '@ionic-native/app-minimize';
 import { timer } from 'rxjs';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
+// import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { AxiosService } from '../services/axios.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2'
@@ -60,7 +60,7 @@ export class Sala1Page implements OnInit {
     this.data.bola = 'aguarde'
     socket.on('connect', ()=>{
       this.socket = socket
-      socket.emit("register", this.telefone)
+      socket.emit("register", `${this.telefone},${this.sala}` )
       socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
       socket.on('bola sorteada', bola => this.sorteio(bola))
       socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
@@ -71,7 +71,7 @@ export class Sala1Page implements OnInit {
       socket.on('voce ganhou', cartela => {
         Swal.fire('BINGOOOOOO')
         this.data.saldo = cartela[0].saldo
-        setTimeout(()=>this.location.back(), 10000)
+        setTimeout(()=>window.document.location.reload(true), 10000)
       })
     })
   }
@@ -80,11 +80,10 @@ export class Sala1Page implements OnInit {
     if(!this.ganhou){
       Swal.fire(`Binco, cartão Nº ${cartelas}`)
     }
-    setTimeout(()=>this.location.back(), 10000)
+    setTimeout(()=>window.document.location.reload(true), 10000)
   }
 
   bateramLinha(cartelas){
-    setTimeout(()=>this.location.back(), 10000)
     if(!this.ganhou){
       Swal.fire({
         title: `Você agora está concorrendo ao prêmio cartela cheia`,
