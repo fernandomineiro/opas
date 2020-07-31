@@ -15,13 +15,14 @@
             <span class=saldo> {{data.saldo}} </span>
             <img style="width: 10px; height: 10px" src="assets/a.png">
           </div>
-          <div *ngIf="data.botao" class="compra-serie ">
+          <div *ngIf="contagem" class="compra-serie ">
             <label for="apostar">Apostar</label>
             <input type="number" [(ngModel)]="data.seriesAComprar" id="apostar">
           </div>
-          <div *ngIf="data.botao" class="confirma-compra btn btn-primary" (click)="comprarSeries()">
+          <div *ngIf="contagem" class="confirma-compra btn btn-primary" (click)="comprarSeries()">
             Confirmar {{contagem}}
           </div>
+          <div *ngIf="!data.botao">{contagem}</div>
           <div class="cartoes-em-jogo ">
             <span>
               {{data.totalBolasCompradas}}

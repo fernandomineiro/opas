@@ -30,8 +30,7 @@ export class Sala1Page implements OnInit {
   saida: any;
   sala: number;
   axios: any;
-  contagem: any = 95;
-  partidaIniciada: boolean = false;
+  contagem: any;
   telefone: any;
   bolasSorteadas: any = [];
   cartelas: any = [{cartela_id: 0}];
@@ -61,13 +60,14 @@ export class Sala1Page implements OnInit {
     socket.on('connect', ()=>{
       this.socket = socket
       socket.emit("register", `${this.telefone},${this.sala}` )
-      socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
+      socket.on('iniciar partida', ()=>this.iniciarPartida())
       socket.on('bola sorteada', bola => this.sorteio(bola))
       socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
       socket.on('bingo linha', linha => this.bingoLinha(linha))
       socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
       socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
       socket.on('bingou', cartelas => this.bingou(cartelas))
+      socket.on('contagem', segundos => this.contagem = segundos)
       socket.on('voce ganhou', cartela => {
         Swal.fire('BINGOOOOOO')
         this.data.saldo = cartela[0].saldo
@@ -163,10 +163,6 @@ export class Sala1Page implements OnInit {
   }
 
   iniciarPartida() {
-    this.partidaIniciada = true
- 
-    this.contagemRegressiva()
-
     Swal.fire({
       title: 'Partida Iniciada, compra de cartelas liberada!',
       timer: 5000,
@@ -182,16 +178,6 @@ export class Sala1Page implements OnInit {
       this.data.botao = true
     })
 
-  }
-
-  contagemRegressiva() {
-    this.contagem = this.contagem - 1
-    if (!this.contagem) {
-      this.partidaIniciada = false
-      this.contagem = 90
-      return this.data.botao = false
-    }
-    setTimeout(() => this.contagemRegressiva(), 1000)
   }
 
   setLandscape() {

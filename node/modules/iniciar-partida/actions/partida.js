@@ -269,6 +269,16 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
     }
 }
 
+const contagem = (sala_id, segundos=95) => {
+    setTimeout(()=>{
+        sockets.io.in(sala_id).emit('contagem')
+        if(segundos){
+            contagem(sala_id, segundos)
+            segundos = segundos - 1
+        }
+    }, 1000)
+}
+
 const partida = async (req, res) => {
     const {
         sala_id
@@ -294,6 +304,7 @@ const partida = async (req, res) => {
     }
     if(sockets.io){
         sockets.io.in(sala_id).emit('iniciar partida')
+        contagem(sala_id)
     }
     console.log('partida iniciada:', sala_id)
     sortearBolas(sala_id, bolasSorteadas.id, insertPartida.id)
