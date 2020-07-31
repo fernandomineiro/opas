@@ -31278,10 +31278,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               while (1) {
                 switch (_context.prev = _context.next) {
                   case 0:
-                    _context.next = 2;
+                    this.setLandscape();
+                    _context.next = 3;
                     return this.entrarNaSala();
 
-                  case 2:
+                  case 3:
                     this.data.tipo = 'Linha';
                     socket = socket_io_client__WEBPACK_IMPORTED_MODULE_11__(src_config__WEBPACK_IMPORTED_MODULE_12__["default"].baseURL);
                     this.data.bola = 'aguarde';
@@ -31311,7 +31312,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       });
                     });
 
-                  case 6:
+                  case 7:
                   case "end":
                     return _context.stop();
                 }
@@ -31425,8 +31426,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                     return this.axios.put('membro-sala', {
                       sala_id: this.sala,
                       telefone: this.telefone
-                    })["catch"](function (_) {
-                      return _this5.location.back();
+                    })["catch"](function (err) {
+                      sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire("falha ao entrar na sala ".concat(JSON.stringify(err)));
+
+                      _this5.location.back();
                     });
 
                   case 2:
@@ -31958,7 +31961,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
     __webpack_require__.r(__webpack_exports__);
 
-    var servidor = 'http://64.227.105.89:3000';
+    var servidor = 'http://bingoteste.ddns.net/';
     var local = 'http://localhost:3000';
     /* harmony default export */
 
