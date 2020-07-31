@@ -71,6 +71,7 @@ export class Sala1Page implements OnInit {
       socket.on('voce ganhou', cartela => {
         Swal.fire('BINGOOOOOO')
         this.data.saldo = cartela[0].saldo
+        setTimeout(()=>this.location.back(), 10000)
       })
     })
   }
@@ -79,10 +80,11 @@ export class Sala1Page implements OnInit {
     if(!this.ganhou){
       Swal.fire(`Binco, cartão Nº ${cartelas}`)
     }
-    
+    setTimeout(()=>this.location.back(), 10000)
   }
 
   bateramLinha(cartelas){
+    setTimeout(()=>this.location.back(), 10000)
     if(!this.ganhou){
       Swal.fire({
         title: `Você agora está concorrendo ao prêmio cartela cheia`,
