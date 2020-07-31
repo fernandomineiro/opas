@@ -65,20 +65,29 @@ export class Sala1Page implements OnInit {
       socket.on('bola sorteada', bola => this.sorteio(bola))
       socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
       socket.on('bingo linha', linha => this.bingoLinha(linha))
-      socket.on('bateram linha', ()=>this.bateramLinha())
+      socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
       socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
+      socket.on('bingou', cartelas => this.bingou(cartelas))
       socket.on('voce ganhou', cartela => {
         Swal.fire('BINGOOOOOO')
+        this.data.saldo = cartela[0].saldo
       })
     })
   }
 
-  bateramLinha(){
+  bingou(cartelas){
+    if(!this.ganhou){
+      Swal.fire(`Binco, cartão Nº ${cartelas}`)
+    }
+    
+  }
+
+  bateramLinha(cartelas){
     if(!this.ganhou){
       Swal.fire({
         title: `Você agora está concorrendo ao prêmio cartela cheia`,
         timer: 8000,
-        text: 'Alguém já ganhou o primeior prêmio mas você continua concorrendo ao maior preio de cartela cheia',
+        text: `Cartelas sorteadas: ${cartelas}`,
         icon: 'success',
         showConfirmButton: false,
         backdrop: false,
@@ -92,6 +101,7 @@ export class Sala1Page implements OnInit {
 
   bingoLinha(linhas){
     this.ganhou = true
+    this.data.saldo = linhas[0].saldo
     Swal.fire({
       title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
       timer: 8000,
@@ -209,6 +219,7 @@ export class Sala1Page implements OnInit {
     .then(data => {
       this.data.botao = false
       this.data.totalBolasCompradas = this.data.seriesAComprar * 6
+      this.data.saldo = data.data.saldo
     })
     .catch(err => {
       if(err.response.status){

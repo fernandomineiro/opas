@@ -52,6 +52,7 @@ const premiar = async (cartelasPremiadas, premio) => {
     })
     await knex('ganhadores')
         .insert({membro_id: membro.id, sala_id, partida_id, cartelas: JSON.stringify(cartelas), premio})
+    return saldo
 }
 
 const comprarCartelasDaFila = async (sala_id, partida_id) => {
@@ -127,15 +128,19 @@ const sendLinhasSorteada = async (linhas, parar) => {
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
     if(bingouLinhas.length){
         if(sockets[bingouLinhas[0].telefone]){
-            const cartelasPremiadas = bingouLinhas.map(linha => {
+            let cartelasPremiadas = bingouLinhas.map(linha => {
                 linha.faltam = 'Linha!'
                 return linha
             })
-            await premiar(cartelasPremiadas, 'linha')
+            const saldo = await premiar(cartelasPremiadas, 'linha')
+            cartelasPremiadas = cartelasPremiadas.map(cartela => {
+                cartela.saldo = saldo
+            })
             sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
         }
         if(sockets.io){
-            sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha')
+            sockets.io.in(bingouLinhas[0].sala_id)
+            .emit('bateram linha', cartelasPremiadas.map(cartela=>cartela.cartela_id).join(', '))
         }
         response = true;
     }
@@ -148,15 +153,21 @@ const sendCartelasSorteadas = async (linhas, parar) => {
     const bingouCartela = linhas.filter(linha => linha.ganhou)
     if(bingouCartela.length){
         if(sockets[bingouCartela[0].telefone]){
-            const cartelasPremiadas = bingouCartela.map(linha => {
+            let cartelasPremiadas = bingouCartela.map(linha => {
                 linha.faltam = 'Bingo!'
                 return linha
             })
-            await premiar(cartelasPremiadas, 'bingo')
+            const saldo = await premiar(cartelasPremiadas, 'bingo')
+            cartelasPremiadas = cartelasPremiadas.map(cartela => {
+                cartela.saldo = saldo
+                return cartela
+            })
+
             sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
         }
         if(sockets.io){
-            sockets.io.in(bingouCartela[0].sala_id).emit('bingou')
+            sockets.io.in(bingouCartela[0].sala_id)
+            .emit('bingou', cartelasPremiadas.map(cartela=>cartela.cartela_id).join(', '))
         }
         response = true
     }

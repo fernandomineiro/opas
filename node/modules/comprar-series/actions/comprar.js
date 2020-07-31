@@ -46,7 +46,7 @@ const partida = async (req, res) => {
 
     if(inserted && !inserted.err && !alterouSaldo.err){
         
-        return res.json({status: 'ok'})
+        return res.json({status: 'ok', saldo: saldoTotal})
     }
 
     res.status(400).json({err: inserted.err.stack || alterouSaldo.err || "falha ao inserir na fila"})
