@@ -6,9 +6,18 @@ const register = (socket) => {
     sockets[socket.telefone] = socket
 }
 
+const criaSalas = socketIo => {
+    knex('lots').select('*')
+        .then(salas=>salas
+            .forEach(sala => socketIo.to(sala.id).emit(sala.id)))
+        .catch(err=>console.log(new Error(err)))
+}
+
 const connect = (server) =>{
     const socketIo = io(server)
+    criaSalas(socketIo)
     socketIo.on('connect', socket => {
+        
         sockets.io = socketIo
         socket.on('register', telefone => {
             const salaId = telefone.split(',')[1]

@@ -6,6 +6,7 @@ const getSala = require("../../../db/get-sala")
 const getMembroByTelefone = require("../../../db/get-membro-by-telefone")
 const getTotalBolasCompradasByMembro = require("../../../db/get-total-bolas-compradas-by-membro")
 const totalCartelasVendidasBySala = require('../../../db/get-total-cartelas-vendidas-by-sala')
+const knex = require("../../../db/knex")
 
 const gegistraSala = async (req, res) => {
     try {
@@ -16,8 +17,13 @@ const gegistraSala = async (req, res) => {
         const entrou = await membroSala({sala_id: sala_id, telefone, partida_id: sala ? sala.partida_id : 0})
         const membro = await getMembroByTelefone(telefone)
         delete membro.password
-        const {total: totalBolasCompradasByMembro} = await getTotalBolasCompradasByMembro(telefone)
+        let {total: totalBolasCompradasByMembro} = await getTotalBolasCompradasByMembro(telefone)
         const {total: totalBolasCompradas} = await totalCartelasVendidasBySala(sala_id)
+        const filaCompradas = await knex('fila_compra_series').select('*').first().where({membro_id: membro.id})
+  
+        if(!totalBolasCompradasByMembro){
+            totalBolasCompradasByMembro = (_.get(filaCompradas, 'qtd') || 0) * 6
+        }
         if( entrou.err || !entrou){
             return res.status(400).json({err: _.get(response, 'err.stack') || entrou})
         }

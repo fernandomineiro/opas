@@ -66,21 +66,27 @@ export class Sala1Page implements OnInit {
       socket.on('bingo linha', linha => this.bingoLinha(linha))
       socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
       socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
-      socket.on('bingou', cartelas => this.bingou(cartelas))
-      socket.on('contagem', segundos => this.contagem = segundos)
+      
+      socket.on('contagem', segundos => this.contagemRegreciva(segundos))
       socket.on('voce ganhou', cartela => {
+        this.cartelas = cartela
         Swal.fire('BINGOOOOOO')
         this.data.saldo = cartela[0].saldo
-        setTimeout(()=>window.document.location.reload(true), 10000)
+        //setTimeout(()=>window.document.location.reload(true), 10000)
       })
+      socket.on('bingou', cartelas => this.bingou(cartelas))
     })
+  }
+
+  contagemRegreciva(segundos){
+    this.contagem =segundos
   }
 
   bingou(cartelas){
     if(!this.ganhou){
-      Swal.fire(`Binco, cartão Nº ${cartelas}`)
+      Swal.fire(`Bingo, cartão Nº ${cartelas}`)
     }
-    setTimeout(()=>window.document.location.reload(true), 10000)
+    //setTimeout(()=>window.document.location.reload(true), 10000)
   }
 
   bateramLinha(cartelas){
@@ -101,7 +107,11 @@ export class Sala1Page implements OnInit {
   }
 
   bingoLinha(linhas){
-    this.ganhou = true
+    linhas.forEach(() => {
+      this.cartelas.shift()
+    })
+    this.cartelas.unshift(...linhas)
+    
     this.data.saldo = linhas[0].saldo
     Swal.fire({
       title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
@@ -113,7 +123,7 @@ export class Sala1Page implements OnInit {
       allowOutsideClick: false,
       allowEscapeKey: false,
       allowEnterKey: false,
-    })
+    }).then(()=>this.ganhou = false)
   }
 
   melhoresCartelas(cartelas){
@@ -163,6 +173,7 @@ export class Sala1Page implements OnInit {
   }
 
   iniciarPartida() {
+    this.ganhou = false
     Swal.fire({
       title: 'Partida Iniciada, compra de cartelas liberada!',
       timer: 5000,
@@ -174,8 +185,6 @@ export class Sala1Page implements OnInit {
         allowEscapeKey: false,
         allowEnterKey: false,
         timerProgressBar: true
-    }).then(()=>{
-      this.data.botao = true
     })
 
   }
@@ -186,6 +195,7 @@ export class Sala1Page implements OnInit {
   }
 
   playAudio(bola) {
+    console.log('play')
     let audio = new Audio();
     audio.src = `assets/${bola}.mp3`;
     audio.load();
@@ -204,9 +214,17 @@ export class Sala1Page implements OnInit {
    
     this.axios.post('/comprar-series', {qtd: this.data.seriesAComprar, telefone: this.telefone})
     .then(data => {
-      this.data.botao = false
       this.data.totalBolasCompradas = this.data.seriesAComprar * 6
       this.data.saldo = data.data.saldo
+      Swal.fire({
+        toast: true, 
+        timer:2000, 
+        showConfirmButton: false, 
+        timerProgressBar: true,
+        title: "Compra realizada com sucesso",
+        icon: "success",
+        position: 'top-end',
+      })
     })
     .catch(err => {
       if(err.response.status){

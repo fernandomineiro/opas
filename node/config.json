@@ -1,5 +1,5 @@
 {
-    "tempoDeInicio": 90000,
+    "tempoDeInicio": 95000,
     "tempoDeSorteio": 3000,
     "mock": true,
     "tempoBateuLinha": 8000

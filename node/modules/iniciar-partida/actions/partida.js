@@ -126,6 +126,7 @@ const sendLinhasSorteada = async (linhas, parar) => {
     if(parar) return false
     let response = false
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
+    let premiadas
     if(bingouLinhas.length){
         if(sockets[bingouLinhas[0].telefone]){
             let cartelasPremiadas = bingouLinhas.map(linha => {
@@ -135,14 +136,23 @@ const sendLinhasSorteada = async (linhas, parar) => {
             const saldo = await premiar(cartelasPremiadas, 'linha')
             cartelasPremiadas = cartelasPremiadas.map(cartela => {
                 cartela.saldo = saldo
+                return cartela
             })
+            premiadas = cartelasPremiadas
             sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
         }
         if(sockets.io){
-            sockets.io.in(bingouLinhas[0].sala_id)
-            .emit('bateram linha', cartelasPremiadas.map(cartela=>cartela.cartela_id).join(', '))
+            Object.keys(sockets).forEach(key => {
+                if( key != 'io' && key != bingouLinhas[0].telefone){
+                    sockets[bingouLinhas[0].telefone]
+                        .emit('bateram linha', premiadas.map(cartela=>cartela.cartela_id).join(', '))
+                }
+            })
+            // sockets.io.in(bingouLinhas[0].sala_id)
+            // .emit('bateram linha', premiadas.map(cartela=>cartela.cartela_id).join(', '))
         }
-        response = true;
+        response = true
+        await timer(config.tempoBateuLinha)
     }
     return response
 }
@@ -151,6 +161,7 @@ const sendCartelasSorteadas = async (linhas, parar) => {
     if(parar) return false
     let response = false
     const bingouCartela = linhas.filter(linha => linha.ganhou)
+    let premiadas
     if(bingouCartela.length){
         if(sockets[bingouCartela[0].telefone]){
             let cartelasPremiadas = bingouCartela.map(linha => {
@@ -162,12 +173,18 @@ const sendCartelasSorteadas = async (linhas, parar) => {
                 cartela.saldo = saldo
                 return cartela
             })
-
+            premiadas = cartelasPremiadas
             sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
         }
         if(sockets.io){
-            sockets.io.in(bingouCartela[0].sala_id)
-            .emit('bingou', cartelasPremiadas.map(cartela=>cartela.cartela_id).join(', '))
+            Object.keys(sockets).forEach(key => {
+                if( key != 'io' && key != bingouCartela[0].telefone){
+                    sockets[bingouCartela[0].telefone]
+                        .emit('bingou', premiadas.map(cartela=>cartela.cartela_id).join(', '))
+                }
+            })
+            // sockets.io.in(bingouCartela[0].sala_id)
+            // .emit('bingou', premiadas.map(cartela=>cartela.cartela_id).join(', '))
         }
         response = true
     }
@@ -256,12 +273,11 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
 
         if(bateuLinha){
             pararDeVerificarLinha = true
-            await timer(config.tempoBateuLinha)
         }
          
 
         if(bingou || (bolasSorteadas.length == 90)){
-            resetPartida(partida_id)
+            await resetPartida(partida_id)
             break
         }
         
@@ -269,12 +285,19 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
     }
 }
 
-const contagem = (sala_id, segundos=95) => {
+const contagem = (sala_id, segundos) => {
+    segundos = !segundos ? 95  : segundos
+    console.log(segundos)
     setTimeout(()=>{
-        sockets.io.in(sala_id).emit('contagem')
+        
         if(segundos){
-            contagem(sala_id, segundos)
             segundos = segundos - 1
+            if(!segundos) {
+                sockets.io.in(sala_id).emit('contagem', segundos)
+                return  
+            }
+            contagem(sala_id, segundos)
+            sockets.io.in(sala_id).emit('contagem', segundos)
         }
     }, 1000)
 }

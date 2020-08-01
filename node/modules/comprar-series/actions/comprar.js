@@ -17,7 +17,7 @@ const partida = async (req, res) => {
     const sala = await getSala(sala_id)
     const partida_id = sala.partida_id
     const bolasSorteadas = await getBolasSorteadas(partida_id)
-    const fila = await getFilaBySalaAndMembro(sala_id, membro_id)
+    const fila = await getFilaBySalaAndMembro(sala_id, membro_id, partida_id)
     const custo = sala.price
     const saldo = membro.saldo
     const saldoTotal = saldo - (custo * qtd)
