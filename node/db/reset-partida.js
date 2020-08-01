@@ -23,7 +23,7 @@ const resetPartida = async (partida_id) => {
                 .select('*')
         }).catch(err => console.log('erro ao criar relatorio_membro_cartelas ', new Error(err)))
 
-    await knex('membro_cartelas').delete().where({id: partida_id}).catch(err => console.log('erro ao deletar membro_cartelas ', new Error(err)))
+    await knex('membro_cartelas').delete().where({partida_id}).catch(err => console.log('erro ao deletar membro_cartelas ', new Error(err)))
 
     await knex('relatorio_bolas_sorteadas')
         .insert(function () {
@@ -34,7 +34,7 @@ const resetPartida = async (partida_id) => {
                 .select('*')
         }).catch(err => console.log('erro ao criar relatorio_membro_cartelas ', new Error(err)))
 
-    await knex('bolas_sorteadas').delete().where({id: partida_id}).catch(err => console.log('erro ao deletar bolas_sorteadas ', new Error(err)))
+    await knex('bolas_sorteadas').delete().where({partida_id}).catch(err => console.log('erro ao deletar bolas_sorteadas ', new Error(err)))
 }
 
 module.exports = resetPartida
