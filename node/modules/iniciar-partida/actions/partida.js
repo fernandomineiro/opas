@@ -48,17 +48,21 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
     await alterarSaldo(membro.id, saldo)
     
         delete cartelasPremiadas.cartelas
+        cartelasPremiadas.saldo = saldo
         const cartelas = cartelasPremiadas
     await knex('ganhadores')
         .insert({membro_id: membro.id, sala_id, partida_id, cartelas: JSON.stringify(cartelas), premio})
-    return saldo
+    return cartelasPremiadas
 }
 
 const premiar = async (cartelas, premio)=>{
     console.log("total de cartelas vencedoras:", cartelas.length, premio)
+    let newCartelas = []
     for(const cartela of cartelas){
-        await premiarCartelas(cartela, premio, cartelas.length)
+        const newCartela = await premiarCartelas(cartela, premio, cartelas.length)
+        newCartelas.push(newCartela)
     }
+    return newCartelas
 }
 
 const comprarCartelasDaFila = async (sala_id, partida_id) => {
@@ -139,11 +143,7 @@ const sendLinhasSorteada = async (linhas, parar) => {
                 linha.faltam = 'Linha!'
                 return linha
             })
-            const saldo = await premiar(cartelasPremiadas, 'linha')
-            cartelasPremiadas = cartelasPremiadas.map(cartela => {
-                cartela.saldo = saldo
-                return cartela
-            })
+            cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
             premiadas = cartelasPremiadas
             //sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
             sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
@@ -165,11 +165,7 @@ const sendCartelasSorteadas = async (linhas, parar) => {
                 linha.faltam = 'Bingo!'
                 return linha
             })
-            const saldo = await premiar(cartelasPremiadas, 'bingo')
-            cartelasPremiadas = cartelasPremiadas.map(cartela => {
-                cartela.saldo = saldo
-                return cartela
-            })
+            cartelasPremiadas = await premiar(cartelasPremiadas, 'bingo')
             premiadas = cartelasPremiadas
             sockets.io.in(bingouCartela[0].sala_id).emit('bingou', cartelasPremiadas)
             //sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
