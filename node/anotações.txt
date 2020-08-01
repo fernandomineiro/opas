@@ -1,9 +1,11 @@
 bigBIG@123admin
 admbingo
 
+
 lsb_release -abig
 
 http://64.227.105.89/
+digital ocean Giov62157916##
 Busnello@123
 
 saldo ok
