@@ -24,9 +24,9 @@ const reset = (partidas) => partidas.forEach(async partida => {
 
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
 
-const premiar = async (cartelasPremiadas, premio) => {
-    console.log("total de cartelas vencedoras:", cartelasPremiadas.length, premio)
-    const {sala_id, telefone, partida_id} = cartelasPremiadas[0]
+const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
+    
+    const {sala_id, telefone, partida_id} = cartelasPremiadas
     const sala = await getSala(sala_id)
         .catch(err=>console.log("erro ao pegar sala: ", new Error(err)))
     const membro = await getMembroByTelefone(telefone)
@@ -39,20 +39,26 @@ const premiar = async (cartelasPremiadas, premio) => {
         : premio
 
     const premios = {
-        acumulado: sala.bingo + sala.acumulado,
-        bingo: sala.bingo,
-        linha: sala.linha   
+        acumulado: (sala.bingo + sala.acumulado) / qtdCartelas,
+        bingo: sala.bingo / qtdCartelas,
+        linha: sala.linha / qtdCartelas 
     }
 
-    const saldo = membro.saldo + premios[premio]
+    const saldo = Number((membro.saldo + premios[premio]).toFixed())
     await alterarSaldo(membro.id, saldo)
-    const cartelas = cartelasPremiadas.map(cartela => {
-        delete cartela.cartelas
-        return cartela
-    })
+    
+        delete cartelasPremiadas.cartelas
+        const cartelas = cartelasPremiadas
     await knex('ganhadores')
         .insert({membro_id: membro.id, sala_id, partida_id, cartelas: JSON.stringify(cartelas), premio})
     return saldo
+}
+
+const premiar = async (cartelas, premio)=>{
+    console.log("total de cartelas vencedoras:", cartelas.length, premio)
+    for(const cartela of cartelas){
+        await premiarCartelas(cartela, premio, cartelas.length)
+    }
 }
 
 const comprarCartelasDaFila = async (sala_id, partida_id) => {
@@ -139,17 +145,8 @@ const sendLinhasSorteada = async (linhas, parar) => {
                 return cartela
             })
             premiadas = cartelasPremiadas
-            sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
-        }
-        if(sockets.io){
-            Object.keys(sockets).forEach(key => {
-                if( key != 'io' && key != bingouLinhas[0].telefone){
-                    sockets[bingouLinhas[0].telefone]
-                        .emit('bateram linha', premiadas.map(cartela=>cartela.cartela_id).join(', '))
-                }
-            })
-            // sockets.io.in(bingouLinhas[0].sala_id)
-            // .emit('bateram linha', premiadas.map(cartela=>cartela.cartela_id).join(', '))
+            //sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
+            sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
         }
         response = true
         await timer(config.tempoBateuLinha)
@@ -174,17 +171,8 @@ const sendCartelasSorteadas = async (linhas, parar) => {
                 return cartela
             })
             premiadas = cartelasPremiadas
-            sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
-        }
-        if(sockets.io){
-            Object.keys(sockets).forEach(key => {
-                if( key != 'io' && key != bingouCartela[0].telefone){
-                    sockets[bingouCartela[0].telefone]
-                        .emit('bingou', premiadas.map(cartela=>cartela.cartela_id).join(', '))
-                }
-            })
-            // sockets.io.in(bingouCartela[0].sala_id)
-            // .emit('bingou', premiadas.map(cartela=>cartela.cartela_id).join(', '))
+            sockets.io.in(bingouCartela[0].sala_id).emit('bingou', cartelasPremiadas)
+            //sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
         }
         response = true
     }

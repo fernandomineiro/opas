@@ -34,7 +34,6 @@ export class Sala1Page implements OnInit {
   telefone: any;
   bolasSorteadas: any = [];
   cartelas: any = [{cartela_id: 0}];
-  ganhou: boolean = false;
   socket
   constructor(
     public apiService: ApiService,
@@ -63,17 +62,17 @@ export class Sala1Page implements OnInit {
       socket.on('iniciar partida', ()=>this.iniciarPartida())
       socket.on('bola sorteada', bola => this.sorteio(bola))
       socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
-      socket.on('bingo linha', linha => this.bingoLinha(linha))
+      //socket.on('bingo linha', linha => this.bingoLinha(linha))
       socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
       socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
       
       socket.on('contagem', segundos => this.contagemRegreciva(segundos))
-      socket.on('voce ganhou', cartela => {
-        this.cartelas = cartela
-        Swal.fire('BINGOOOOOO')
-        this.data.saldo = cartela[0].saldo
-        //setTimeout(()=>window.document.location.reload(true), 10000)
-      })
+      // socket.on('voce ganhou', cartela => {
+      //   this.cartelas = cartela
+      //   Swal.fire('BINGOOOOOO')
+      //   this.data.saldo = cartela[0].saldo
+      //   //setTimeout(()=>window.document.location.reload(true), 10000)
+      // })
       socket.on('bingou', cartelas => this.bingou(cartelas))
     })
   }
@@ -83,18 +82,27 @@ export class Sala1Page implements OnInit {
   }
 
   bingou(cartelas){
-    if(!this.ganhou){
-      Swal.fire(`Bingo, cartão Nº ${cartelas}`)
-    }
-    //setTimeout(()=>window.document.location.reload(true), 10000)
+    const numersDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
+    cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
+      if(cartelas.length){
+        this.data.saldo = cartelas[0].saldo
+        return Swal.fire('BINGOOOOOO')
+      }
+      Swal.fire(`Bingo, Cartela Nº ${numersDasCartelas}`)      
   }
 
   bateramLinha(cartelas){
-    if(!this.ganhou){
+    const numersDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
+    cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
+  
+    if(cartelas.length){
+      this.data.saldo = cartelas[0].saldo
+      return this.bingoLinha(cartelas)
+    }
       Swal.fire({
         title: `Você agora está concorrendo ao prêmio cartela cheia`,
         timer: 8000,
-        text: `Cartelas sorteadas: ${cartelas}`,
+        text: `Cartelas sorteadas: ${numersDasCartelas}`,
         icon: 'success',
         showConfirmButton: false,
         backdrop: false,
@@ -103,7 +111,6 @@ export class Sala1Page implements OnInit {
         allowEnterKey: false,
         timerProgressBar: true
       })
-    }
   }
 
   bingoLinha(linhas){
@@ -123,7 +130,7 @@ export class Sala1Page implements OnInit {
       allowOutsideClick: false,
       allowEscapeKey: false,
       allowEnterKey: false,
-    }).then(()=>this.ganhou = false)
+    })
   }
 
   melhoresCartelas(cartelas){
@@ -173,7 +180,6 @@ export class Sala1Page implements OnInit {
   }
 
   iniciarPartida() {
-    this.ganhou = false
     Swal.fire({
       title: 'Partida Iniciada, compra de cartelas liberada!',
       timer: 5000,

@@ -29879,7 +29879,6 @@ let Sala1Page = class Sala1Page {
         this.location = location;
         this.bolasSorteadas = [];
         this.cartelas = [{ cartela_id: 0 }];
-        this.ganhou = false;
         this.axios = this.Axios.axios;
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
         this.telefone = sessionStorage.getItem('telefone');
@@ -29899,16 +29898,16 @@ let Sala1Page = class Sala1Page {
                 socket.on('iniciar partida', () => this.iniciarPartida());
                 socket.on('bola sorteada', bola => this.sorteio(bola));
                 socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas));
-                socket.on('bingo linha', linha => this.bingoLinha(linha));
+                //socket.on('bingo linha', linha => this.bingoLinha(linha))
                 socket.on('bateram linha', (cartelas) => this.bateramLinha(cartelas));
                 socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas));
                 socket.on('contagem', segundos => this.contagemRegreciva(segundos));
-                socket.on('voce ganhou', cartela => {
-                    this.cartelas = cartela;
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire('BINGOOOOOO');
-                    this.data.saldo = cartela[0].saldo;
-                    //setTimeout(()=>window.document.location.reload(true), 10000)
-                });
+                // socket.on('voce ganhou', cartela => {
+                //   this.cartelas = cartela
+                //   Swal.fire('BINGOOOOOO')
+                //   this.data.saldo = cartela[0].saldo
+                //   //setTimeout(()=>window.document.location.reload(true), 10000)
+                // })
                 socket.on('bingou', cartelas => this.bingou(cartelas));
             });
         });
@@ -29917,26 +29916,33 @@ let Sala1Page = class Sala1Page {
         this.contagem = segundos;
     }
     bingou(cartelas) {
-        if (!this.ganhou) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire(`Bingo, cartão Nº ${cartelas}`);
+        const numersDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ');
+        cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone);
+        if (cartelas.length) {
+            this.data.saldo = cartelas[0].saldo;
+            return sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire('BINGOOOOOO');
         }
-        //setTimeout(()=>window.document.location.reload(true), 10000)
+        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire(`Bingo, Cartela Nº ${numersDasCartelas}`);
     }
     bateramLinha(cartelas) {
-        if (!this.ganhou) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
-                title: `Você agora está concorrendo ao prêmio cartela cheia`,
-                timer: 8000,
-                text: `Cartelas sorteadas: ${cartelas}`,
-                icon: 'success',
-                showConfirmButton: false,
-                backdrop: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false,
-                timerProgressBar: true
-            });
+        const numersDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ');
+        cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone);
+        if (cartelas.length) {
+            this.data.saldo = cartelas[0].saldo;
+            return this.bingoLinha(cartelas);
         }
+        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
+            title: `Você agora está concorrendo ao prêmio cartela cheia`,
+            timer: 8000,
+            text: `Cartelas sorteadas: ${numersDasCartelas}`,
+            icon: 'success',
+            showConfirmButton: false,
+            backdrop: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            timerProgressBar: true
+        });
     }
     bingoLinha(linhas) {
         linhas.forEach(() => {
@@ -29954,7 +29960,7 @@ let Sala1Page = class Sala1Page {
             allowOutsideClick: false,
             allowEscapeKey: false,
             allowEnterKey: false,
-        }).then(() => this.ganhou = false);
+        });
     }
     melhoresCartelas(cartelas) {
         this.data.tipo = 'Bingo';
@@ -30002,7 +30008,6 @@ let Sala1Page = class Sala1Page {
         });
     }
     iniciarPartida() {
-        this.ganhou = false;
         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
             title: 'Partida Iniciada, compra de cartelas liberada!',
             timer: 5000,
@@ -30323,7 +30328,7 @@ AxiosService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 __webpack_require__.r(__webpack_exports__);
 const servidor = 'http://bingoteste.ddns.net/'
 const local = 'http://localhost:3000'
-/* harmony default export */ __webpack_exports__["default"] = ({"baseURL": servidor});
+/* harmony default export */ __webpack_exports__["default"] = ({"baseURL": local});
 
 /***/ }),
 

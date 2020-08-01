@@ -31259,7 +31259,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.cartelas = [{
           cartela_id: 0
         }];
-        this.ganhou = false;
         this.axios = this.Axios.axios;
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
         this.telefone = sessionStorage.getItem('telefone');
@@ -31299,10 +31298,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       });
                       socket.on('melhores linhas', function (linhas) {
                         return _this3.melhoresLinhas(linhas);
-                      });
-                      socket.on('bingo linha', function (linha) {
-                        return _this3.bingoLinha(linha);
-                      });
+                      }); //socket.on('bingo linha', linha => this.bingoLinha(linha))
+
                       socket.on('bateram linha', function (cartelas) {
                         return _this3.bateramLinha(cartelas);
                       });
@@ -31311,12 +31308,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       });
                       socket.on('contagem', function (segundos) {
                         return _this3.contagemRegreciva(segundos);
-                      });
-                      socket.on('voce ganhou', function (cartela) {
-                        _this3.cartelas = cartela;
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire('BINGOOOOOO');
-                        _this3.data.saldo = cartela[0].saldo; //setTimeout(()=>window.document.location.reload(true), 10000)
-                      });
+                      }); // socket.on('voce ganhou', cartela => {
+                      //   this.cartelas = cartela
+                      //   Swal.fire('BINGOOOOOO')
+                      //   this.data.saldo = cartela[0].saldo
+                      //   //setTimeout(()=>window.document.location.reload(true), 10000)
+                      // })
+
                       socket.on('bingou', function (cartelas) {
                         return _this3.bingou(cartelas);
                       });
@@ -31338,37 +31336,60 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "bingou",
         value: function bingou(cartelas) {
-          if (!this.ganhou) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire("Bingo, cart\xE3o N\xBA ".concat(cartelas));
-          } //setTimeout(()=>window.document.location.reload(true), 10000)
+          var _this4 = this;
 
+          var numersDasCartelas = cartelas.map(function (cartela) {
+            return cartela.cartela_id;
+          }).join(', ');
+          cartelas = cartelas.filter(function (cartela) {
+            return cartela.telefone == _this4.telefone;
+          });
+
+          if (cartelas.length) {
+            this.data.saldo = cartelas[0].saldo;
+            return sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire('BINGOOOOOO');
+          }
+
+          sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire("Bingo, Cartela N\xBA ".concat(numersDasCartelas));
         }
       }, {
         key: "bateramLinha",
         value: function bateramLinha(cartelas) {
-          if (!this.ganhou) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
-              title: "Voc\xEA agora est\xE1 concorrendo ao pr\xEAmio cartela cheia",
-              timer: 8000,
-              text: "Cartelas sorteadas: ".concat(cartelas),
-              icon: 'success',
-              showConfirmButton: false,
-              backdrop: false,
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              allowEnterKey: false,
-              timerProgressBar: true
-            });
+          var _this5 = this;
+
+          var numersDasCartelas = cartelas.map(function (cartela) {
+            return cartela.cartela_id;
+          }).join(', ');
+          cartelas = cartelas.filter(function (cartela) {
+            return cartela.telefone == _this5.telefone;
+          });
+
+          if (cartelas.length) {
+            this.data.saldo = cartelas[0].saldo;
+            return this.bingoLinha(cartelas);
           }
+
+          sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
+            title: "Voc\xEA agora est\xE1 concorrendo ao pr\xEAmio cartela cheia",
+            timer: 8000,
+            text: "Cartelas sorteadas: ".concat(numersDasCartelas),
+            icon: 'success',
+            showConfirmButton: false,
+            backdrop: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            timerProgressBar: true
+          });
         }
       }, {
         key: "bingoLinha",
         value: function bingoLinha(linhas) {
-          var _this4 = this,
+          var _this6 = this,
               _this$cartelas;
 
           linhas.forEach(function () {
-            _this4.cartelas.shift();
+            _this6.cartelas.shift();
           });
 
           (_this$cartelas = this.cartelas).unshift.apply(_this$cartelas, _toConsumableArray(linhas));
@@ -31386,8 +31407,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             allowOutsideClick: false,
             allowEscapeKey: false,
             allowEnterKey: false
-          }).then(function () {
-            return _this4.ganhou = false;
           });
         }
       }, {
@@ -31434,10 +31453,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "sorteio",
         value: function sorteio(bola) {
-          var _this5 = this;
+          var _this7 = this;
 
           bola.sorteadas.forEach(function (bola) {
-            return _this5.data.a[bola] = bola;
+            return _this7.data.a[bola] = bola;
           });
           this.data.quant = bola.totalCompradas;
           this.data.sorteadas = bola.sorteadas.length;
@@ -31448,7 +31467,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         key: "entrarNaSala",
         value: function entrarNaSala() {
           return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-            var _this6 = this;
+            var _this8 = this;
 
             var _yield$this$axios$put, data;
 
@@ -31463,7 +31482,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                     })["catch"](function (err) {
                       sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire("falha ao entrar na sala ".concat(JSON.stringify(err)));
 
-                      _this6.location.back();
+                      _this8.location.back();
                     });
 
                   case 2:
@@ -31489,7 +31508,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "iniciarPartida",
         value: function iniciarPartida() {
-          this.ganhou = false;
           sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
             title: 'Partida Iniciada, compra de cartelas liberada!',
             timer: 5000,
@@ -31522,7 +31540,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         key: "comprarSeries",
         value: function comprarSeries() {
           return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-            var _this7 = this;
+            var _this9 = this;
 
             return regeneratorRuntime.wrap(function _callee4$(_context4) {
               while (1) {
@@ -31545,8 +31563,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       qtd: this.data.seriesAComprar,
                       telefone: this.telefone
                     }).then(function (data) {
-                      _this7.data.totalBolasCompradas = _this7.data.seriesAComprar * 6;
-                      _this7.data.saldo = data.data.saldo;
+                      _this9.data.totalBolasCompradas = _this9.data.seriesAComprar * 6;
+                      _this9.data.saldo = data.data.saldo;
                       sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
                         toast: true,
                         timer: 2000,
@@ -31583,11 +31601,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         key: "observableTimer",
         value: function observableTimer() {
-          var _this8 = this;
+          var _this10 = this;
 
           var source = Object(rxjs__WEBPACK_IMPORTED_MODULE_6__["timer"])(1000, 5000);
           var abc = source.subscribe(function (val) {
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this8, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this10, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
               return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
                   switch (_context5.prev = _context5.next) {
@@ -31988,7 +32006,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     /* harmony default export */
 
     __webpack_exports__["default"] = {
-      "baseURL": servidor
+      "baseURL": local
     };
     /***/
   },
