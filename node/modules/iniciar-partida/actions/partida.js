@@ -271,7 +271,6 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
 
 const contagem = (sala_id, segundos) => {
     segundos = !segundos ? 95  : segundos
-    console.log(segundos)
     setTimeout(()=>{
         
         if(segundos){

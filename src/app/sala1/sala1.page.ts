@@ -51,11 +51,14 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
+    // setTimeout(()=>this.location.back(), 2000)
+    
+    // setTimeout(()=>{this.router.navigate(['/sala1/1']);}, 10000)
+    
     this.setLandscape()
     await this.entrarNaSala()    
     this.data.tipo = 'Linha'
     const socket = io(config.baseURL)
-    this.data.bola = 'aguarde'
     socket.on('connect', ()=>{
       this.socket = socket
       socket.emit("register", `${this.telefone},${this.sala}` )
@@ -79,6 +82,16 @@ export class Sala1Page implements OnInit {
 
   contagemRegreciva(segundos){
     this.contagem =segundos
+  }
+
+  reset(){
+    console.log('resetando')
+      this.data.a = []
+      this.data.vela = []
+      this.cartelas = [{cartela_id: 0}]
+      this.data.sorteadas = 0
+      this.data.bola = 'aguarde'
+      //this.cartelao()
   }
 
   bingou(cartelas){
@@ -123,7 +136,7 @@ export class Sala1Page implements OnInit {
     Swal.fire({
       title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
       timer: 8000,
-      html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg"> 500',
+      html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg">' + this.data.premioLinha,
       icon: 'success',
       showConfirmButton: false,
       backdrop: false,
@@ -153,12 +166,14 @@ export class Sala1Page implements OnInit {
   async ngOnDestroy() {
     this.socket.emit('sair da sala', this.sala)
     this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
+    this.socket.close()
   }
 
   sorteio(bola) {
     bola.sorteadas.forEach(bola => this.data.a[bola] = bola );
     this.data.quant = bola.totalCompradas
     this.data.sorteadas = bola.sorteadas.length
+    this.bolasSorteadas = bola.sorteadas
     this.playAudio(bola.bola)
     this.data.bola = bola.bola
   }
@@ -192,6 +207,8 @@ export class Sala1Page implements OnInit {
         allowEnterKey: false,
         timerProgressBar: true
     })
+
+    this.reset()
 
   }
 

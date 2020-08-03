@@ -28,7 +28,8 @@ const connect = (server) =>{
             knex('membro').select('telefone', 'first_name').where({
                     telefone
                 }).first().then(user => {
-                    console.log("usuário:", user.first_name, "conectado!")
+                    console.log("usuário:", user.first_name, "conectado! sala:", salaId)
+                    knex('membro').update({sala_id: salaId}).where({id: user.id})
                     
                     socket.join(salaId)
                     
@@ -42,9 +43,12 @@ const connect = (server) =>{
         })
         socket.on('sair da sala', salaId => {
             socket.leave(salaId)
+            socket.disconnect()
+
         })
         socket.on('disconnect', () => {
             delete sockets[socket.telefone]
+            knex('membro').update({sala_id: 0}).where({telefone: socket.telefone})
         })
 
         setTimeout(() => {

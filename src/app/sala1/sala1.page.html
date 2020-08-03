@@ -68,7 +68,7 @@
           <img src="assets/b{{data.bola}}.gif">
 
           <audio #audioPlayer>
-            <source src="assets/{{data.bola}}.mp3">
+            <!-- <source src="assets/{{data.bola}}.mp3"> -->
           </audio>
           <span class="text-center"></span>
           <span class="text-center">Sorteio {{data.tipo}}</span>
@@ -88,115 +88,142 @@
         <table>
           <tr>
             <td>
-              <div *ngIf="data.vela[0]; else templateName">{{data.vela[0]}}</div>
+              <div *ngIf="data.vela[0]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[0])}">{{data.vela[0]}}</div>
               <ng-template #templateName> <img width="20" height="20" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[1]; else templateName">{{data.vela[1]}}</div>
+              <div *ngIf="data.vela[1]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[1]) }">{{data.vela[1]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[2]; else templateName">{{data.vela[2]}}</div>
+              <div *ngIf="data.vela[2]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[2]) }">{{data.vela[2]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[3]; else templateName">{{data.vela[3]}}</div>
+              <div *ngIf="data.vela[3]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[3]) }">{{data.vela[3]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[4]; else templateName">{{data.vela[4]}}</div>
+              <div *ngIf="data.vela[4]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[4]) }">{{data.vela[4]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[5]; else templateName">{{data.vela[5]}}</div>
+              <div *ngIf="data.vela[5]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[5]) }">{{data.vela[5]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[6]; else templateName">{{data.vela[6]}}</div>
+              <div *ngIf="data.vela[6]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[6]) }">{{data.vela[6]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[7]; else templateName">{{data.vela[7]}}</div>
+              <div *ngIf="data.vela[7]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[7]) }">{{data.vela[7]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[8]; else templateName">{{data.vela[8]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div *ngIf="data.vela[10]; else templateName">{{data.vela[10]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[11]; else templateName">{{data.vela[11]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[12]; else templateName">{{data.vela[12]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[13]; else templateName">{{data.vela[13]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[14]; else templateName">{{data.vela[14]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[15]; else templateName">{{data.vela[15]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[16]; else templateName">{{data.vela[16]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[17]; else templateName">{{data.vela[17]}}</div>
-              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
-            </td>
-            <td>
-              <div *ngIf="data.vela[18]; else templateName">{{data.vela[18]}}</div>
+              <div *ngIf="data.vela[8]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[8]) }">{{data.vela[8]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
           </tr>
           <tr>
             <td>
-              <div *ngIf="data.vela[20]; else templateName">{{data.vela[20]}}</div>
+              <div *ngIf="data.vela[10]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[10]) }">{{data.vela[10]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[21]; else templateName">{{data.vela[21]}}</div>
+              <div *ngIf="data.vela[11]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[11]) }">{{data.vela[11]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[22]; else templateName">{{data.vela[22]}}</div>
+              <div *ngIf="data.vela[12]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[12]) }">{{data.vela[12]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[23]; else templateName">{{data.vela[23]}}</div>
+              <div *ngIf="data.vela[13]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[13]) }">{{data.vela[13]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[24]; else templateName">{{data.vela[24]}}</div>
+              <div *ngIf="data.vela[14]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[14]) }">{{data.vela[14]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[25]; else templateName">{{data.vela[25]}}</div>
+              <div *ngIf="data.vela[15]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[15]) }">{{data.vela[15]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[26]; else templateName">{{data.vela[26]}}</div>
+              <div *ngIf="data.vela[16]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[16]) }">{{data.vela[16]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[27]; else templateName">{{data.vela[27]}}</div>
+              <div *ngIf="data.vela[17]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[17]) }">{{data.vela[17]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
             <td>
-              <div *ngIf="data.vela[28]; else templateName">{{data.vela[28]}}</div>
+              <div *ngIf="data.vela[18]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[18]) }">{{data.vela[18]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div *ngIf="data.vela[20]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[20]) }">{{data.vela[20]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[21]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[21]) }">{{data.vela[21]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[22]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[22]) }">{{data.vela[22]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[23]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[23]) }">{{data.vela[23]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[24]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[24]) }">{{data.vela[24]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[25]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[25]) }">{{data.vela[25]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[26]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[26]) }">{{data.vela[26]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[27]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[27]) }">{{data.vela[27]}}</div>
+              <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
+            </td>
+            <td>
+              <div *ngIf="data.vela[28]; else templateName"
+                [ngClass]="{'marcar-vela' : bolasSorteadas.includes(data.vela[28]) }">{{data.vela[28]}}</div>
               <ng-template #templateName> <img style="width: 20px; height: 20px" src="assets/a.png"></ng-template>
             </td>
           </tr>
@@ -327,12 +354,12 @@
           </tr>
         </table>
       </div>
-      
+
     </div>
-    
+
   </div>
   <div class="chat-toggle">
-    <iframe src="https://minnit.chat/bigbig1?embed&nickname=" allowTransparency="true" >
+    <iframe src="https://minnit.chat/bigbig1?embed&nickname=" allowTransparency="true">
     </iframe>
   </div>
 </ion-content>
@@ -389,6 +416,11 @@
 
   .marcar {
     color: rgb(5, 8, 209);
+  }
+
+  .marcar-vela {
+    text-decoration: line-through black solid;
+    color: orangered;
   }
 
   .diamante {

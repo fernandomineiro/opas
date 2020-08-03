@@ -3,7 +3,7 @@ export class Student {
     senha:string;
     novasenha:string;
     repetesenha:string;
-    seriesAComprar: number = 2;
+    seriesAComprar: number;
     minmimoAComprar: number;
     nome: string;
     cartelas: any;
@@ -32,7 +32,7 @@ export class Student {
     interval;
     play: any;
     i: any;
-    bola: any;
+    bola: any = 'aguarde';
     safra: any = [];
     safraa: any = [];
     safraaa: any = [];

@@ -15,6 +15,7 @@ const partida = async (req, res) => {
     
     const {id: membro_id, sala_id} = membro
     const sala = await getSala(sala_id)
+    console.log('comprando:', membro.first_name, "sala:", sala_id)
     const partida_id = sala.partida_id
     const bolasSorteadas = await getBolasSorteadas(partida_id)
     const fila = await getFilaBySalaAndMembro(sala_id, membro_id, partida_id)
@@ -31,7 +32,7 @@ const partida = async (req, res) => {
     }
 
     if(_.get(bolasSorteadas, 'bolas') || fila){
-        return res.status(400).json({err: 'partida já iniciada, vc não pode comprar cartelas'})
+        return res.status(400).json({err: 'partida já iniciada, você não pode comprar cartelas'})
     }
 
     const exists = (membro_id && partida_id && sala_id && qtd)
