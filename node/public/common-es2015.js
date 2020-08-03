@@ -449,8 +449,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Student", function() { return Student; });
 class Student {
     constructor() {
-        this.seriesAComprar = 2;
         this.time = 0;
+        this.bola = 'aguarde';
         this.safra = [];
         this.safraa = [];
         this.safraaa = [];

@@ -685,8 +685,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var Student = function Student() {
       _classCallCheck(this, Student);
 
-      this.seriesAComprar = 2;
       this.time = 0;
+      this.bola = 'aguarde';
       this.safra = [];
       this.safraa = [];
       this.safraaa = [];

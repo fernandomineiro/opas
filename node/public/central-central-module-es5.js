@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button\r\n    ><!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                <a class=\"dropdown-item\" routerLink='../configuracao'>Saques</a>\r\n                <a class=\"dropdown-item\" routerLink='../trocarsenha'>Alterar senha</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" routerLink='../login'>Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\">Bem vindo {{nome}} {{this.telefone}}</h1>\r\n                <ol class=\"breadcrumb mb-4\">\r\n                    <li class=\"breadcrumb-item active\">Você tem  de saldo {{saldo}}</li>\r\n                </ol>\r\n            \r\n                <div class=\"row\">\r\n\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala1}}</div><ng-template #templateName>Fechado - {{data.sala1}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao1}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/1'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala2}}</div><ng-template #templateName>Fechado - {{data.sala2}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao2}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/2'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala3}}</div><ng-template #templateName>Fechado - {{data.sala3}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao3}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/3'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala4}}</div><ng-template #templateName>Fechado - {{data.sala4}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao4}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/4'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala5}}</div><ng-template #templateName>Fechado - {{data.sala5}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao5}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/5'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala6}}</div><ng-template #templateName>Fechado - {{data.sala6}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao6}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/6'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala7}}</div><ng-template #templateName>Fechado - {{data.sala7}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao7}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/7'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala8}}</div><ng-template #templateName>Fechado - {{data.sala8}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao8}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/8'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala9}}</div><ng-template #templateName>Fechado - {{data.sala9}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao9}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/9'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> Aberto - {{data.sala10}}</div><ng-template #templateName>Fechado - {{data.sala10}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao10}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/10'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                   \r\n      \r\n                </div>\r\n                  \r\n             \r\n                \r\n            </div>\r\n        </main>\r\n        <footer class=\"py-4 bg-light mt-auto\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"d-flex align-items-center justify-content-between small\">\r\n                    <div class=\"text-muted\">Big Big 2020</div>\r\n                    <div>\r\n                        <a href=\"\"></a>\r\n                        &middot;\r\n                        <a href=\"\">Termos e condições</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </footer>\r\n    </div>\r\n</div>\r\n</ion-content>\r\n";
+    __webpack_exports__["default"] = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button\r\n    ><!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                <a class=\"dropdown-item\" routerLink='../configuracao'>Saques</a>\r\n                <a class=\"dropdown-item\" routerLink='../trocarsenha'>Alterar senha</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" routerLink='../login'>Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\">Bem vindo {{nome}} {{this.telefone}}</h1>\r\n                <ol class=\"breadcrumb mb-4\">\r\n                    <li class=\"breadcrumb-item active\">Você tem  de saldo {{saldo}}</li>\r\n                </ol>\r\n            \r\n                <div class=\"row\">\r\n\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status1}} - {{data.sala1}}</div><ng-template #templateName>Fechado - {{data.sala1}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao1}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/1'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status2}} - {{data.sala2}}</div><ng-template #templateName>Fechado - {{data.sala2}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao2}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/2'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status3}} - {{data.sala3}}</div><ng-template #templateName>Fechado - {{data.sala3}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao3}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/3'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status4}} - {{data.sala4}}</div><ng-template #templateName>Fechado - {{data.sala4}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao4}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/4'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status5}} - {{data.sala5}}</div><ng-template #templateName>Fechado - {{data.sala5}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao5}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/5'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status6}} - {{data.sala6}}</div><ng-template #templateName>Fechado - {{data.sala6}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao6}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/6'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status7}} - {{data.sala7}}</div><ng-template #templateName>Fechado - {{data.sala7}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao7}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/7'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status8}} - {{data.sala8}}</div><ng-template #templateName>Fechado - {{data.sala8}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao8}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/8'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status9}} - {{data.sala9}}</div><ng-template #templateName>Fechado - {{data.sala9}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao9}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/9'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xl-3 col-md-6\">\r\n                        <div class=\"card bg-primary text-white mb-4\">\r\n                            <div class=\"card-body\"><div *ngIf=\"data.status1; else templateName\"> {{data.status10}} - {{data.sala10}}</div><ng-template #templateName>Fechado - {{data.sala10}}</ng-template> </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{data.descricao10}}\r\n                                <a class=\"small text-white stretched-link\" routerLink='../sala1/10'></a>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                   \r\n      \r\n                </div>\r\n                  \r\n             \r\n                \r\n            </div>\r\n        </main>\r\n        <footer class=\"py-4 bg-light mt-auto\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"d-flex align-items-center justify-content-between small\">\r\n                    <div class=\"text-muted\">Big Big 2020</div>\r\n                    <div>\r\n                        <a href=\"\"></a>\r\n                        &middot;\r\n                        <a href=\"\">Termos e condições</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </footer>\r\n    </div>\r\n</div>\r\n</ion-content>\r\n";
     /***/
   },
 
@@ -293,86 +293,85 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                       _this2.data.descricao9 = response[8]['description'];
                       _this2.data.descricao10 = response[9]['description'];
                       _this2.data.status1 = response[0]['status'];
+                      console.log();
 
                       if (_this2.data.status1 == '1') {
-                        _this2.data.status1 = "Aberto";
+                        _this2.data.status1 = "Aberta";
                       } else {
-                        _this2.data.status1 = "";
+                        _this2.data.status1 = "Fechada";
                       }
 
                       _this2.data.status2 = response[1]['status'];
 
                       if (_this2.data.status2 == '1') {
-                        _this2.data.status2 = "Aberto";
+                        _this2.data.status2 = "Aberta";
                       } else {
-                        _this2.data.status2 = "";
+                        _this2.data.status2 = "Fechada";
                       }
 
                       _this2.data.status3 = response[2]['status'];
 
                       if (_this2.data.status3 == '1') {
-                        _this2.data.status3 = "Aberto";
+                        _this2.data.status3 = "Aberta";
                       } else {
-                        _this2.data.status3 = "";
+                        _this2.data.status3 = "Fechada";
                       }
 
                       _this2.data.status4 = response[3]['status'];
 
                       if (_this2.data.status4 == '1') {
-                        _this2.data.status4 = "Aberto";
+                        _this2.data.status4 = "Aberta";
                       } else {
-                        _this2.data.status4 = "";
+                        _this2.data.status4 = "Fechada";
                       }
 
                       _this2.data.status5 = response[4]['status'];
 
                       if (_this2.data.status5 == '1') {
-                        _this2.data.status5 = "Aberto";
+                        _this2.data.status5 = "Aberta";
                       } else {
-                        _this2.data.status5 = "";
+                        _this2.data.status5 = "Fechada";
                       }
 
                       _this2.data.status6 = response[5]['status'];
 
                       if (_this2.data.status6 == '1') {
-                        _this2.data.status6 = "Aberto";
+                        _this2.data.status6 = "Aberta";
                       } else {
-                        _this2.data.status6 = "";
+                        _this2.data.status6 = "Fechada";
                       }
 
                       _this2.data.status7 = response[6]['status'];
 
                       if (_this2.data.status7 == '1') {
-                        _this2.data.status7 = "Aberto";
+                        _this2.data.status7 = "Aberta";
                       } else {
-                        _this2.data.status7 = "";
+                        _this2.data.status7 = "Fechada";
                       }
 
                       _this2.data.status8 = response[7]['status'];
 
                       if (_this2.data.status8 == '1') {
-                        _this2.data.status8 = "Aberto";
+                        _this2.data.status8 = "Aberta";
                       } else {
-                        _this2.data.status8 = "";
+                        _this2.data.status8 = "Fechada";
                       }
 
                       _this2.data.status9 = response[8]['status'];
 
                       if (_this2.data.status9 == '1') {
-                        _this2.data.status9 = "Aberto";
+                        _this2.data.status9 = "Aberta";
                       } else {
-                        _this2.data.status9 = "";
+                        _this2.data.status9 = "Fechada";
                       }
 
                       _this2.data.status10 = response[9]['status'];
 
                       if (_this2.data.status10 == '1') {
-                        _this2.data.status10 = "Aberto";
+                        _this2.data.status10 = "Aberta";
                       } else {
-                        _this2.data.status10 = "";
+                        _this2.data.status10 = "Fechada";
                       }
-
-                      console.log(response);
                     });
 
                   case 2:
@@ -414,7 +413,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status1 == '1') {
               _this3.data.status1 = "Aberto";
             } else {
-              _this3.data.status1 = "";
+              _this3.data.status1 = "Fechada";
             }
 
             _this3.data.status2 = response[1]['status'];
@@ -422,7 +421,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status2 == '1') {
               _this3.data.status2 = "Aberto";
             } else {
-              _this3.data.status2 = "";
+              _this3.data.status2 = "Fechada";
             }
 
             _this3.data.status3 = response[2]['status'];
@@ -430,7 +429,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status3 == '1') {
               _this3.data.status3 = "Aberto";
             } else {
-              _this3.data.status3 = "";
+              _this3.data.status3 = "Fechada";
             }
 
             _this3.data.status4 = response[3]['status'];
@@ -438,7 +437,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status4 == '1') {
               _this3.data.status4 = "Aberto";
             } else {
-              _this3.data.status4 = "";
+              _this3.data.status4 = "Fechada";
             }
 
             _this3.data.status5 = response[4]['status'];
@@ -446,7 +445,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status5 == '1') {
               _this3.data.status5 = "Aberto";
             } else {
-              _this3.data.status5 = "";
+              _this3.data.status5 = "Fechada";
             }
 
             _this3.data.status6 = response[5]['status'];
@@ -454,7 +453,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status6 == '1') {
               _this3.data.status6 = "Aberto";
             } else {
-              _this3.data.status6 = "";
+              _this3.data.status6 = "Fechada";
             }
 
             _this3.data.status7 = response[6]['status'];
@@ -462,7 +461,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status7 == '1') {
               _this3.data.status7 = "Aberto";
             } else {
-              _this3.data.status7 = "";
+              _this3.data.status7 = "Fechada";
             }
 
             _this3.data.status8 = response[7]['status'];
@@ -470,7 +469,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status8 == '1') {
               _this3.data.status8 = "Aberto";
             } else {
-              _this3.data.status8 = "";
+              _this3.data.status8 = "Fechada";
             }
 
             _this3.data.status9 = response[8]['status'];
@@ -478,18 +477,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             if (_this3.data.status9 == '1') {
               _this3.data.status9 = "Aberto";
             } else {
-              _this3.data.status9 = "";
+              _this3.data.status9 = "Fechada";
             }
 
             _this3.data.status10 = response[9]['status'];
 
             if (_this3.data.status10 == '1') {
-              _this3.data.status10 = "Aberto";
+              _this3.data.status10 = "Aberta";
             } else {
-              _this3.data.status10 = "";
+              _this3.data.status10 = "Fechada";
             }
-
-            console.log(response);
           });
         }
       }]);
