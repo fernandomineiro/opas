@@ -29,8 +29,8 @@ export class LoginPage implements OnInit {
       if(response !== null && response !== undefined){
        
         
-        sessionStorage.setItem("telefone", response['telefone']);
-        sessionStorage.setItem("indicou", response['indicou']);
+        localStorage.setItem("telefone", response['telefone']);
+        localStorage.setItem("indicou", response['indicou']);
         this.router.navigate(['central']);
       }
       else{

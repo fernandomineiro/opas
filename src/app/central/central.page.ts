@@ -12,7 +12,7 @@ export class CentralPage implements OnInit {
     public apiService: ApiService
   ) {
     this.data = new Central();
-    this.telefone = sessionStorage.getItem("telefone");
+    this.telefone = localStorage.getItem("telefone");
   }
 
   nome: any;
@@ -26,8 +26,8 @@ export class CentralPage implements OnInit {
 
       this.saldo = response.saldo;
       this.nome = response.first_name;
-      sessionStorage.setItem("nome", this.nome);
-      sessionStorage.setItem("saldo", this.saldo);
+      localStorage.setItem("nome", this.nome);
+      localStorage.setItem("saldo", this.saldo);
       console.log(response);
     });
     await this.getData();

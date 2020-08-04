@@ -45,8 +45,8 @@ export class Sala1Page implements OnInit {
   ) {
     this.axios = this.Axios.axios
     this.data = new Student();
-    this.telefone = sessionStorage.getItem('telefone')
-    this.data.nome = sessionStorage.getItem('nome')
+    this.telefone = localStorage.getItem('telefone')
+    this.data.nome = localStorage.getItem('nome')
     this.route.params.subscribe(params => this.sala = params.sala)
   }
 
@@ -192,6 +192,7 @@ export class Sala1Page implements OnInit {
       this.data.premioLinha = data.linha
       this.data.acumuladoAte = data.acumulado_ate
       this.data.minmimoAComprar = data.min_qtd
+      this.data.acumulado = data.acumulado
   }
 
   iniciarPartida() {
@@ -209,6 +210,7 @@ export class Sala1Page implements OnInit {
     })
 
     this.reset()
+    this.entrarNaSala()
 
   }
 
