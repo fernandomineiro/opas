@@ -228,7 +228,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.apiService = apiService;
         this.data = new _models_central__WEBPACK_IMPORTED_MODULE_3__["Central"]();
-        this.telefone = sessionStorage.getItem("telefone");
+        this.telefone = localStorage.getItem("telefone");
       }
 
       _createClass(CentralPage, [{
@@ -245,8 +245,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     this.apiService.home(this.telefone).subscribe(function (response) {
                       _this.saldo = response.saldo;
                       _this.nome = response.first_name;
-                      sessionStorage.setItem("nome", _this.nome);
-                      sessionStorage.setItem("saldo", _this.saldo);
+                      localStorage.setItem("nome", _this.nome);
+                      localStorage.setItem("saldo", _this.saldo);
                       console.log(response);
                     });
                     _context.next = 4;

@@ -31261,8 +31261,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }];
         this.axios = this.Axios.axios;
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
-        this.telefone = sessionStorage.getItem('telefone');
-        this.data.nome = sessionStorage.getItem('nome');
+        this.telefone = localStorage.getItem('telefone');
+        this.data.nome = localStorage.getItem('nome');
         this.route.params.subscribe(function (params) {
           return _this2.sala = params.sala;
         });
@@ -31511,8 +31511,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                     this.data.premioLinha = data.linha;
                     this.data.acumuladoAte = data.acumulado_ate;
                     this.data.minmimoAComprar = data.min_qtd;
+                    this.data.acumulado = data.acumulado;
 
-                  case 12:
+                  case 13:
                   case "end":
                     return _context3.stop();
                 }
@@ -31536,6 +31537,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             timerProgressBar: true
           });
           this.reset();
+          this.entrarNaSala();
         }
       }, {
         key: "setLandscape",

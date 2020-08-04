@@ -240,7 +240,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(TrocarsenhaPage, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          this.telefone = sessionStorage.getItem("telefone");
+          this.telefone = localStorage.getItem("telefone");
           console.log(this.telefone);
         }
       }, {

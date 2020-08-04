@@ -1,6 +1,9 @@
 bigBIG@123admin
 admbingo
 
+registro.br:
+bigbig73.net.br
+senha: Giov62157916##
 
 lsb_release -abig
 

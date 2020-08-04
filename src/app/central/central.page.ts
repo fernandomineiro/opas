@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Central } from '../models/central';
+import { AxiosService } from '../services/axios.service';
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -9,7 +10,8 @@ import { Central } from '../models/central';
 export class CentralPage implements OnInit {
   data: Central;
   constructor(
-    public apiService: ApiService
+    public apiService: ApiService,
+    public axios: AxiosService
   ) {
     this.data = new Central();
     this.telefone = localStorage.getItem("telefone");
@@ -21,7 +23,7 @@ export class CentralPage implements OnInit {
 
   async ngOnInit() {
     this.status();
-    
+    console.log('cu')
     this.apiService.home(this.telefone).subscribe((response) => {
 
       this.saldo = response.saldo;

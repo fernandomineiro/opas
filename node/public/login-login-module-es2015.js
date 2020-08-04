@@ -140,8 +140,8 @@ let LoginPage = class LoginPage {
         this.apiService.login(this.data.telefone, this.data.password).subscribe((response) => {
             console.log(response);
             if (response !== null && response !== undefined) {
-                sessionStorage.setItem("telefone", response['telefone']);
-                sessionStorage.setItem("indicou", response['indicou']);
+                localStorage.setItem("telefone", response['telefone']);
+                localStorage.setItem("indicou", response['indicou']);
                 this.router.navigate(['central']);
             }
             else {

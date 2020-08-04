@@ -132,7 +132,7 @@ let TrocarsenhaPage = class TrocarsenhaPage {
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
     }
     ngOnInit() {
-        this.telefone = sessionStorage.getItem("telefone");
+        this.telefone = localStorage.getItem("telefone");
         console.log(this.telefone);
     }
     submitForm() {

@@ -29881,8 +29881,8 @@ let Sala1Page = class Sala1Page {
         this.cartelas = [{ cartela_id: 0 }];
         this.axios = this.Axios.axios;
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
-        this.telefone = sessionStorage.getItem('telefone');
-        this.data.nome = sessionStorage.getItem('nome');
+        this.telefone = localStorage.getItem('telefone');
+        this.data.nome = localStorage.getItem('nome');
         this.route.params.subscribe(params => this.sala = params.sala);
     }
     ngOnInit() {
@@ -30017,6 +30017,7 @@ let Sala1Page = class Sala1Page {
             this.data.premioLinha = data.linha;
             this.data.acumuladoAte = data.acumulado_ate;
             this.data.minmimoAComprar = data.min_qtd;
+            this.data.acumulado = data.acumulado;
         });
     }
     iniciarPartida() {
@@ -30033,6 +30034,7 @@ let Sala1Page = class Sala1Page {
             timerProgressBar: true
         });
         this.reset();
+        this.entrarNaSala();
     }
     setLandscape() {
         // set to landscape

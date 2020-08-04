@@ -68,7 +68,7 @@ export class Sala1Page implements OnInit {
       //socket.on('bingo linha', linha => this.bingoLinha(linha))
       socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
       socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
-      
+      socket.on('saldo', saldo => this.atualizarSaldo(saldo))
       socket.on('contagem', segundos => this.contagemRegreciva(segundos))
       // socket.on('voce ganhou', cartela => {
       //   this.cartelas = cartela
@@ -82,6 +82,10 @@ export class Sala1Page implements OnInit {
 
   contagemRegreciva(segundos){
     this.contagem =segundos
+  }
+
+  atualizarSaldo(saldo){
+    this.data.saldo = saldo
   }
 
   reset(){
@@ -136,7 +140,6 @@ export class Sala1Page implements OnInit {
     Swal.fire({
       title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
       timer: 8000,
-      html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg">' + this.data.premioLinha,
       icon: 'success',
       showConfirmButton: false,
       backdrop: false,

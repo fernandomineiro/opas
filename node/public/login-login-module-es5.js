@@ -252,8 +252,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             console.log(response);
 
             if (response !== null && response !== undefined) {
-              sessionStorage.setItem("telefone", response['telefone']);
-              sessionStorage.setItem("indicou", response['indicou']);
+              localStorage.setItem("telefone", response['telefone']);
+              localStorage.setItem("indicou", response['indicou']);
 
               _this.router.navigate(['central']);
             } else {

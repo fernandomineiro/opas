@@ -127,7 +127,7 @@ let CentralPage = class CentralPage {
     constructor(apiService) {
         this.apiService = apiService;
         this.data = new _models_central__WEBPACK_IMPORTED_MODULE_3__["Central"]();
-        this.telefone = sessionStorage.getItem("telefone");
+        this.telefone = localStorage.getItem("telefone");
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
@@ -135,8 +135,8 @@ let CentralPage = class CentralPage {
             this.apiService.home(this.telefone).subscribe((response) => {
                 this.saldo = response.saldo;
                 this.nome = response.first_name;
-                sessionStorage.setItem("nome", this.nome);
-                sessionStorage.setItem("saldo", this.saldo);
+                localStorage.setItem("nome", this.nome);
+                localStorage.setItem("saldo", this.saldo);
                 console.log(response);
             });
             yield this.getData();
