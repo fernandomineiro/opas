@@ -1,3 +1,3 @@
-const servidor = 'http://bingoteste.ddns.net/'
+const servidor = 'https://bigbig73.net.br/'
 const local = 'http://localhost:3000'
-export default {"baseURL": local}
+export default {"baseURL": servidor}

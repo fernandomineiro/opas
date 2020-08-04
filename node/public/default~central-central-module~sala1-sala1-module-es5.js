@@ -2205,12 +2205,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     __webpack_require__.r(__webpack_exports__);
 
-    var servidor = 'http://bingoteste.ddns.net/';
+    var servidor = 'https://bigbig73.net.br/';
     var local = 'http://localhost:3000';
     /* harmony default export */
 
     __webpack_exports__["default"] = {
-      "baseURL": local
+      "baseURL": servidor
     };
     /***/
   }
