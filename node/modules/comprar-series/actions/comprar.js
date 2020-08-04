@@ -5,6 +5,7 @@ const getSala = require("../../../db/get-sala")
 const getFilaBySalaAndMembro = require("../../../db/get-fila-by-sala-and-membro")
 const alterarSaldo = require("../../../db/alterar-saldo-by-membro")
 const _ = require('lodash')
+const knex = require("../../../db/knex")
 //{telefone, qtd}
 const partida = async (req, res) => {
     
@@ -22,6 +23,12 @@ const partida = async (req, res) => {
     const custo = sala.price
     const saldo = membro.saldo
     const saldoTotal = saldo - (custo * qtd)
+
+    const filas = await knex('fila_compra_series').sum('qtd as total').where({partida_id}).first()
+
+    if(filas.total >= 8000){
+        return res.status(400).json({err: `Quantidade de séries disponíveis ${8000 - filas.total}`})
+    }
 
     if(saldoTotal < 0){
         return res.status(400).json({err: "Saldo insuficiente"})

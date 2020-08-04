@@ -119,19 +119,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _services_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/api.service */ "./src/app/services/api.service.ts");
 /* harmony import */ var _models_central__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/central */ "./src/app/models/central.ts");
+/* harmony import */ var _services_axios_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/axios.service */ "./src/app/services/axios.service.ts");
+
 
 
 
 
 let CentralPage = class CentralPage {
-    constructor(apiService) {
+    constructor(apiService, axios) {
         this.apiService = apiService;
+        this.axios = axios;
         this.data = new _models_central__WEBPACK_IMPORTED_MODULE_3__["Central"]();
         this.telefone = localStorage.getItem("telefone");
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.status();
+            console.log('cu');
             this.apiService.home(this.telefone).subscribe((response) => {
                 this.saldo = response.saldo;
                 this.nome = response.first_name;
@@ -335,7 +339,8 @@ let CentralPage = class CentralPage {
     }
 };
 CentralPage.ctorParameters = () => [
-    { type: _services_api_service__WEBPACK_IMPORTED_MODULE_2__["ApiService"] }
+    { type: _services_api_service__WEBPACK_IMPORTED_MODULE_2__["ApiService"] },
+    { type: _services_axios_service__WEBPACK_IMPORTED_MODULE_4__["AxiosService"] }
 ];
 CentralPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

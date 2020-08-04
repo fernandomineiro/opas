@@ -1,8 +1,8 @@
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["trocarsenha-trocarsenha-module"], {
   /***/
@@ -22,6 +22,226 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     __webpack_exports__["default"] = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG - Trocar senha</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button\r\n    ><!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                \r\n                <a class=\"dropdown-item\" routerLink='../central'>Voltar</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" routerLink='../home'>Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\">{{nome}}</h1>\r\n                \r\n                </div>\r\n                </main>\r\n    </div>\r\n</div>\r\n \r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Senha antiga</label><br>\r\n  <input type=\"text\"[(ngModel)]=\"data.senha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Senha antiga\">\r\n</div>\r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Nova senha</label><br>\r\n  <input type=\"text\" [(ngModel)]=\"data.novasenha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Nova senha\">\r\n</div>\r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Senha antiga</label><br>\r\n  <input type=\"password\" [(ngModel)]=\"data.repetesenha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Repita sua senha\">\r\n</div>\r\n\r\n<button (click)=\"submitForm()\" style=\"text-align: center;\" type=\"button\" class=\"btn btn-primary mb-2\">Atualizar</button>\r\n\r\n</ion-content>";
+    /***/
+  },
+
+  /***/
+  "./src/app/services/api.service.ts":
+  /*!*****************************************!*\
+    !*** ./src/app/services/api.service.ts ***!
+    \*****************************************/
+
+  /*! exports provided: ApiService */
+
+  /***/
+  function srcAppServicesApiServiceTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "ApiService", function () {
+      return ApiService;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
+    /* harmony import */
+
+
+    var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! rxjs */
+    "./node_modules/rxjs/_esm2015/index.js");
+    /* harmony import */
+
+
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! rxjs/operators */
+    "./node_modules/rxjs/_esm2015/operators/index.js");
+
+    var ApiService = /*#__PURE__*/function () {
+      function ApiService(http) {
+        _classCallCheck(this, ApiService);
+
+        this.http = http; // API path
+
+        this.base_path = 'https://bigbig.net.br/bingao'; // Http Options
+
+        this.httpOptions = {
+          headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+            'Content-Type': 'application/json'
+          })
+        };
+      } // Handle API errors
+
+
+      _createClass(ApiService, [{
+        key: "handleError",
+        value: function handleError(error) {
+          if (error.error instanceof ErrorEvent) {
+            // A client-side or network error occurred. Handle it accordingly.
+            console.error('An error occurred:', error.error.message);
+          } else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong,
+            console.error("Backend returned code ".concat(error.status, ", ") + "body was: ".concat(error.error));
+          } // return an observable with a user-facing error message
+
+
+          return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])('Something bad happened; please try again later.');
+        }
+      }, {
+        key: "traz",
+        // Create a new item
+        // Get single student data by ID
+        value: function traz() {
+          return this.http.get(this.base_path).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "sorteio",
+        value: function sorteio(bola) {
+          return this.http.get(this.base_path + '/a/' + bola).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "login",
+        value: function login(telefone, senha) {
+          return this.http.get(this.base_path + '/buscalogin/' + telefone + '/' + senha).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "registro",
+        value: function registro(nome, sobre, senha, telefone, indicou) {
+          return this.http.get(this.base_path + '/buscaregistro/' + nome + '/' + sobre + '/' + telefone + '/' + senha + '/' + indicou).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "pegaagente",
+        value: function pegaagente(nome) {
+          return this.http.get(this.base_path + '/pegaagente/' + nome).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "compracartela",
+        value: function compracartela(nome, quantidade) {
+          return this.http.get(this.base_path + '/inserecartao1/' + nome + '/' + quantidade).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "home",
+        value: function home(telefone) {
+          return this.http.get(this.base_path + '/buscahome/' + telefone).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "buscapartida",
+        value: function buscapartida(partida) {
+          return this.http.get(this.base_path + '/buscapartida/' + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "alterasaldo",
+        value: function alterasaldo(telefone, saldo) {
+          return this.http.get(this.base_path + '/alterasaldo/' + telefone + '/' + saldo).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "ganhadorlinha",
+        value: function ganhadorlinha(telefone, linha) {
+          return this.http.get(this.base_path + '/ganhadorlinha/' + telefone + '/' + linha).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "ganhadorbingo",
+        value: function ganhadorbingo(telefone, bingo) {
+          return this.http.get(this.base_path + '/ganhadorbingo/' + telefone + '/' + bingo).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "buscacartela",
+        value: function buscacartela(cartela, nome, partida) {
+          return this.http.get(this.base_path + "/compra/".concat(nome, "/") + cartela + "/" + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "trazcartela",
+        value: function trazcartela(jogador) {
+          return this.http.get(this.base_path + '/trazcartela/' + jogador).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "trazsala",
+        value: function trazsala() {
+          return this.http.get(this.base_path + '/salas').pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "alterasenha",
+        value: function alterasenha(telefone, senha) {
+          return this.http.get(this.base_path + '/alterasenha/' + telefone + '/' + senha).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "encontrasenha",
+        value: function encontrasenha(telefone) {
+          return this.http.get(this.base_path + '/encontrasenha/' + telefone).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "pegaposicao",
+        value: function pegaposicao(telefone) {
+          return this.http.get(this.base_path + '/pegaposicao/' + telefone).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "comecajogo",
+        value: function comecajogo(sala, dia, mes) {
+          return this.http.get(this.base_path + '/pegarpartida/' + sala + '/' + dia + '/' + mes).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "fezlinha",
+        value: function fezlinha(jogador, linha, partida) {
+          return this.http.get(this.base_path + '/ganhadorlinha/' + jogador + '/' + linha + '/' + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "fezbingo",
+        value: function fezbingo(jogador, bingo, partida) {
+          return this.http.get(this.base_path + '/ganhadorbingo/' + jogador + '/' + bingo + '/' + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "mudapartida",
+        value: function mudapartida(sala, partida) {
+          return this.http.get(this.base_path + '/proxima/' + sala + '/' + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "deulinha",
+        value: function deulinha(partida) {
+          return this.http.get(this.base_path + '/fezlinha/' + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "deubingo",
+        value: function deubingo(partida) {
+          return this.http.get(this.base_path + '/fezbingo/' + partida).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
+        key: "proxima",
+        value: function proxima(sala, _proxima) {
+          return this.http.get(this.base_path + '/proxima/' + sala + '/' + _proxima).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(2), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }]);
+
+      return ApiService;
+    }();
+
+    ApiService.ctorParameters = function () {
+      return [{
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
+      }];
+    };
+
+    ApiService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+      providedIn: 'root'
+    })], ApiService);
     /***/
   },
 

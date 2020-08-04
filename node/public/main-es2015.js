@@ -468,7 +468,7 @@ const routes = [
     },
     {
         path: 'sala1/:sala',
-        loadChildren: () => Promise.all(/*! import() | sala1-sala1-module */[__webpack_require__.e("common"), __webpack_require__.e("sala1-sala1-module")]).then(__webpack_require__.bind(null, /*! ./sala1/sala1.module */ "./src/app/sala1/sala1.module.ts")).then(m => m.Sala1PageModule)
+        loadChildren: () => Promise.all(/*! import() | sala1-sala1-module */[__webpack_require__.e("default~central-central-module~sala1-sala1-module"), __webpack_require__.e("common"), __webpack_require__.e("sala1-sala1-module")]).then(__webpack_require__.bind(null, /*! ./sala1/sala1.module */ "./src/app/sala1/sala1.module.ts")).then(m => m.Sala1PageModule)
     },
     {
         path: 'login',
@@ -480,7 +480,7 @@ const routes = [
     },
     {
         path: 'central',
-        loadChildren: () => Promise.all(/*! import() | central-central-module */[__webpack_require__.e("common"), __webpack_require__.e("central-central-module")]).then(__webpack_require__.bind(null, /*! ./central/central.module */ "./src/app/central/central.module.ts")).then(m => m.CentralPageModule)
+        loadChildren: () => Promise.all(/*! import() | central-central-module */[__webpack_require__.e("default~central-central-module~sala1-sala1-module"), __webpack_require__.e("central-central-module")]).then(__webpack_require__.bind(null, /*! ./central/central.module */ "./src/app/central/central.module.ts")).then(m => m.CentralPageModule)
     },
     {
         path: 'senhaperdida',

@@ -221,12 +221,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _models_central__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! ../models/central */
     "./src/app/models/central.ts");
+    /* harmony import */
+
+
+    var _services_axios_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ../services/axios.service */
+    "./src/app/services/axios.service.ts");
 
     var CentralPage = /*#__PURE__*/function () {
-      function CentralPage(apiService) {
+      function CentralPage(apiService, axios) {
         _classCallCheck(this, CentralPage);
 
         this.apiService = apiService;
+        this.axios = axios;
         this.data = new _models_central__WEBPACK_IMPORTED_MODULE_3__["Central"]();
         this.telefone = localStorage.getItem("telefone");
       }
@@ -242,6 +249,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 switch (_context.prev = _context.next) {
                   case 0:
                     this.status();
+                    console.log('cu');
                     this.apiService.home(this.telefone).subscribe(function (response) {
                       _this.saldo = response.saldo;
                       _this.nome = response.first_name;
@@ -249,10 +257,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                       localStorage.setItem("saldo", _this.saldo);
                       console.log(response);
                     });
-                    _context.next = 4;
+                    _context.next = 5;
                     return this.getData();
 
-                  case 4:
+                  case 5:
                   case "end":
                     return _context.stop();
                 }
@@ -497,6 +505,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     CentralPage.ctorParameters = function () {
       return [{
         type: _services_api_service__WEBPACK_IMPORTED_MODULE_2__["ApiService"]
+      }, {
+        type: _services_axios_service__WEBPACK_IMPORTED_MODULE_4__["AxiosService"]
       }];
     };
 

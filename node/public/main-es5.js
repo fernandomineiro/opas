@@ -228,7 +228,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | sala1-sala1-module */
-        [__webpack_require__.e("common"), __webpack_require__.e("sala1-sala1-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~central-central-module~sala1-sala1-module"), __webpack_require__.e("common"), __webpack_require__.e("sala1-sala1-module")]).then(__webpack_require__.bind(null,
         /*! ./sala1/sala1.module */
         "./src/app/sala1/sala1.module.ts")).then(function (m) {
           return m.Sala1PageModule;
@@ -261,7 +261,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | central-central-module */
-        [__webpack_require__.e("common"), __webpack_require__.e("central-central-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~central-central-module~sala1-sala1-module"), __webpack_require__.e("central-central-module")]).then(__webpack_require__.bind(null,
         /*! ./central/central.module */
         "./src/app/central/central.module.ts")).then(function (m) {
           return m.CentralPageModule;
