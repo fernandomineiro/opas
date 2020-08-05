@@ -145,7 +145,6 @@ const sendLinhasSorteada = async (linhas, parar) => {
             })
             cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
             premiadas = cartelasPremiadas
-            //sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
             sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
         }
         response = true

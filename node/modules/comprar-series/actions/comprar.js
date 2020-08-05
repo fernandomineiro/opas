@@ -26,7 +26,7 @@ const partida = async (req, res) => {
 
     const filas = await knex('fila_compra_series').sum('qtd as total').where({partida_id}).first()
 
-    if((filas.total + qtd) >= 8000){
+    if((filas.total + qtd) > 8000){
         return res.status(400).json({err: `Quantidade de séries disponíveis ${8000 - filas.total}`})
     }
 
