@@ -95,6 +95,7 @@ export class Sala1Page implements OnInit {
       this.cartelas = [{cartela_id: 0}]
       this.data.sorteadas = 0
       this.data.bola = 'aguarde'
+      this.data.totalBolasCompradas = 0
       //this.cartelao()
   }
 
