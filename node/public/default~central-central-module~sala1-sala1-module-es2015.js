@@ -2020,7 +2020,6 @@ let AxiosService = class AxiosService {
         this.axios = axios__WEBPACK_IMPORTED_MODULE_2___default.a.create({ baseURL: src_config__WEBPACK_IMPORTED_MODULE_3__["default"].baseURL });
     }
 };
-AxiosService.ctorParameters = () => [];
 AxiosService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: 'root'

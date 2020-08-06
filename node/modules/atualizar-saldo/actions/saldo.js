@@ -12,9 +12,9 @@ const list = async (req, res) => {
       socket.emit('saldo', membroSaldo.saldo)
     },6000)
   }
-  const membro = await knex('membro').select('*').where({telefone}).first()
-
-  res.json({saldo: membro.saldo, nome: membro.first_name})
+  const membro = await knex('membro').select('saldo').where({telefone}).first()
+  console.log(membro)
+  res.json({saldo: membro.saldo})
 }
 
 module.exports = list

@@ -77,8 +77,7 @@ const comprarCartelasDaFila = async (sala_id, partida_id) => {
     return total
 }
 
-const gerarLinhas = (bolasCompradas, bolasSorteadas, parar) => {
-    if(parar)return
+const gerarLinhas = (bolasCompradas, bolasSorteadas) => {
     bolasCompradas = bolasCompradas.map(bola => {
         bola.checked = bolasSorteadas.includes(bola.numero)
         return bola
@@ -137,7 +136,7 @@ const sendLinhasSorteada = async (linhas, parar) => {
     if(parar) return false
     let response = false
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
-
+    let premiadas
     if(bingouLinhas.length){
         if(sockets[bingouLinhas[0].telefone]){
             let cartelasPremiadas = bingouLinhas.map(linha => {
@@ -145,7 +144,8 @@ const sendLinhasSorteada = async (linhas, parar) => {
                 return linha
             })
             cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
-            
+            premiadas = cartelasPremiadas
+            //sockets[bingouLinhas[0].telefone].emit('bingo linha', cartelasPremiadas)
             sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
         }
         response = true
@@ -244,17 +244,14 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
         await updateBolasSorteadas(bolasSorteadasId, JSON.stringify(bolasSorteadas))
         
         // TODO
-        const linhas = gerarLinhas(bolasCompradas, bolasSorteadas, pararDeVerificarLinha)
-        
+        const linhas = gerarLinhas(bolasCompradas, bolasSorteadas)
+        const cartelas = gerarCartelas(bolasCompradas, bolasSorteadas)
         const bateuLinha = await sendLinhasSorteada(linhas, pararDeVerificarLinha)
-        
-        let bingou
+        const bingou = await sendCartelasSorteadas(cartelas, pararDeVerificarBingo)
 
         if(!pararDeVerificarLinha && !bateuLinha){
             sendMelhoresLinhas(linhas, bolasCompradas)
         }else{
-            const cartelas = gerarCartelas(bolasCompradas, bolasSorteadas)
-            bingou = await sendCartelasSorteadas(cartelas, pararDeVerificarBingo)
             sendMelhoresCartelas(cartelas, bolasCompradas)
         }
 
@@ -262,9 +259,9 @@ const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
             pararDeVerificarLinha = true
         }
          
+
         if(bingou || (bolasSorteadas.length == 90)){
             await resetPartida(partida_id)
-            knex('lots').update({start: 'nao'}).where({id: sala_id}).then(num=>console.log('resetando lots'))
             break
         }
         

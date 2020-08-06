@@ -16,7 +16,7 @@ const partida = async (req, res) => {
     
     const {id: membro_id, sala_id} = membro
     const sala = await getSala(sala_id)
-    console.log('comprando:', membro.first_name, "sala:", sala_id, "partida_id:", sala.partida_id)
+    console.log('comprando:', membro.first_name, "sala:", sala_id)
     const partida_id = sala.partida_id
     const bolasSorteadas = await getBolasSorteadas(partida_id)
     const fila = await getFilaBySalaAndMembro(sala_id, membro_id, partida_id)
@@ -26,7 +26,7 @@ const partida = async (req, res) => {
 
     const filas = await knex('fila_compra_series').sum('qtd as total').where({partida_id}).first()
 
-    if((filas.total + qtd) > 8000){
+    if(filas.total >= 8000){
         return res.status(400).json({err: `Quantidade de séries disponíveis ${8000 - filas.total}`})
     }
 

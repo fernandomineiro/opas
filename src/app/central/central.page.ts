@@ -9,14 +9,12 @@ import { AxiosService } from '../services/axios.service';
 })
 export class CentralPage implements OnInit {
   data: Central;
-  axios: any;
   constructor(
     public apiService: ApiService,
-    public Axios: AxiosService
+    public axios: AxiosService
   ) {
     this.data = new Central();
     this.telefone = localStorage.getItem("telefone");
-    this.axios = Axios.axios
   }
 
   nome: any;
@@ -25,18 +23,16 @@ export class CentralPage implements OnInit {
 
   async ngOnInit() {
     this.status();
-    this.atualizaSaldo()
-    await this.getData();
-  }
-  atualizaSaldo(){
-    this.axios.get(`/atualizar-saldo/${this.telefone}`)
-    .then(({data})=>{
-      this.saldo = data.saldo
-      this.nome = data.nome
+   // console.log('cu')
+    this.apiService.home(this.telefone).subscribe((response) => {
+
+      this.saldo = response.saldo;
+      this.nome = response.first_name;
       localStorage.setItem("nome", this.nome);
       localStorage.setItem("saldo", this.saldo);
-    })
-    .catch(console.log)
+    //  console.log(response);
+    });
+    await this.getData();
   }
 
   async getData() {
@@ -219,5 +215,10 @@ export class CentralPage implements OnInit {
 
     });
   }
+
+
+
+
+
 
 }

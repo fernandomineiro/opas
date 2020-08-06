@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +20,7 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     ScreenOrientation,
-    Insomnia,
+   
     StatusBar,
     HttpClientModule,
     SplashScreen,
