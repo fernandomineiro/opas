@@ -28,7 +28,6 @@ export class CentralPage implements OnInit {
     this.atualizaSaldo()
     await this.getData();
   }
-
   atualizaSaldo(){
     this.axios.get(`/atualizar-saldo/${this.telefone}`)
     .then(({data})=>{
@@ -220,10 +219,5 @@ export class CentralPage implements OnInit {
 
     });
   }
-
-
-
-
-
 
 }

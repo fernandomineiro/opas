@@ -36,7 +36,7 @@ export class Sala1Page implements OnInit {
   telefone: any;
   bolasSorteadas: any = [];
   cartelas: any = [{cartela_id: 0}];
-  socket
+  socket 
   constructor(
     public insomnia: Insomnia,
     public apiService: ApiService,
@@ -440,7 +440,7 @@ export class Sala1Page implements OnInit {
     }
     if (this.data.zssss >= 70 && this.data.zssss < 80) {
       this.data.vela[17] = this.data.zssss;
-    }
+    } 
 
     if (this.data.zsssss >= 60 && this.data.zsssss < 70) {
       this.data.vela[16] = this.data.zsssss;
