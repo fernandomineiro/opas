@@ -1,6 +1,9 @@
 const knex = require('./knex')
+knex('lots').update({start: 'nao'}).then(num=>console.log('alterando lots apra start: nao', num)).catch(console.log)
+
 const resetPartida = async (partida_id) => {
     console.log("resetando partida:", partida_id)
+    knex('lots').update({start: 'nao'}).where({partida_id}).then(num=>console.log('alterando lots apra start: nao', num)).catch(console.log)
     await knex('relatorio_partida1')
         .insert(function () {
             this.from('partida1')
