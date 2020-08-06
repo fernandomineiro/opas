@@ -28128,7 +28128,7 @@ let Sala1Page = class Sala1Page {
         cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone);
         if (cartelas.length) {
             this.data.saldo = cartelas[0].saldo;
-            //return this.bingoLinha(cartelas)
+            this.bingoLinha(cartelas);
         }
         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
             toast: true,
@@ -28159,16 +28159,6 @@ let Sala1Page = class Sala1Page {
         });
         this.cartelas.unshift(...linhas);
         this.data.saldo = linhas[0].saldo;
-        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
-            title: `Voce foi premiado por completar linha ${linhas.map(linha => linha.cartela_id).join(',')}!!!`,
-            timer: 8000,
-            icon: 'success',
-            showConfirmButton: false,
-            backdrop: false,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            allowEnterKey: false,
-        });
     }
     melhoresCartelas(cartelas) {
         this.data.tipo = 'Bingo';

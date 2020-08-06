@@ -128,7 +128,7 @@ export class Sala1Page implements OnInit {
   
     if(cartelas.length){
       this.data.saldo = cartelas[0].saldo
-      //return this.bingoLinha(cartelas)
+      this.bingoLinha(cartelas)
     }
 
     Swal.fire({
@@ -161,18 +161,7 @@ export class Sala1Page implements OnInit {
       this.cartelas.shift()
     })
     this.cartelas.unshift(...linhas)
-    
     this.data.saldo = linhas[0].saldo
-    Swal.fire({
-      title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
-      timer: 8000,
-      icon: 'success',
-      showConfirmButton: false,
-      backdrop: false,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      allowEnterKey: false,
-    })
   }
 
   melhoresCartelas(cartelas){

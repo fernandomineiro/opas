@@ -29481,7 +29481,8 @@
             });
 
             if (cartelas.length) {
-              this.data.saldo = cartelas[0].saldo; //return this.bingoLinha(cartelas)
+              this.data.saldo = cartelas[0].saldo;
+              this.bingoLinha(cartelas);
             }
 
             sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
@@ -29519,18 +29520,6 @@
             (_this$cartelas = this.cartelas).unshift.apply(_this$cartelas, _toConsumableArray(linhas));
 
             this.data.saldo = linhas[0].saldo;
-            sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
-              title: "Voce foi premiado por completar linha ".concat(linhas.map(function (linha) {
-                return linha.cartela_id;
-              }).join(','), "!!!"),
-              timer: 8000,
-              icon: 'success',
-              showConfirmButton: false,
-              backdrop: false,
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              allowEnterKey: false
-            });
           }
         }, {
           key: "melhoresCartelas",
