@@ -3,6 +3,7 @@ import { ApiService } from '../services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Student } from '../models/student';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+
 // import { mapTo, delay } from 'rxjs/operators';
 // import { Platform } from '@ionic/angular';
 // import { AppMinimize } from '@ionic-native/app-minimize';
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2'
 import _ from 'lodash'
 import * as io from 'socket.io-client'
 import config from 'src/config'
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
@@ -36,12 +38,14 @@ export class Sala1Page implements OnInit {
   cartelas: any = [{cartela_id: 0}];
   socket 
   constructor(
+    public insomnia: Insomnia,
     public apiService: ApiService,
     public router: Router,
     private screenOrientation: ScreenOrientation,
     private Axios: AxiosService,
     private route: ActivatedRoute,
     private location: Location
+    
   ) {
     this.axios = this.Axios.axios
     this.data = new Student();
@@ -95,39 +99,61 @@ export class Sala1Page implements OnInit {
       this.cartelas = [{cartela_id: 0}]
       this.data.sorteadas = 0
       this.data.bola = 'aguarde'
+      this.data.totalBolasCompradas = 0
+      this.data.minimo = null
+      this.data.maximo = null
       //this.cartelao()
   }
 
   bingou(cartelas){
-    const numersDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
+    const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
     cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
       if(cartelas.length){
         this.data.saldo = cartelas[0].saldo
-        return Swal.fire('BINGOOOOOO')
       }
-      Swal.fire(`Bingo, Cartela Nº ${numersDasCartelas}`)      
+      Swal.fire({
+        toast: true, 
+        showConfirmButton: true, 
+        timerProgressBar: false,
+        title: "Bingo nas cartelas:",
+        text: numeroDasCartelas,
+        icon: "success",
+        position: 'top-end',
+      })      
   }
 
   bateramLinha(cartelas){
-    const numersDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
+    const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
     cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
   
     if(cartelas.length){
       this.data.saldo = cartelas[0].saldo
-      return this.bingoLinha(cartelas)
+      this.bingoLinha(cartelas)
     }
-      Swal.fire({
-        title: `Você agora está concorrendo ao prêmio cartela cheia`,
-        timer: 8000,
-        text: `Cartelas sorteadas: ${numersDasCartelas}`,
-        icon: 'success',
-        showConfirmButton: false,
-        backdrop: false,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        allowEnterKey: false,
-        timerProgressBar: true
-      })
+
+    Swal.fire({
+      toast: true, 
+      timer: 8000, 
+      showConfirmButton: false, 
+      timerProgressBar: true,
+      title: "Prêmio de linha nas cartelas:",
+      text: numeroDasCartelas,
+      icon: "success",
+      position: 'top-end',
+    })
+
+      // Swal.fire({
+      //   title: `Você agora está concorrendo ao prêmio cartela cheia`,
+      //   timer: 8000,
+      //   text: `Cartelas sorteadas: ${numersDasCartelas}`,
+      //   icon: 'success',
+      //   showConfirmButton: false,
+      //   backdrop: false,
+      //   allowOutsideClick: false,
+      //   allowEscapeKey: false,
+      //   allowEnterKey: false,
+      //   timerProgressBar: true
+      // })
   }
 
   bingoLinha(linhas){
@@ -135,18 +161,7 @@ export class Sala1Page implements OnInit {
       this.cartelas.shift()
     })
     this.cartelas.unshift(...linhas)
-    
     this.data.saldo = linhas[0].saldo
-    Swal.fire({
-      title: `Voce foi premiado por completar linha ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
-      timer: 8000,
-      icon: 'success',
-      showConfirmButton: false,
-      backdrop: false,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      allowEnterKey: false,
-    })
   }
 
   melhoresCartelas(cartelas){
@@ -219,7 +234,13 @@ export class Sala1Page implements OnInit {
 
   setLandscape() {
     // set to landscape
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE)
+      .then(()=>{})
+      .catch(err=>console.log('device não suporta screenOrientation'))
+    
+    this.insomnia.keepAwake()
+      .then(()=>console.log('insomnia ativo'))
+      .catch(()=>console.log('device não suport insomnia'))
   }
 
   playAudio(bola) {
@@ -242,6 +263,7 @@ export class Sala1Page implements OnInit {
    
     this.axios.post('/comprar-series', {qtd: this.data.seriesAComprar, telefone: this.telefone})
     .then(data => {
+      this.data.seriesAComprar = null
       this.data.totalBolasCompradas = this.data.seriesAComprar * 6
       this.data.saldo = data.data.saldo
       Swal.fire({

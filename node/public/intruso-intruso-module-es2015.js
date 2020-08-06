@@ -124,6 +124,7 @@ let IntrusoPage = class IntrusoPage {
     ngOnInit() {
     }
 };
+IntrusoPage.ctorParameters = () => [];
 IntrusoPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-intruso',
