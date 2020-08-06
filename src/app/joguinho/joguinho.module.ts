@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { JoguinhoPageRoutingModule } from './joguinho-routing.module';
-
+import { HttpClientModule } from '@angular/common/http';
 import { JoguinhoPage } from './joguinho.page';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { JoguinhoPage } from './joguinho.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    JoguinhoPageRoutingModule
+    JoguinhoPageRoutingModule,
+    HttpClientModule
   ],
   declarations: [JoguinhoPage]
 })

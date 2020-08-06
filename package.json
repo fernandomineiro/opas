@@ -31,7 +31,7 @@
     "@types/jquery": "^2.0.47",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
-    "cordova-android": "8.1.0",
+    "cordova-android": "^8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-appminimize": "git+https://github.com/tomloprod/cordova-plugin-appminimize.git",
     "cordova-plugin-background-mode": "^0.7.3",

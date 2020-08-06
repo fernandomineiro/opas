@@ -47,6 +47,7 @@ const routes: Routes = [
     path: 'joguinho',
     loadChildren: () => import('./joguinho/joguinho.module').then( m => m.JoguinhoPageModule)
   },
+ 
 ];
 
 @NgModule({

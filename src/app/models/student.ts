@@ -62,6 +62,7 @@ export class Student {
     numero: any;
     papa: any;
     valores: any = [];
+    numeros: any = [];
     ee;
     soma: any;
     min: any = [];

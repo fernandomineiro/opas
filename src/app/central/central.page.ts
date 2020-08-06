@@ -23,14 +23,14 @@ export class CentralPage implements OnInit {
 
   async ngOnInit() {
     this.status();
-    console.log('cu')
+   // console.log('cu')
     this.apiService.home(this.telefone).subscribe((response) => {
 
       this.saldo = response.saldo;
       this.nome = response.first_name;
       localStorage.setItem("nome", this.nome);
       localStorage.setItem("saldo", this.saldo);
-      console.log(response);
+    //  console.log(response);
     });
     await this.getData();
   }
