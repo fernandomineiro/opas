@@ -31,9 +31,14 @@ export class LoginPage implements OnInit {
         if(response['indicou'] == '0000000000'){
           this.router.navigate(['joguinho']);
         }else{
-          localStorage.setItem("telefone", response['telefone']);
-          localStorage.setItem("indicou", response['indicou']);
-          this.router.navigate(['central']);
+          if(response['banido'] != 1){
+            localStorage.setItem("telefone", response['telefone']);
+            localStorage.setItem("indicou", response['indicou']);
+            this.router.navigate(['central']);
+          }
+          else{
+            alert('Usuario banido!');
+          }
         }
       }
       else{
