@@ -36,7 +36,7 @@ export class Sala1Page implements OnInit {
   telefone: any;
   bolasSorteadas: any = [];
   cartelas: any = [{cartela_id: 0}];
-  socket 
+  socket
   constructor(
     public insomnia: Insomnia,
     public apiService: ApiService,
@@ -102,6 +102,7 @@ export class Sala1Page implements OnInit {
       this.data.totalBolasCompradas = 0
       this.data.minimo = null
       this.data.maximo = null
+      this.data.seriesAComprar = null
       //this.cartelao()
   }
 
@@ -182,9 +183,14 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnDestroy() {
-    this.socket.emit('sair da sala', this.sala)
     this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
-    this.socket.close()
+    if(this.socket){
+      this.socket.close()
+      this.socket.emit('sair da sala', this.sala)
+    }
+    
+    // this.socket.emit('sair da sala', this.sala)
+    // this.socket.close()
   }
 
   sorteio(bola) {
@@ -244,7 +250,6 @@ export class Sala1Page implements OnInit {
   }
 
   playAudio(bola) {
-    console.log('play')
     let audio = new Audio();
     audio.src = `assets/${bola}.mp3`;
     audio.load();
@@ -263,9 +268,9 @@ export class Sala1Page implements OnInit {
    
     this.axios.post('/comprar-series', {qtd: this.data.seriesAComprar, telefone: this.telefone})
     .then(data => {
-      this.data.seriesAComprar = null
       this.data.totalBolasCompradas = this.data.seriesAComprar * 6
       this.data.saldo = data.data.saldo
+      this.data.seriesAComprar = null
       Swal.fire({
         toast: true, 
         timer:2000, 
@@ -440,7 +445,7 @@ export class Sala1Page implements OnInit {
     }
     if (this.data.zssss >= 70 && this.data.zssss < 80) {
       this.data.vela[17] = this.data.zssss;
-    } 
+    }
 
     if (this.data.zsssss >= 60 && this.data.zsssss < 70) {
       this.data.vela[16] = this.data.zsssss;

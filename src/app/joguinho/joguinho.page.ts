@@ -11,92 +11,69 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 })
 export class JoguinhoPage implements OnInit {
   data: Student;
-  
+  parar: any;
 
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
 
   bolasSorteadas: any = [];
-  
+
   constructor(
     public apiService: ApiService,
     public router: Router,
     private screenOrientation: ScreenOrientation,
   ) {
     this.data = new Student();
-    
-   }
+
+  }
 
   ngOnInit() {
     this.setLandscape()
     this.ball();
-    console.log(this.data.numeros);
   }
 
-  ball(){
+  ball() {
     this.data.numeros = new Set();
+    while (this.data.numeros.size < 90) {
 
-while( this.data.numeros.size < 90){
+      this.data.numeros.add(Math.floor(Math.random() * 90) + 1);
 
-    this.data.numeros.add(Math.floor(Math.random() * 90)+1);
-
-}
+    }
+    this.data.numeros = Array.from(this.data.numeros)
   }
 
   setLandscape() {
     // set to landscape
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE)
+      .then(() => { })
+      .catch(err => console.log('device não suporta screenOrientation'));
   }
 
-
-   sorteio(bola) {
-    //bola.sorteadas.forEach(bola => this.data.a[bola] = bola );
-
-    this.playAudio(bola)
-    this.data.bola = this.data.numero[bola];
+  timer(time) {
+    return new Promise(resolve => setTimeout(resolve, time))
   }
 
-  playAudio(bola) {
-    console.log('play')
-    let audio = new Audio();
-    audio.src = `assets/${bola}.mp3`;
-    audio.load();
-    audio.play();
-  }
-
-  start(){
-  
-    var counter = 0;
-function myTimer() {
-  
-  var timer = setTimeout( function() {
-    let l = counter++;
-    
-    console.log( l );
-   // this.sorteio(counter++)
-    if( counter <= 90 ) {
-      this.data.bola = this.data.numero[l];
-      console.log('play')
+  async start() {
+    this.parar = false
+    for (const bola of this.data.numeros) {
+      if(this.parar) break
+      this.data.bola = bola
       let audio = new Audio();
-      audio.src = `assets/${l}.mp3`;
+      audio.src = `assets/${bola}.mp3`;
       audio.load();
       audio.play();
-      myTimer();
+      
+      await this.timer(3000)
     }
-  
-  }, 2000 );
-}
- 
-myTimer();
-  
-  // this.sorteio(this.data.numeros);
   }
 
-  stop(){
-    console.log('b')
+  stop() {
+    this.parar = true
   }
 
-  restart(){
-    console.log('c')
+  restart() {
+    this.parar = true
+    this.ball()
+    this.start()
   }
 
 

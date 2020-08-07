@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
      // console.log(response);
       if(response !== null && response !== undefined){
        
-        if(response['indicou'] = '0000000000'){
+        if(response['indicou'] == '0000000000'){
           this.router.navigate(['joguinho']);
         }else{
           localStorage.setItem("telefone", response['telefone']);

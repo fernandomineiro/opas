@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Central } from '../models/central';
 import { AxiosService } from '../services/axios.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -12,7 +13,8 @@ export class CentralPage implements OnInit {
   axios: any;
   constructor(
     public apiService: ApiService,
-    public Axios: AxiosService
+    public Axios: AxiosService,
+    public router: Router
   ) {
     this.data = new Central();
     this.telefone = localStorage.getItem("telefone");
@@ -28,6 +30,7 @@ export class CentralPage implements OnInit {
     this.atualizaSaldo()
     await this.getData();
   }
+
   atualizaSaldo(){
     this.axios.get(`/atualizar-saldo/${this.telefone}`)
     .then(({data})=>{
@@ -37,6 +40,11 @@ export class CentralPage implements OnInit {
       localStorage.setItem("saldo", this.saldo);
     })
     .catch(console.log)
+  }
+  
+  irParaSala(sala_id){
+    //this.router.navigate([`../sala1/${sala_id}`])
+    window.location.href = '#/sala1/'+sala_id
   }
 
   async getData() {

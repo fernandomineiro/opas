@@ -35,9 +35,6 @@ const gegistraSala = async (req, res) => {
                 if(sala_id){
                     socket[telefone].join(sala_id)
                     socket[telefone].sala_id = sala_id
-                }else{
-                    socket[telefone].leave(salaMembro)
-                    socket[telefone].sala_id = 0
                 } 
                 clearInterval(intervall)
             }
