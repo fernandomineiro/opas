@@ -28112,7 +28112,7 @@ let Sala1Page = class Sala1Page {
         const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ');
         cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone);
         if (cartelas.length) {
-            this.data.saldo = cartelas[0].saldo;
+            this.data.saldo = cartelas[cartelas.length - 1].saldo;
         }
         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
             toast: true,
@@ -28128,7 +28128,7 @@ let Sala1Page = class Sala1Page {
         const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ');
         cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone);
         if (cartelas.length) {
-            this.data.saldo = cartelas[0].saldo;
+            this.data.saldo = cartelas[cartelas.length - 1].saldo;
             this.bingoLinha(cartelas);
         }
         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({

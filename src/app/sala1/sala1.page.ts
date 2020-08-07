@@ -110,7 +110,7 @@ export class Sala1Page implements OnInit {
     const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
     cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
       if(cartelas.length){
-        this.data.saldo = cartelas[0].saldo
+        this.data.saldo = cartelas[cartelas.length - 1].saldo
       }
       Swal.fire({
         toast: true, 
@@ -128,7 +128,7 @@ export class Sala1Page implements OnInit {
     cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
   
     if(cartelas.length){
-      this.data.saldo = cartelas[0].saldo
+      this.data.saldo = cartelas[cartelas.length - 1].saldo
       this.bingoLinha(cartelas)
     }
 

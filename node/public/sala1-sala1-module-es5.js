@@ -29456,7 +29456,7 @@
             });
 
             if (cartelas.length) {
-              this.data.saldo = cartelas[0].saldo;
+              this.data.saldo = cartelas[cartelas.length - 1].saldo;
             }
 
             sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
@@ -29482,7 +29482,7 @@
             });
 
             if (cartelas.length) {
-              this.data.saldo = cartelas[0].saldo;
+              this.data.saldo = cartelas[cartelas.length - 1].saldo;
               this.bingoLinha(cartelas);
             }
 
