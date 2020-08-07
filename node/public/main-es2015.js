@@ -500,7 +500,7 @@ const routes = [
     },
     {
         path: 'joguinho',
-        loadChildren: () => __webpack_require__.e(/*! import() | joguinho-joguinho-module */ "joguinho-joguinho-module").then(__webpack_require__.bind(null, /*! ./joguinho/joguinho.module */ "./src/app/joguinho/joguinho.module.ts")).then(m => m.JoguinhoPageModule)
+        loadChildren: () => Promise.all(/*! import() | joguinho-joguinho-module */[__webpack_require__.e("common"), __webpack_require__.e("joguinho-joguinho-module")]).then(__webpack_require__.bind(null, /*! ./joguinho/joguinho.module */ "./src/app/joguinho/joguinho.module.ts")).then(m => m.JoguinhoPageModule)
     },
 ];
 let AppRoutingModule = class AppRoutingModule {

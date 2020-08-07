@@ -470,6 +470,7 @@ class Student {
         this.timeLeft = 60;
         this.ii = 0;
         this.valores = [];
+        this.numeros = [];
         this.min = [];
         this.mina = [];
         this.minaa = [];

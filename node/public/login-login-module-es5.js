@@ -250,13 +250,16 @@
             console.log(this.data.telefone); // this.router.navigate(['central']);
 
             this.apiService.login(this.data.telefone, this.data.password).subscribe(function (response) {
-              console.log(response);
-
+              // console.log(response);
               if (response !== null && response !== undefined) {
-                localStorage.setItem("telefone", response['telefone']);
-                localStorage.setItem("indicou", response['indicou']);
+                if (response['indicou'] == '0000000000') {
+                  _this.router.navigate(['joguinho']);
+                } else {
+                  localStorage.setItem("telefone", response['telefone']);
+                  localStorage.setItem("indicou", response['indicou']);
 
-                _this.router.navigate(['central']);
+                  _this.router.navigate(['central']);
+                }
               } else {
                 alert('Usuario ou senha incorretos');
 

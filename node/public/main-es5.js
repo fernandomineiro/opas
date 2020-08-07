@@ -315,9 +315,9 @@
       }, {
         path: 'joguinho',
         loadChildren: function loadChildren() {
-          return __webpack_require__.e(
+          return Promise.all(
           /*! import() | joguinho-joguinho-module */
-          "joguinho-joguinho-module").then(__webpack_require__.bind(null,
+          [__webpack_require__.e("common"), __webpack_require__.e("joguinho-joguinho-module")]).then(__webpack_require__.bind(null,
           /*! ./joguinho/joguinho.module */
           "./src/app/joguinho/joguinho.module.ts")).then(function (m) {
             return m.JoguinhoPageModule;

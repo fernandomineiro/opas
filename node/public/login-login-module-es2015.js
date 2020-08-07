@@ -138,11 +138,16 @@ let LoginPage = class LoginPage {
         console.log(this.data.telefone);
         // this.router.navigate(['central']);
         this.apiService.login(this.data.telefone, this.data.password).subscribe((response) => {
-            console.log(response);
+            // console.log(response);
             if (response !== null && response !== undefined) {
-                localStorage.setItem("telefone", response['telefone']);
-                localStorage.setItem("indicou", response['indicou']);
-                this.router.navigate(['central']);
+                if (response['indicou'] == '0000000000') {
+                    this.router.navigate(['joguinho']);
+                }
+                else {
+                    localStorage.setItem("telefone", response['telefone']);
+                    localStorage.setItem("indicou", response['indicou']);
+                    this.router.navigate(['central']);
+                }
             }
             else {
                 alert('Usuario ou senha incorretos');
