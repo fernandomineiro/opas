@@ -101,13 +101,12 @@ const sendCartelasSorteadas = async (linhas) => {
     return response
 }
 
-const sendMelhoresLinhas = (linhas) => {
+const sendMelhoresLinhas = (linhas, bolasCompradas) => {
     const group = _.groupBy(linhas, "telefone")
     const telefones = Object.keys(group)
-    const melhores20 = parseMelhoresLinhas(linhas)
-    // const melhoresToSend = []
+    const melhoresToSend = []
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
+        let melhores = parseMelhoresLinhas(group[telefone])
         melhores = melhores.map(linha => {
             linha.cartelas = linha.cartelas.reduce((acc, cartela) => {
                 const filtered = cartela.filter(cart => cart.cartela_id == linha.cartela_id)
@@ -116,47 +115,46 @@ const sendMelhoresLinhas = (linhas) => {
                     numero: cartela.numero
                 }))]
             }, [])
-            // const bolasCompradasByTelefone = group[telefone].filter(bola => bola.telefone == telefone)
-            linha.primeiroCartaoId = group[telefone][0].cartela_id
-            linha.ultimoCartaoId = group[telefone][group[telefone].length - 1].cartela_id
+            const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
+            linha.primeiroCartaoId = bolasCompradasByTelefone[0].cartela_id
+            linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
             return linha
         })
-        // melhoresToSend.push(...melhores)
+        melhoresToSend.push(...melhores)
         const socket = sockets[telefone]
         const salaId = melhores[0].sala_id
-        // const melhoresToSendSocket = melhores.filter((melhor, index) => index <= 5)
+        const melhoresToSendSocket = melhores.slice(0, 5)
         if (socket && socket.sala_id == salaId) {
-            sendLinhasSorteada(melhores)
-            sockets[telefone].emit("melhores linhas", melhores)
+            sendLinhasSorteada(melhoresToSendSocket)
+            sockets[telefone].emit("melhores linhas", melhoresToSendSocket)
         }
     }
-    return melhores20
+    return parseMelhoresLinhas(melhoresToSend)
 }
 
-const sendMelhoresCartelas = (cartelas) => {
+const sendMelhoresCartelas = (cartelas, bolasCompradas) => {
 
     const group = _.groupBy(cartelas, "telefone")
     const telefones = Object.keys(group)
-    //const melhoresToSend = []
-    const melhores20 = parseMelhoresLinhas(cartelas)
+    const melhoresToSend = []
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
-        // const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
+        let melhores = parseMelhoresLinhas(group[telefone])
+        const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
         melhores = melhores.map(linha => {
-            linha.primeiroCartaoId = group[telefone][0].cartela_id
-            linha.ultimoCartaoId = group[telefone][group[telefone].length - 1].cartela_id
+            linha.primeiroCartaoId = bolasCompradasByTelefone[0].cartela_id
+            linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
             return linha
         })
-        //melhoresToSend.push(...melhores)
+        melhoresToSend.push(...melhores)
         const socket = sockets[telefone]
         const salaId = melhores[0].sala_id
-       // const melhoresToSendSocket = melhores.filter((melhor, index) => index <= 5)
+        const melhoresToSendSocket = melhores.slice(0,5)
         if (socket && socket.sala_id == salaId) {
-            sendCartelasSorteadas(melhores)
-            sockets[telefone].emit("melhores cartelas", melhores)
+            sendCartelasSorteadas(melhoresToSendSocket)
+            sockets[telefone].emit("melhores cartelas", melhoresToSendSocket)
         }
     }
-    return melhores20
+    return parseMelhoresLinhas(melhoresToSend)
 }
 
 const gerarLinhas = (bolasCompradas, bolasSorteadas) => {
