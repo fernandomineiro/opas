@@ -104,9 +104,9 @@ const sendCartelasSorteadas = async (linhas) => {
 const sendMelhoresLinhas = (linhas, bolasCompradas) => {
     const group = _.groupBy(linhas, "telefone")
     const telefones = Object.keys(group)
-    const melhoresToSend = []
+  
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone])
+        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
         melhores = melhores.map(linha => {
             linha.cartelas = linha.cartelas.reduce((acc, cartela) => {
                 const filtered = cartela.filter(cart => cart.cartela_id == linha.cartela_id)
@@ -120,41 +120,40 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
             linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
             return linha
         })
-        melhoresToSend.push(...melhores)
+       
         const socket = sockets[telefone]
         const salaId = melhores[0].sala_id
-        const melhoresToSendSocket = melhores.slice(0, 5)
         if (socket && socket.sala_id == salaId) {
-            sendLinhasSorteada(melhoresToSendSocket)
-            sockets[telefone].emit("melhores linhas", melhoresToSendSocket)
+            sendLinhasSorteada(melhores)
+            sockets[telefone].emit("melhores linhas", melhores)
         }
     }
-    return parseMelhoresLinhas(melhoresToSend)
+    return parseMelhoresLinhas(linhas)
 }
 
 const sendMelhoresCartelas = (cartelas, bolasCompradas) => {
 
     const group = _.groupBy(cartelas, "telefone")
     const telefones = Object.keys(group)
-    const melhoresToSend = []
+
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone])
+        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
         const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
         melhores = melhores.map(linha => {
             linha.primeiroCartaoId = bolasCompradasByTelefone[0].cartela_id
             linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
             return linha
         })
-        melhoresToSend.push(...melhores)
+      
         const socket = sockets[telefone]
         const salaId = melhores[0].sala_id
-        const melhoresToSendSocket = melhores.slice(0,5)
+        
         if (socket && socket.sala_id == salaId) {
-            sendCartelasSorteadas(melhoresToSendSocket)
-            sockets[telefone].emit("melhores cartelas", melhoresToSendSocket)
+            sendCartelasSorteadas(melhores)
+            sockets[telefone].emit("melhores cartelas", melhores)
         }
     }
-    return parseMelhoresLinhas(melhoresToSend)
+    return parseMelhoresLinhas(cartelas)
 }
 
 const gerarLinhas = (bolasCompradas, bolasSorteadas) => {
@@ -188,7 +187,6 @@ const gerarLinhas = (bolasCompradas, bolasSorteadas) => {
 
 const gerarCartelas = (bolasCompradas, bolasSorteadas) => {
     bolasCompradas = bolasCompradas.map(bola => {
-        bolasSorteadas.includes(bola.numero)
         bola.checked = bolasSorteadas.includes(bola.numero)
         return bola
     })

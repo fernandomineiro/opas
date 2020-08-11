@@ -62,7 +62,7 @@ const list = async (req, res) => {
     
     const bolasCompradas = await getCartelasByMembros(partida_id)
 
-    sendBola(sala_id, bola, bolasSorteadas.bolas, bolasCompradas.length)
+    sendBola(sala_id, bola, bolasSorteadas.bolas, bolasCompradas.length / 15)
 
     // const sorteio = {
     //   linha: () => sendMelhoresLinhas(gerarLinhas(bolasCompradas, bolasSorteadas.bolas), bolasCompradas),
