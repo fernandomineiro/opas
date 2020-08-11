@@ -9,7 +9,7 @@ const getBolasSorteadas = require('../db/get-bolas-sorteadas-by-id')
 const knex = require('../db/knex')
 
 
-const parseMelhoresLinhas = linhas => _.sortBy(linhas, 'totalSorteada').reverse().slice(0, 20)
+const parseMelhoresLinhas = linhas => _.sortBy(linhas, 'totalSorteada').slice(0, 20).reverse()
 
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
 
@@ -101,13 +101,13 @@ const sendCartelasSorteadas = async (linhas) => {
     return response
 }
 
-const sendMelhoresLinhas = (linhas, bolasCompradas) => {
+const sendMelhoresLinhas = (linhas) => {
     const group = _.groupBy(linhas, "telefone")
     const telefones = Object.keys(group)
     const melhores20 = parseMelhoresLinhas(linhas)
     // const melhoresToSend = []
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone]).filter((melhor, index) => index <= 5)
+        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
         melhores = melhores.map(linha => {
             linha.cartelas = linha.cartelas.reduce((acc, cartela) => {
                 const filtered = cartela.filter(cart => cart.cartela_id == linha.cartela_id)
@@ -116,9 +116,9 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
                     numero: cartela.numero
                 }))]
             }, [])
-            const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
-            linha.primeiroCartaoId = bolasCompradasByTelefone[0].cartela_id
-            linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
+            // const bolasCompradasByTelefone = group[telefone].filter(bola => bola.telefone == telefone)
+            linha.primeiroCartaoId = group[telefone][0].cartela_id
+            linha.ultimoCartaoId = group[telefone][group[telefone].length - 1].cartela_id
             return linha
         })
         // melhoresToSend.push(...melhores)
@@ -133,18 +133,18 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
     return melhores20
 }
 
-const sendMelhoresCartelas = (cartelas, bolasCompradas) => {
+const sendMelhoresCartelas = (cartelas) => {
 
     const group = _.groupBy(cartelas, "telefone")
     const telefones = Object.keys(group)
     //const melhoresToSend = []
     const melhores20 = parseMelhoresLinhas(cartelas)
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone]).filter((melhor, index)=>index <= 5)
-        const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
+        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
+        // const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
         melhores = melhores.map(linha => {
-            linha.primeiroCartaoId = bolasCompradasByTelefone[0].cartela_id
-            linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
+            linha.primeiroCartaoId = group[telefone][0].cartela_id
+            linha.ultimoCartaoId = group[telefone][group[telefone].length - 1].cartela_id
             return linha
         })
         //melhoresToSend.push(...melhores)
