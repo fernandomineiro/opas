@@ -9,7 +9,7 @@ const getBolasSorteadas = require('../db/get-bolas-sorteadas-by-id')
 const knex = require('../db/knex')
 
 
-const parseMelhoresLinhas = linhas => _.sortBy(linhas, 'totalSorteada').slice(0, 20).reverse()
+const parseMelhoresLinhas = linhas => _.sortBy(linhas, 'totalSorteada').reverse().slice(0, 20)
 
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
 
