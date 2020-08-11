@@ -115,6 +115,7 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
                     numero: cartela.numero
                 }))]
             }, [])
+            linha.linha = linha.linha.map(l=>({cartela_id: l.cartela_id, numero: l.numero}))
             const bolasCompradasByTelefone = bolasCompradas.filter(bola => bola.telefone == telefone)
             linha.primeiroCartaoId = bolasCompradasByTelefone[0].cartela_id
             linha.ultimoCartaoId = bolasCompradasByTelefone[bolasCompradasByTelefone.length - 1].cartela_id
@@ -128,7 +129,12 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
             sockets[telefone].emit("melhores linhas", melhores)
         }
     }
-    return parseMelhoresLinhas(linhas)
+    const parseRetorno = parseMelhoresLinhas(linhas)
+        .map(cartelas => {
+            cartelas.cartelas = cartelas.cartelas.filter(cartela => cartela.cartela_id == cartelas.cartela_id)
+            return cartelas
+        })
+    return parseRetorno
 }
 
 const sendMelhoresCartelas = (cartelas, bolasCompradas) => {
@@ -169,7 +175,7 @@ const gerarLinhas = (bolasCompradas, bolasSorteadas) => {
     return linhas.reduce((acc, linha) => {
         const bolasSorteadasNaLinha = linha.filter(bola => bola.checked)
         const bolasFaltantesNaLinha = linha.filter(bola => !bola.checked)
-
+      
         acc.push({
             cartela_id: linha[0].cartela_id,
             telefone: linha[0].telefone,

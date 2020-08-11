@@ -24,7 +24,7 @@ const sendBola = (sala_id, bola, bolasSorteadas, totalCompradas) => {
   }
 }
 
-const list = async (req, res) => {
+const sortear = async (req, res) => {
   try {
     
     const bola = parseInt(req.body.bola)
@@ -77,4 +77,4 @@ const list = async (req, res) => {
 
 }
 
-module.exports = list
+module.exports = sortear
