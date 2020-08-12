@@ -12,6 +12,7 @@ const Globals = require('../../../globals')
 const melhoresCartelas = require('../../../helpers/melhores-cartelas')
 const _ = require('lodash')
 const knex = require('../../../db/knex')
+const resetPartida = require('../../../db/reset-partida')
 const sedAllRom = (sala_id, emit, message) => {
   if(sockets.io){
     sockets.io.in(sala_id).emit(emit, message)
@@ -20,6 +21,10 @@ const sedAllRom = (sala_id, emit, message) => {
 
 const comprarCartelasDaFila = async (sala_id, partida_id) => {
   const filaDeCompras = await getFilaBySalaId(sala_id)
+
+  if(!filaDeCompras.length){
+   return resetPartida(partida_id)
+  }
   
   let total = 0
   for(const fila of filaDeCompras){

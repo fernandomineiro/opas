@@ -61,6 +61,10 @@ const sortear = async (req, res) => {
     }
     
     const bolasCompradas = await getCartelasByMembros(partida_id)
+    if(!bolasCompradas.length){
+      res.status(400).json({err: 'partida não iniciada'})
+      return resetPartida(partida_id)
+    }
 
     sendBola(sala_id, bola, bolasSorteadas.bolas, bolasCompradas.length / 15)
 
