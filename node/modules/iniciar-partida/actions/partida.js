@@ -16,7 +16,6 @@ const getBolasSorteadas = require('../../../db/get-bolas-sorteadas-by-id')
 const getMembroByTelefone = require('../../../db/get-membro-by-telefone')
 const knex = require('../../../db/knex')
 const resetPartida = require('../../../db/reset-partida')
-const Globals = require('../../../globals')
 
 const reset = (partidas) => partidas.forEach(async partida => {
     await resetPartida(partida.id)
@@ -24,8 +23,6 @@ const reset = (partidas) => partidas.forEach(async partida => {
   knex('partida1').select('*').then(reset)
 
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
-
-const setGlobalsSeguntos = segundo => Object.keys(Globals).forEach(key=>Globals[key] = segundo)
 
 const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
     
@@ -231,9 +228,7 @@ const sendBola = (sala_id, bola, bolasSorteadas, totalCompradas) => {
 
 const sortearBolas = async (sala_id, bolasSorteadasId, partida_id) => {
     const bolas = getBolas()
-    setGlobalsSeguntos(95)
     await timer(config.tempoDeInicio)
-    setGlobalsSeguntos(0)
     const totalCompradas = await comprarCartelasDaFila(sala_id, partida_id)
     await removeFila(sala_id)
     const bolasCompradas = await getCartelasByMembros(partida_id)
