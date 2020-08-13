@@ -672,7 +672,7 @@
     /***/
     function _(module, exports, __webpack_require__) {
       module.exports = __webpack_require__(
-      /*! C:\Users\Magno\Documents\opas\src\main.ts */
+      /*! C:\projects\opas\src\main.ts */
       "./src/main.ts");
       /***/
     }

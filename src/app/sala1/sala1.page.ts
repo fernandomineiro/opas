@@ -183,11 +183,13 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnDestroy() {
-    this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
+    await this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
     if(this.socket){
       this.socket.close()
       this.socket.emit('sair da sala', this.sala)
     }
+
+    setTimeout(()=>window.location.reload(), 500)
     
     // this.socket.emit('sair da sala', this.sala)
     // this.socket.close()

@@ -526,11 +526,11 @@
     /***/
     function _(module, exports, __webpack_require__) {
       __webpack_require__(
-      /*! C:\Users\Magno\Documents\opas\src\theme\variables.scss */
+      /*! C:\projects\opas\src\theme\variables.scss */
       "./src/theme/variables.scss");
 
       module.exports = __webpack_require__(
-      /*! C:\Users\Magno\Documents\opas\src\global.scss */
+      /*! C:\projects\opas\src\global.scss */
       "./src/global.scss");
       /***/
     }
