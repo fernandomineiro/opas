@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; 
 @NgModule({
   imports: [
     CommonModule,

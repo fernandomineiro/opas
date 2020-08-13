@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Central } from '../models/central';
-import { SocketService } from '../services/socket.service';
-
+import { AxiosService } from '../services/axios.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -10,12 +10,15 @@ import { SocketService } from '../services/socket.service';
 })
 export class CentralPage implements OnInit {
   data: Central;
+  axios: any;
   constructor(
     public apiService: ApiService,
-    public socket: SocketService
+    public Axios: AxiosService,
+    public router: Router
   ) {
     this.data = new Central();
-    this.telefone = sessionStorage.getItem("telefone");
+    this.telefone = localStorage.getItem("telefone");
+    this.axios = Axios.axios
   }
 
   nome: any;
@@ -23,18 +26,25 @@ export class CentralPage implements OnInit {
   telefone: any;
 
   async ngOnInit() {
-    this.socket.connect(this.telefone)
     this.status();
-    
-    this.apiService.home(this.telefone).subscribe((response) => {
-
-      this.saldo = response.saldo;
-      this.nome = response.first_name;
-      sessionStorage.setItem("nome", this.nome);
-      sessionStorage.setItem("saldo", this.saldo);
-      console.log(response);
-    });
+    this.atualizaSaldo()
     await this.getData();
+  }
+
+  atualizaSaldo(){
+    this.axios.get(`/atualizar-saldo/${this.telefone}`)
+    .then(({data})=>{
+      this.saldo = data.saldo
+      this.nome = data.nome
+      localStorage.setItem("nome", this.nome);
+      localStorage.setItem("saldo", this.saldo);
+    })
+    .catch(console.log)
+  }
+  
+  irParaSala(sala_id){
+    //this.router.navigate([`../sala1/${sala_id}`])
+    window.location.href = '#/sala1/'+sala_id
   }
 
   async getData() {
@@ -60,71 +70,69 @@ export class CentralPage implements OnInit {
       this.data.descricao9 = response[8]['description'];
       this.data.descricao10 = response[9]['description'];
       this.data.status1 = response[0]['status'];
+      console.log()  
+
       if (this.data.status1 == '1') {
-        this.data.status1 = "Aberto";
+        this.data.status1 = "Aberta";
       } else {
-        this.data.status1 = "";
+        this.data.status1 = "Fechada";
       }
 
       this.data.status2 = response[1]['status'];
       if (this.data.status2 == '1') {
-        this.data.status2 = "Aberto";
+        this.data.status2 = "Aberta";
       } else {
-        this.data.status2 = "";
+        this.data.status2 = "Fechada";
       }
       this.data.status3 = response[2]['status'];
       if (this.data.status3 == '1') {
-        this.data.status3 = "Aberto";
+        this.data.status3 = "Aberta";
       } else {
-        this.data.status3 = "";
+        this.data.status3 = "Fechada";
       }
       this.data.status4 = response[3]['status'];
       if (this.data.status4 == '1') {
-        this.data.status4 = "Aberto";
+        this.data.status4 = "Aberta";
       } else {
-        this.data.status4 = "";
+        this.data.status4 = "Fechada";
       }
       this.data.status5 = response[4]['status'];
       if (this.data.status5 == '1') {
-        this.data.status5 = "Aberto";
+        this.data.status5 = "Aberta";
       } else {
-        this.data.status5 = "";
+        this.data.status5 = "Fechada";
       }
       this.data.status6 = response[5]['status'];
       if (this.data.status6 == '1') {
-        this.data.status6 = "Aberto";
+        this.data.status6 = "Aberta";
       } else {
-        this.data.status6 = "";
+        this.data.status6 = "Fechada";
       }
       this.data.status7 = response[6]['status'];
       if (this.data.status7 == '1') {
-        this.data.status7 = "Aberto";
+        this.data.status7 = "Aberta";
       } else {
-        this.data.status7 = "";
+        this.data.status7 = "Fechada";
       }
       this.data.status8 = response[7]['status'];
       if (this.data.status8 == '1') {
-        this.data.status8 = "Aberto";
+        this.data.status8 = "Aberta";
       } else {
-        this.data.status8 = "";
+        this.data.status8 = "Fechada";
       }
       this.data.status9 = response[8]['status'];
       if (this.data.status9 == '1') {
-        this.data.status9 = "Aberto";
+        this.data.status9 = "Aberta";
       } else {
-        this.data.status9 = "";
+        this.data.status9 = "Fechada";
       }
       this.data.status10 = response[9]['status'];
       if (this.data.status10 == '1') {
-        this.data.status10 = "Aberto";
+        this.data.status10 = "Aberta";
       } else {
-        this.data.status10 = "";
+        this.data.status10 = "Fechada";
       }
-
-
-
-
-      console.log(response);
+      
     });
   }
 
@@ -154,74 +162,70 @@ export class CentralPage implements OnInit {
       if (this.data.status1 == '1') {
         this.data.status1 = "Aberto";
       } else {
-        this.data.status1 = "";
+        this.data.status1 = "Fechada";
       }
 
       this.data.status2 = response[1]['status'];
       if (this.data.status2 == '1') {
         this.data.status2 = "Aberto";
       } else {
-        this.data.status2 = "";
+        this.data.status2 = "Fechada";
       }
+
       this.data.status3 = response[2]['status'];
       if (this.data.status3 == '1') {
         this.data.status3 = "Aberto";
       } else {
-        this.data.status3 = "";
+        this.data.status3 = "Fechada";
       }
+
       this.data.status4 = response[3]['status'];
       if (this.data.status4 == '1') {
         this.data.status4 = "Aberto";
       } else {
-        this.data.status4 = "";
+        this.data.status4 = "Fechada";
       }
+
       this.data.status5 = response[4]['status'];
       if (this.data.status5 == '1') {
         this.data.status5 = "Aberto";
       } else {
-        this.data.status5 = "";
+        this.data.status5 = "Fechada";
       }
+
       this.data.status6 = response[5]['status'];
       if (this.data.status6 == '1') {
         this.data.status6 = "Aberto";
       } else {
-        this.data.status6 = "";
+        this.data.status6 = "Fechada";
       }
+
       this.data.status7 = response[6]['status'];
       if (this.data.status7 == '1') {
         this.data.status7 = "Aberto";
       } else {
-        this.data.status7 = "";
+        this.data.status7 = "Fechada";
       }
       this.data.status8 = response[7]['status'];
       if (this.data.status8 == '1') {
         this.data.status8 = "Aberto";
       } else {
-        this.data.status8 = "";
+        this.data.status8 = "Fechada";
       }
       this.data.status9 = response[8]['status'];
       if (this.data.status9 == '1') {
         this.data.status9 = "Aberto";
       } else {
-        this.data.status9 = "";
+        this.data.status9 = "Fechada";
       }
       this.data.status10 = response[9]['status'];
       if (this.data.status10 == '1') {
-        this.data.status10 = "Aberto";
+        this.data.status10 = "Aberta";
       } else {
-        this.data.status10 = "";
+        this.data.status10 = "Fechada";
       }
 
-
-
-
-      console.log(response);
     });
   }
-
-
-
-
-
 
 }

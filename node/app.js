@@ -7,7 +7,8 @@ const helmet = require('helmet')
 const cors = require('cors')
 const loadModules = require('./helpers/loadModules')
 const loadMiddleware = require('./helpers/loadMiddlewares')
-
+const knex = require('./db/knex')
+knex('membro').update({sala_id: 0, partida_id: null})
 var app = express()
 app.use(cors())
 // view engine setup

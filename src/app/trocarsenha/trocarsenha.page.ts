@@ -20,7 +20,7 @@ export class TrocarsenhaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.telefone = sessionStorage.getItem("telefone"); 
+    this.telefone = localStorage.getItem("telefone"); 
     console.log(this.telefone);
   }
 

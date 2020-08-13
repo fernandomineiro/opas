@@ -34,6 +34,7 @@ export class RegistroPage implements OnInit {
       if(g == 'sim'){
         if(this.data.password == this.data.repita){
           this.apiService.registro(this.data.nome,this.data.sobre,this.data.telefone,this.data.password,this.data.indicou).subscribe((response) => {
+            console.log(response);
             if(response != ""){
               this.router.navigate(['login']);
             }

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/www"
+    "dev": "NODE_ENV=DEV nodemon ./bin/www",
+    "prod": "NODE_ENV=PROD pm2 start ./bin/www"
   },
   "dependencies": {
     "axios": "^0.19.2",

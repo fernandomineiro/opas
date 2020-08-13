@@ -3,15 +3,19 @@ import { ApiService } from '../services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Student } from '../models/student';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { mapTo, delay } from 'rxjs/operators';
-import { Platform } from '@ionic/angular';
-import { AppMinimize } from '@ionic-native/app-minimize';
+
+// import { mapTo, delay } from 'rxjs/operators';
+// import { Platform } from '@ionic/angular';
+// import { AppMinimize } from '@ionic-native/app-minimize';
 import { timer } from 'rxjs';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
+// import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { AxiosService } from '../services/axios.service';
-import { SocketService } from '../services/socket.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2'
+import _ from 'lodash'
+import * as io from 'socket.io-client'
+import config from 'src/config'
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 @Component({
   selector: 'app-sala1',
   templateUrl: './sala1.page.html',
@@ -28,151 +32,221 @@ export class Sala1Page implements OnInit {
   saida: any;
   sala: number;
   axios: any;
-  contagem: any = 95;
-  partidaIniciada: boolean = false;
+  contagem: any;
   telefone: any;
   bolasSorteadas: any = [];
-  cartelas: any = [];
-  ganhou: boolean = false;
+  cartelas: any = [{cartela_id: 0}];
+  socket
   constructor(
+    public insomnia: Insomnia,
     public apiService: ApiService,
     public router: Router,
     private screenOrientation: ScreenOrientation,
     private Axios: AxiosService,
     private route: ActivatedRoute,
-    private socket: SocketService,
     private location: Location
+    
   ) {
     this.axios = this.Axios.axios
     this.data = new Student();
-    this.telefone = sessionStorage.getItem('telefone')
-    this.data.nome = sessionStorage.getItem('nome')
+    this.telefone = localStorage.getItem('telefone')
+    this.data.nome = localStorage.getItem('nome')
     this.route.params.subscribe(params => this.sala = params.sala)
   }
 
   async ngOnInit() {
-    this.entrarNaSala()
-    const socket: any = await this.socket.connect(this.telefone)
-    this.data.bola = 'aguarde'
-    socket.on('iniciar partida', ()=>!this.partidaIniciada ? this.iniciarPartida() : null)
-    socket.on('bola sorteada', bola => this.sorteio(bola))
-    socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
-    socket.on('bingo linha', linha => this.bingoLinha(linha))
-    socket.on('bateram linha', ()=>this.bateramLinha())
-    socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
-    socket.on('voce ganhou', cartela => {
-      Swal.fire('BINGOOOOOO')
-    })
+    // setTimeout(()=>this.location.back(), 2000)
     
-    //TODO
-    this.data.botao = true
+    // setTimeout(()=>{this.router.navigate(['/sala1/1']);}, 10000)
+    
+    this.setLandscape()
+    await this.entrarNaSala()    
+    this.data.tipo = 'Linha'
+    const socket = io(config.baseURL)
+    socket.on('connect', ()=>{
+      this.socket = socket
+      socket.emit("register", `${this.telefone},${this.sala}` )
+      socket.on('iniciar partida', ()=>this.iniciarPartida())
+      socket.on('bola sorteada', bola => this.sorteio(bola))
+      socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
+      //socket.on('bingo linha', linha => this.bingoLinha(linha))
+      socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
+      socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
+      socket.on('saldo', saldo => this.atualizarSaldo(saldo))
+      socket.on('contagem', segundos => this.contagemRegreciva(segundos))
+      // socket.on('voce ganhou', cartela => {
+      //   this.cartelas = cartela
+      //   Swal.fire('BINGOOOOOO')
+      //   this.data.saldo = cartela[0].saldo
+      //   //setTimeout(()=>window.document.location.reload(true), 10000)
+      // })
+      socket.on('bingou', cartelas => this.bingou(cartelas))
+    })
   }
 
-  bateramLinha(){
-    if(!this.ganhou){
+  contagemRegreciva(segundos){
+    this.contagem =segundos
+  }
+
+  atualizarSaldo(saldo){
+    this.data.saldo = saldo
+  }
+
+  reset(){
+    console.log('resetando')
+      this.data.a = []
+      this.data.vela = []
+      this.cartelas = [{cartela_id: 0}]
+      this.data.sorteadas = 0
+      this.data.bola = 'aguarde'
+      this.data.totalBolasCompradas = 0
+      this.data.minimo = null
+      this.data.maximo = null
+      this.data.seriesAComprar = null
+      //this.cartelao()
+  }
+
+  bingou(cartelas){
+    const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
+    cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
+      if(cartelas.length){
+        this.data.saldo = cartelas[cartelas.length - 1].saldo
+      }
       Swal.fire({
-        title: `Você agora está concorrendo ao prêmio cartela cheia`,
-        timer: 8000,
-        text: 'Alguém já ganhou o primeior prêmio mas você continua concorrendo ao maior preio de cartela cheia',
-        icon: 'error',
-        showConfirmButton: false,
-      })
+        toast: true, 
+        showConfirmButton: true, 
+        timerProgressBar: false,
+        title: "Bingo nas cartelas:",
+        text: numeroDasCartelas,
+        icon: "success",
+        position: 'top-end',
+      })      
+  }
+
+  bateramLinha(cartelas){
+    const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
+    cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
+  
+    if(cartelas.length){
+      this.data.saldo = cartelas[cartelas.length - 1].saldo
+      this.bingoLinha(cartelas)
     }
+
+    Swal.fire({
+      toast: true, 
+      timer: 8000, 
+      showConfirmButton: false, 
+      timerProgressBar: true,
+      title: "Prêmio de linha nas cartelas:",
+      text: numeroDasCartelas,
+      icon: "success",
+      position: 'top-end',
+    })
+
+      // Swal.fire({
+      //   title: `Você agora está concorrendo ao prêmio cartela cheia`,
+      //   timer: 8000,
+      //   text: `Cartelas sorteadas: ${numersDasCartelas}`,
+      //   icon: 'success',
+      //   showConfirmButton: false,
+      //   backdrop: false,
+      //   allowOutsideClick: false,
+      //   allowEscapeKey: false,
+      //   allowEnterKey: false,
+      //   timerProgressBar: true
+      // })
   }
 
   bingoLinha(linhas){
-    this.ganhou = true
-    Swal.fire({
-      title: `Bingooooo voce foi premiado por completar uma linha(s) ${linhas.map(linha=>linha.cartela_id).join(',')}!!!`,
-      timer: 8000,
-      html:'seu prêmio <img style="width: 20px; height: 20px" src="assets/a.jpeg"> 500',
-      icon: 'success',
-      showConfirmButton: false,
+    linhas.forEach(() => {
+      this.cartelas.shift()
     })
+    this.cartelas.unshift(...linhas)
+    this.data.saldo = linhas[0].saldo
   }
 
   melhoresCartelas(cartelas){
+    this.data.tipo = 'Bingo'
+    this.data.cartelas = cartelas[0].linha
     this.cartelas = cartelas
-    this.data.mina[0] = cartelas[0].cartela_id
-    this.data.min[0] = cartelas[0].faltam
-    this.data.mina[1] = cartelas[1].cartela_id
-    this.data.min[1] = cartelas[1].faltam
-    this.data.mina[2] = cartelas[2].cartela_id
-    this.data.min[2] = cartelas[2].faltam
-    this.data.mina[3] = cartelas[3].cartela_id
-    this.data.min[3] = cartelas[3].faltam
-    this.data.mina[4] = cartelas[4].cartela_id
-    this.data.min[4] = cartelas[4].faltam
-
+    this.data.minimo = cartelas[0].primeiroCartaoId
+    this.data.maximo = cartelas[0].ultimoCartaoId
+    this.cartelao()
   }
 
   melhoresLinhas(linhas){
+    this.data.cartelas = linhas[0].cartelas
     this.cartelas = linhas
-    this.data.mina[0] = linhas[0].cartela_id
-    this.data.min[0] = linhas[0].faltam
-    this.data.mina[1] = linhas[1].cartela_id
-    this.data.min[1] = linhas[1].faltam
-    this.data.mina[2] = linhas[2].cartela_id
-    this.data.min[2] = linhas[2].faltam
-    this.data.mina[3] = linhas[3].cartela_id
-    this.data.min[3] = linhas[3].faltam
-    this.data.mina[4] = linhas[4].cartela_id
-    this.data.min[4] = linhas[4].faltam
+    this.data.minimo = linhas[0].primeiroCartaoId
+    this.data.maximo = linhas[0].ultimoCartaoId
+    this.cartelao()
   }
 
   async ngOnDestroy() {
     this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone })
+    if(this.socket){
+      this.socket.close()
+      this.socket.emit('sair da sala', this.sala)
+    }
+    
+    // this.socket.emit('sair da sala', this.sala)
+    // this.socket.close()
   }
 
   sorteio(bola) {
     bola.sorteadas.forEach(bola => this.data.a[bola] = bola );
-    
+    this.data.quant = bola.totalCompradas
     this.data.sorteadas = bola.sorteadas.length
+    this.bolasSorteadas = bola.sorteadas
     this.playAudio(bola.bola)
     this.data.bola = bola.bola
   }
 
-  entrarNaSala() {
-    return this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
-      .catch(_ => this.location.back())
+  async entrarNaSala() {
+    const {data} = await this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
+      .catch(err => {
+        Swal.fire(`falha ao entrar na sala ${JSON.stringify(err)}`)
+        this.location.back()
+      })
+      this.data.saldo = data.saldo
+      this.data.totalBolasCompradas = data.totalBolasCompradasByMembro
+      this.data.quant = data.totalBolasCompradas
+      this.data.price = data.price
+      this.data.premioBingo = data.bingo
+      this.data.premioLinha = data.linha
+      this.data.acumuladoAte = data.acumulado_ate
+      this.data.minmimoAComprar = data.min_qtd
+      this.data.acumulado = data.acumulado
   }
 
   iniciarPartida() {
-    this.partidaIniciada = true
-    this.data.botao = true
-    this.contagemRegressiva()
-
     Swal.fire({
       title: 'Partida Iniciada, compra de cartelas liberada!',
       timer: 5000,
       text: 'você tem 90 segundos para efetuar suas compras',
       icon: 'success',
       showConfirmButton: false,
+      backdrop: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        timerProgressBar: true
     })
 
-  }
-
-  contagemRegressiva() {
-    this.contagem = this.contagem - 1
-    if (!this.contagem) {
-      this.partidaIniciada = false
-      this.contagem = 90
-      return this.data.botao = false
-    }
-    setTimeout(() => this.contagemRegressiva(), 1000)
-  }
-
-  async getPartida(salaId) {
-    const partida = await this.axios.get('/get-partida', { salaId })
-  }
-
-  async getData() {
+    this.reset()
+    this.entrarNaSala()
 
   }
 
   setLandscape() {
     // set to landscape
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE)
+      .then(()=>{})
+      .catch(err=>console.log('device não suporta screenOrientation'))
+    
+    this.insomnia.keepAwake()
+      .then(()=>console.log('insomnia ativo'))
+      .catch(()=>console.log('device não suport insomnia'))
   }
 
   playAudio(bola) {
@@ -183,7 +257,36 @@ export class Sala1Page implements OnInit {
   }
 
   async comprarSeries() {
-    this.axios.post('/comprar-series', {qtd: this.data.cartela, telefone: this.telefone})
+    if(this.data.seriesAComprar < this.data.minmimoAComprar){
+      return Swal.fire({
+        text: `Permitida a compra de no mínimo ${this.data.minmimoAComprar} séries`,
+        backdrop: false,
+        timer: 5000,
+        icon: 'error'
+      })
+    }
+   
+    this.axios.post('/comprar-series', {qtd: this.data.seriesAComprar, telefone: this.telefone})
+    .then(data => {
+      this.data.totalBolasCompradas = this.data.seriesAComprar * 6
+      this.data.saldo = data.data.saldo
+      this.data.seriesAComprar = null
+      Swal.fire({
+        toast: true, 
+        timer:2000, 
+        showConfirmButton: false, 
+        timerProgressBar: true,
+        title: "Compra realizada com sucesso",
+        icon: "success",
+        position: 'top-end',
+      })
+    })
+    .catch(err => {
+      if(err.response.status){
+        return Swal.fire({icon: "error", title: err.response.data.err, backdrop: false})
+      }
+      Swal.fire({icon: "error", title: err, backdrop: false})
+    })
   }
 
   observableTimer() {
@@ -209,34 +312,31 @@ export class Sala1Page implements OnInit {
 
   }
 
+  between(a, b, value){
+    return value >= a && value <= b
+  }
+
   cartelao() {
-    var rr = this.data.serie[this.data.minaa[0]];
-    rr[0].sort(function (a, b) {
-      return a - b;
-    });
-
-    rr[1].sort(function (a, b) {
-      return a - b;
-    });
-
-    rr[2].sort(function (a, b) {
-      return a - b;
-    });
-    this.data.xs = rr[0][0];
-    this.data.xss = rr[0][1];
-    this.data.xsss = rr[0][2];
-    this.data.xssss = rr[0][3];
-    this.data.xsssss = rr[0][4];
-    this.data.zs = rr[1][0];
-    this.data.zss = rr[1][1];
-    this.data.zsss = rr[1][2];
-    this.data.zssss = rr[1][3];
-    this.data.zsssss = rr[1][4];
-    this.data.cs = rr[2][0];
-    this.data.css = rr[2][1];
-    this.data.csss = rr[2][2];
-    this.data.cssss = rr[2][3];
-    this.data.csssss = rr[2][4];
+    this.data.vela = []
+    const cartelas = this.data.cartelas
+    const numeros = cartelas.map(cartela => cartela.numero)
+    const linhas = _.chunk(numeros, 5)
+    
+    this.data.xs = linhas[0][0]
+    this.data.xss = linhas[0][1]
+    this.data.xsss = linhas[0][2]
+    this.data.xssss = linhas[0][3]
+    this.data.xsssss = linhas[0][4]
+    this.data.zs = linhas[1][0]
+    this.data.zss = linhas[1][1]
+    this.data.zsss = linhas[1][2]
+    this.data.zssss = linhas[1][3]
+    this.data.zsssss = linhas[1][4]
+    this.data.cs = linhas[2][0]
+    this.data.css = linhas[2][1]
+    this.data.csss = linhas[2][2]
+    this.data.cssss = linhas[2][3]
+    this.data.csssss = linhas[2][4]
 
     if (this.data.xs < 10) {
       this.data.vela[0] = this.data.xs;
@@ -417,131 +517,6 @@ export class Sala1Page implements OnInit {
     if (this.data.csssss >= 80) {
       this.data.vela[28] = this.data.csssss;
     }
-
-  }
-
-  ortfunction(a, b) {
-    return (a - b)
-  }
-
-  async percursos() {
-    this.data.valores = [];
-    this.data.minaa = [];
-    this.data.ee;
-
-
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      this.data.soma = 0;
-      for (var zz = 0; zz <= 2; zz++) {
-        var soma = this.data.papa[tt][zz].length;
-
-        this.data.soma = soma + this.data.soma;
-        //this.data.valores.push(this.data.papa[tt][zz]);
-      }
-
-      this.data.valores[tt] = this.data.soma;
-
-    }
-    for (var rt = 0; rt <= 4; rt++) {
-      var menor = Math.min.apply(Math, this.data.valores);
-
-      var posicao = this.data.valores.indexOf(menor);
-      this.data.min[rt] = this.data.papa[posicao].join('       ');
-      this.data.mina[rt] = posicao + this.data.posicao;
-      this.data.minaa[rt] = posicao;
-      this.data.valores[posicao] = 99;
-    }
-
-
-  }
-
-  percurso() {
-    this.data.valores = [];
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      this.data.soma = 0;
-      for (var zz = 0; zz <= 2; zz++) {
-        this.data.soma = this.data.papa[tt][zz].length;
-        this.data.valores.push(this.data.papa[tt][zz]);
-      }
-      //this.data.valores[tt] = this.data.soma;
-    }
-    var de = this.data.valores.sort(function compare(a, b) {
-      if (a.length < b.length) return -1;
-      if (a.length > b.length) return 1;
-      return 0;
-    });
-
-    if (de[0] == "") {
-      de[0] = 'linhaaa';
-    }
-
-    if (de[1] == "") {
-      de[1] = 'linhaaa';
-    }
-
-
-    this.data.min[0] = de[0];
-    this.data.min[1] = de[1];
-    this.data.min[2] = de[2];
-    this.data.min[3] = de[3];
-    this.data.min[4] = de[4];
-    for (var zu = 0; zu <= 4; zu++) {
-      for (var tt = 0; tt < this.data.tantascartela; tt++) {
-        for (var zz = 0; zz <= 2; zz++) {
-          if (de[zu] == this.data.papa[tt][zz]) {
-            this.data.mina[zu] = tt + this.data.posicao;
-            this.data.minaa[zu] = tt;
-          }
-        }
-      }
-    }
-  }
-  arrayCompare(first, last) {
-    var result = first.filter(function (item) { return last.indexOf(item) > -1 });
-    return result.length;
-  }
-
-  async linha() {
-
-    this.data.numerolinha = [];
-    for (var tt = 0; tt < this.data.tantascartela; tt++) {
-      for (var zz = 0; zz <= 2; zz++) {
-        this.data.ponto = 0;
-        for (var xx = 0; xx < 5; xx++) {
-          for (var cc = 0; cc < this.data.bolas.length; cc++) {
-            if (this.data.serie[tt][zz][xx] == this.data.bolas[cc]) {
-              this.data.ponto = this.data.ponto + 1;
-              if (this.data.ponto == 5) {
-                var linha = tt + (this.data.posicao || 0);
-                this.data.numerolinha.push(linha);
-                var dd = tt;
-
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if (this.data.numerolinha.length != 0) {
-      for (var tt = 0; tt < this.data.numerolinha.length; tt++) {
-        this.data.mina[tt] = linha;
-        this.data.min[tt] = 'LINHA';
-
-
-      }
-
-      this.data.linhaaaaa = 'LINHA!!! cartão número - ' + this.data.numerolinha;
-      this.data.linhafoi = true;
-      this.data.linhasim = true;
-      this.data.linex = true;
-      this.data.minaa[0] = dd;
-      this.data.tipo = 'Bingo';
-
-      this.data.pes = true;
-      this.data.saldo = parseInt(this.data.saldo) + parseInt(this.data.plinha);
-
-    }
-  }
-
+    
+  } 
 }
