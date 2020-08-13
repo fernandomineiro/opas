@@ -28178,11 +28178,12 @@ let Sala1Page = class Sala1Page {
     }
     ngOnDestroy() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone });
+            yield this.axios.put('membro-sala', { sala_id: 0, telefone: this.telefone });
             if (this.socket) {
                 this.socket.close();
                 this.socket.emit('sair da sala', this.sala);
             }
+            setTimeout(() => window.location.reload(), 500);
             // this.socket.emit('sair da sala', this.sala)
             // this.socket.close()
         });

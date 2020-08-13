@@ -29549,19 +29549,24 @@
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      this.axios.put('membro-sala', {
+                      _context2.next = 2;
+                      return this.axios.put('membro-sala', {
                         sala_id: 0,
                         telefone: this.telefone
                       });
 
+                    case 2:
                       if (this.socket) {
                         this.socket.close();
                         this.socket.emit('sair da sala', this.sala);
-                      } // this.socket.emit('sair da sala', this.sala)
+                      }
+
+                      setTimeout(function () {
+                        return window.location.reload();
+                      }, 500); // this.socket.emit('sair da sala', this.sala)
                       // this.socket.close()
 
-
-                    case 2:
+                    case 4:
                     case "end":
                       return _context2.stop();
                   }

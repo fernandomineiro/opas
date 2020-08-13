@@ -2336,6 +2336,8 @@
                 if (g == 'sim') {
                   if (_this12.data.password == _this12.data.repita) {
                     _this12.apiService.registro(_this12.data.nome, _this12.data.sobre, _this12.data.telefone, _this12.data.password, _this12.data.indicou).subscribe(function (response) {
+                      console.log(response);
+
                       if (response != "") {
                         _this12.router.navigate(['login']);
                       } else {

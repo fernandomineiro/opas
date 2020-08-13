@@ -14,7 +14,7 @@ const parseMelhoresLinhas = linhas => _.sortBy(linhas, 'totalSorteada').reverse(
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
 
 const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
-
+    delete cartelasPremiadas.cartelas
     const {
         sala_id,
         telefone,
@@ -31,6 +31,14 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
         'acumulado' :
         premio
 
+    const ganhador = await knex('ganhadores').select("ganhadores.id")
+        innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone}).first()
+    
+    if(ganhador){
+        cartelasPremiadas.saldo = membro.saldo
+        return cartelasPremiadas
+    }
+
     const premios = {
         acumulado: (sala.bingo + sala.acumulado) / qtdCartelas,
         bingo: sala.bingo / qtdCartelas,
@@ -40,7 +48,7 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
     const saldo = Number((membro.saldo + premios[premio]).toFixed())
     await alterarSaldo(membro.id, saldo)
 
-    delete cartelasPremiadas.cartelas
+    
     cartelasPremiadas.saldo = saldo
     const cartelas = cartelasPremiadas
     await knex('ganhadores')
