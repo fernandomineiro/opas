@@ -1,4 +1,6 @@
-bigBIG@123admin
+//bigBIG@123admin ***old
+
+loto@@0102
 ssh root@64.227.105.89
 admbingo
 
