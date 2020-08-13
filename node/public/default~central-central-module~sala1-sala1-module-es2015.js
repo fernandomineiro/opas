@@ -2041,7 +2041,7 @@ AxiosService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const servidor = 'https://bigbig73.net.br/'
-const local = 'http://localhost:3000'
+const local = 'http://localhost:3001'
 /* harmony default export */ __webpack_exports__["default"] = ({"baseURL": servidor});
 
 /***/ })

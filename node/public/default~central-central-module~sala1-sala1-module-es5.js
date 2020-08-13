@@ -2211,7 +2211,7 @@
       __webpack_require__.r(__webpack_exports__);
 
       var servidor = 'https://bigbig73.net.br/';
-      var local = 'http://localhost:3000';
+      var local = 'http://localhost:3001';
       /* harmony default export */
 
       __webpack_exports__["default"] = {
