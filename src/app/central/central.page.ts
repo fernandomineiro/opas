@@ -25,7 +25,6 @@ export class CentralPage implements OnInit {
   }
 
   async ngOnInit() {
-    console.log(this)
     this.telefone = localStorage.getItem("telefone");
     console.log("montei",this.telefone)
     this.status();
@@ -45,8 +44,8 @@ export class CentralPage implements OnInit {
   }
   
   irParaSala(sala_id){
-    this.router.navigate([`/sala1/${sala_id}`])
-    //window.location.href = '#/sala1/'+sala_id
+    //this.router.navigate([`/sala1/${sala_id}`])
+    window.location.href = '#/sala1/'+sala_id
   }
 
   sair(){

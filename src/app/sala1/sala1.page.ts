@@ -187,7 +187,8 @@ export class Sala1Page implements OnInit {
     if(this.socket){
       this.socket.close()
       this.socket.emit('sair da sala', this.sala)
-    }    
+    }
+    window.location.href = '#/central'
     // this.socket.emit('sair da sala', this.sala)
     // this.socket.close()
   }
