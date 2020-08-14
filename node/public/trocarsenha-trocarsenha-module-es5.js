@@ -448,6 +448,12 @@
       var _models_student__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! ../models/student */
       "./src/app/models/student.ts");
+      /* harmony import */
+
+
+      var src_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! src/config */
+      "./src/config.js");
 
       var TrocarsenhaPage = /*#__PURE__*/function () {
         function TrocarsenhaPage(apiService, router) {
@@ -461,7 +467,7 @@
         _createClass(TrocarsenhaPage, [{
           key: "ngOnInit",
           value: function ngOnInit() {
-            this.telefone = localStorage.getItem("telefone");
+            this.telefone = src_config__WEBPACK_IMPORTED_MODULE_5__["default"].telefone;
             console.log(this.telefone);
           }
         }, {
@@ -514,6 +520,32 @@
         /*! ./trocarsenha.page.scss */
         "./src/app/trocarsenha/trocarsenha.page.scss"))["default"]]
       })], TrocarsenhaPage);
+      /***/
+    },
+
+    /***/
+    "./src/config.js":
+    /*!***********************!*\
+      !*** ./src/config.js ***!
+      \***********************/
+
+    /*! exports provided: default */
+
+    /***/
+    function srcConfigJs(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+
+      var servidor = 'https://bigbig73.net.br/';
+      var local = 'http://localhost:3001';
+      /* harmony default export */
+
+      __webpack_exports__["default"] = {
+        "baseURL": servidor,
+        telefone: '',
+        nome: ''
+      };
       /***/
     }
   }]);

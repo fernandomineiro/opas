@@ -234,6 +234,12 @@
       var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! @angular/router */
       "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+      /* harmony import */
+
+
+      var src_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! src/config */
+      "./src/config.js");
 
       var CentralPage = /*#__PURE__*/function () {
         function CentralPage(apiService, Axios, router) {
@@ -254,7 +260,7 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      this.telefone = localStorage.getItem("telefone");
+                      this.telefone = src_config__WEBPACK_IMPORTED_MODULE_6__["default"].telefone;
                       this.status();
                       this.atualizaSaldo();
                       _context.next = 5;
@@ -277,8 +283,8 @@
               var data = _ref.data;
               _this.saldo = data.saldo;
               _this.nome = data.nome;
-              localStorage.setItem("nome", _this.nome);
-              localStorage.setItem("saldo", _this.saldo);
+              src_config__WEBPACK_IMPORTED_MODULE_6__["default"].nome = data.nome;
+              src_config__WEBPACK_IMPORTED_MODULE_6__["default"].saldo = _this.saldo;
             })["catch"](console.log);
           }
         }, {

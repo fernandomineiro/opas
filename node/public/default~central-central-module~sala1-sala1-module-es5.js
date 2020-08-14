@@ -2215,7 +2215,9 @@
       /* harmony default export */
 
       __webpack_exports__["default"] = {
-        "baseURL": servidor
+        "baseURL": servidor,
+        telefone: '',
+        nome: ''
       };
       /***/
     }

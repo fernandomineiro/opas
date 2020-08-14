@@ -121,6 +121,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_central__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/central */ "./src/app/models/central.ts");
 /* harmony import */ var _services_axios_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/axios.service */ "./src/app/services/axios.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var src_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/config */ "./src/config.js");
+
 
 
 
@@ -137,7 +139,7 @@ let CentralPage = class CentralPage {
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            this.telefone = localStorage.getItem("telefone");
+            this.telefone = src_config__WEBPACK_IMPORTED_MODULE_6__["default"].telefone;
             this.status();
             this.atualizaSaldo();
             yield this.getData();
@@ -148,8 +150,8 @@ let CentralPage = class CentralPage {
             .then(({ data }) => {
             this.saldo = data.saldo;
             this.nome = data.nome;
-            localStorage.setItem("nome", this.nome);
-            localStorage.setItem("saldo", this.saldo);
+            src_config__WEBPACK_IMPORTED_MODULE_6__["default"].nome = data.nome;
+            src_config__WEBPACK_IMPORTED_MODULE_6__["default"].saldo = this.saldo;
         })
             .catch(console.log);
     }

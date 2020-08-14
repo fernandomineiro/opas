@@ -304,6 +304,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/api.service */ "./src/app/services/api.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 /* harmony import */ var _models_student__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/student */ "./src/app/models/student.ts");
+/* harmony import */ var src_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/config */ "./src/config.js");
+
 
 
 
@@ -316,7 +318,7 @@ let TrocarsenhaPage = class TrocarsenhaPage {
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
     }
     ngOnInit() {
-        this.telefone = localStorage.getItem("telefone");
+        this.telefone = src_config__WEBPACK_IMPORTED_MODULE_5__["default"].telefone;
         console.log(this.telefone);
     }
     submitForm() {
@@ -360,6 +362,21 @@ TrocarsenhaPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 ], TrocarsenhaPage);
 
 
+
+/***/ }),
+
+/***/ "./src/config.js":
+/*!***********************!*\
+  !*** ./src/config.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const servidor = 'https://bigbig73.net.br/'
+const local = 'http://localhost:3001'
+/* harmony default export */ __webpack_exports__["default"] = ({"baseURL": servidor, telefone: '', nome: ''});
 
 /***/ })
 

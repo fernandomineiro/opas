@@ -228,6 +228,12 @@
       var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! @angular/router */
       "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+      /* harmony import */
+
+
+      var src_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! src/config */
+      "./src/config.js");
 
       var LoginPage = /*#__PURE__*/function () {
         function LoginPage(apiService, router) {
@@ -256,8 +262,7 @@
                   _this.router.navigate(['joguinho']);
                 } else {
                   if (response['banido'] != 1) {
-                    localStorage.setItem("telefone", response['telefone']);
-                    localStorage.setItem("indicou", response['indicou']);
+                    src_config__WEBPACK_IMPORTED_MODULE_5__["default"].telefone = response.telefone;
 
                     _this.router.navigate(['central']);
                   } else {
@@ -513,6 +518,32 @@
       ApiService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: 'root'
       })], ApiService);
+      /***/
+    },
+
+    /***/
+    "./src/config.js":
+    /*!***********************!*\
+      !*** ./src/config.js ***!
+      \***********************/
+
+    /*! exports provided: default */
+
+    /***/
+    function srcConfigJs(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+
+      var servidor = 'https://bigbig73.net.br/';
+      var local = 'http://localhost:3001';
+      /* harmony default export */
+
+      __webpack_exports__["default"] = {
+        "baseURL": servidor,
+        telefone: '',
+        nome: ''
+      };
       /***/
     }
   }]);

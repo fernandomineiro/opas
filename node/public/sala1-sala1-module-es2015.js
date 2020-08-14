@@ -28056,14 +28056,12 @@ let Sala1Page = class Sala1Page {
         this.cartelas = [{ cartela_id: 0 }];
         this.axios = this.Axios.axios;
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
-        this.telefone = localStorage.getItem('telefone');
-        this.data.nome = localStorage.getItem('nome');
+        this.telefone = src_config__WEBPACK_IMPORTED_MODULE_12__["default"].telefone;
+        this.data.nome = src_config__WEBPACK_IMPORTED_MODULE_12__["default"].nome;
         this.route.params.subscribe(params => this.sala = params.sala);
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            // setTimeout(()=>this.location.back(), 2000)
-            // setTimeout(()=>{this.router.navigate(['/sala1/1']);}, 10000)
             this.setLandscape();
             yield this.entrarNaSala();
             this.data.tipo = 'Linha';

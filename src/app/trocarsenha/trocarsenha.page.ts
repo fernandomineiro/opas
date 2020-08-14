@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { Student } from '../models/student';
-
+import config from 'src/config'
   
 @Component({
   selector: 'app-trocarsenha',
@@ -20,7 +20,7 @@ export class TrocarsenhaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.telefone = localStorage.getItem("telefone"); 
+    this.telefone = config.telefone; 
     console.log(this.telefone);
   }
 

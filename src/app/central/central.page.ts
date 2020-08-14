@@ -3,6 +3,7 @@ import { ApiService } from '../services/api.service';
 import { Central } from '../models/central';
 import { AxiosService } from '../services/axios.service';
 import { Router } from '@angular/router';
+import config from 'src/config'
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -25,7 +26,7 @@ export class CentralPage implements OnInit {
   telefone: any;
 
   async ngOnInit() {
-    this.telefone = localStorage.getItem("telefone");
+    this.telefone = config.telefone;
     this.status();
     this.atualizaSaldo()
     await this.getData();
@@ -36,8 +37,8 @@ export class CentralPage implements OnInit {
     .then(({data})=>{
       this.saldo = data.saldo
       this.nome = data.nome
-      localStorage.setItem("nome", this.nome);
-      localStorage.setItem("saldo", this.saldo);
+      config.nome = data.nome;
+      config.saldo = this.saldo;
     })
     .catch(console.log)
   }

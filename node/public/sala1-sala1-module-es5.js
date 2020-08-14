@@ -29346,8 +29346,8 @@
           }];
           this.axios = this.Axios.axios;
           this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
-          this.telefone = localStorage.getItem('telefone');
-          this.data.nome = localStorage.getItem('nome');
+          this.telefone = src_config__WEBPACK_IMPORTED_MODULE_12__["default"].telefone;
+          this.data.nome = src_config__WEBPACK_IMPORTED_MODULE_12__["default"].nome;
           this.route.params.subscribe(function (params) {
             return _this2.sala = params.sala;
           });
@@ -29364,8 +29364,6 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      // setTimeout(()=>this.location.back(), 2000)
-                      // setTimeout(()=>{this.router.navigate(['/sala1/1']);}, 10000)
                       this.setLandscape();
                       _context.next = 3;
                       return this.entrarNaSala();
