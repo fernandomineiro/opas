@@ -17,7 +17,6 @@ export class CentralPage implements OnInit {
     public router: Router
   ) {
     this.data = new Central();
-    this.telefone = localStorage.getItem("telefone");
     this.axios = Axios.axios
   }
 
@@ -26,6 +25,7 @@ export class CentralPage implements OnInit {
   telefone: any;
 
   async ngOnInit() {
+    this.telefone = localStorage.getItem("telefone");
     this.status();
     this.atualizaSaldo()
     await this.getData();

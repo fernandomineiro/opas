@@ -243,7 +243,6 @@
           this.Axios = Axios;
           this.router = router;
           this.data = new _models_central__WEBPACK_IMPORTED_MODULE_3__["Central"]();
-          this.telefone = localStorage.getItem("telefone");
           this.axios = Axios.axios;
         }
 
@@ -255,12 +254,13 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
+                      this.telefone = localStorage.getItem("telefone");
                       this.status();
                       this.atualizaSaldo();
-                      _context.next = 4;
+                      _context.next = 5;
                       return this.getData();
 
-                    case 4:
+                    case 5:
                     case "end":
                       return _context.stop();
                   }

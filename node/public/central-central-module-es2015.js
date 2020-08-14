@@ -133,11 +133,11 @@ let CentralPage = class CentralPage {
         this.Axios = Axios;
         this.router = router;
         this.data = new _models_central__WEBPACK_IMPORTED_MODULE_3__["Central"]();
-        this.telefone = localStorage.getItem("telefone");
         this.axios = Axios.axios;
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.telefone = localStorage.getItem("telefone");
             this.status();
             this.atualizaSaldo();
             yield this.getData();
