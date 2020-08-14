@@ -1,6 +1,4 @@
 (function () {
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
   function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -655,64 +653,6 @@
           return _ref3.apply(this, arguments);
         };
       }();
-      /***/
-
-    },
-
-    /***/
-    "./src/app/models/student.ts":
-    /*!***********************************!*\
-      !*** ./src/app/models/student.ts ***!
-      \***********************************/
-
-    /*! exports provided: Student */
-
-    /***/
-    function srcAppModelsStudentTs(module, __webpack_exports__, __webpack_require__) {
-      "use strict";
-
-      __webpack_require__.r(__webpack_exports__);
-      /* harmony export (binding) */
-
-
-      __webpack_require__.d(__webpack_exports__, "Student", function () {
-        return Student;
-      });
-
-      var Student = function Student() {
-        _classCallCheck(this, Student);
-
-        this.time = 0;
-        this.bola = 'aguarde';
-        this.safra = [];
-        this.safraa = [];
-        this.safraaa = [];
-        this.safraaaa = [];
-        this.safraaaaa = [];
-        this.safraaaaaa = [];
-        this.a = [];
-        this.serie = [];
-        this.lote = [];
-        this.bolas = [];
-        this.bolass = [];
-        this.ponto = 0;
-        this.pontoo = 0;
-        this.lili = [];
-        this.lilica = [];
-        this.sorteadas = 0;
-        this.timeLeft = 60;
-        this.ii = 0;
-        this.valores = [];
-        this.numeros = [];
-        this.min = [];
-        this.mina = [];
-        this.minaa = [];
-        this.tu = [];
-        this.seriea = [];
-        this.serieb = [];
-        this.numerolinha = [];
-        this.vela = [];
-      };
       /***/
 
     }

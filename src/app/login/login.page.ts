@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Student } from '../models/student';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
-import config from 'src/config'
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -33,7 +32,7 @@ export class LoginPage implements OnInit {
           this.router.navigate(['joguinho']);
         }else{
           if(response['banido'] != 1){
-            config.telefone = response.telefone;
+            localStorage.setItem("telefone", response['telefone']);
             this.router.navigate(['central']);
           }
           else{

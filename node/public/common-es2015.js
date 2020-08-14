@@ -435,54 +435,6 @@ const openURL = async (url, ev, direction, animation) => {
 
 
 
-/***/ }),
-
-/***/ "./src/app/models/student.ts":
-/*!***********************************!*\
-  !*** ./src/app/models/student.ts ***!
-  \***********************************/
-/*! exports provided: Student */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Student", function() { return Student; });
-class Student {
-    constructor() {
-        this.time = 0;
-        this.bola = 'aguarde';
-        this.safra = [];
-        this.safraa = [];
-        this.safraaa = [];
-        this.safraaaa = [];
-        this.safraaaaa = [];
-        this.safraaaaaa = [];
-        this.a = [];
-        this.serie = [];
-        this.lote = [];
-        this.bolas = [];
-        this.bolass = [];
-        this.ponto = 0;
-        this.pontoo = 0;
-        this.lili = [];
-        this.lilica = [];
-        this.sorteadas = 0;
-        this.timeLeft = 60;
-        this.ii = 0;
-        this.valores = [];
-        this.numeros = [];
-        this.min = [];
-        this.mina = [];
-        this.minaa = [];
-        this.tu = [];
-        this.seriea = [];
-        this.serieb = [];
-        this.numerolinha = [];
-        this.vela = [];
-    }
-}
-
-
 /***/ })
 
 }]);

@@ -479,7 +479,7 @@ module.exports = content.locals || {};
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!**********************************************************!*\
   !*** multi ./src/theme/variables.scss ./src/global.scss ***!
   \**********************************************************/
@@ -492,5 +492,5 @@ module.exports = __webpack_require__(/*! C:\projects\opas\src\global.scss */"./s
 
 /***/ })
 
-},[[3,"runtime"]]]);
+},[[4,"runtime"]]]);
 //# sourceMappingURL=styles-es2015.js.map

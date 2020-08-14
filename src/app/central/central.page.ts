@@ -3,7 +3,6 @@ import { ApiService } from '../services/api.service';
 import { Central } from '../models/central';
 import { AxiosService } from '../services/axios.service';
 import { Router } from '@angular/router';
-import config from 'src/config'
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -12,6 +11,10 @@ import config from 'src/config'
 export class CentralPage implements OnInit {
   data: Central;
   axios: any;
+  nome: any;
+  saldo: any;
+  telefone: any;
+  proxyTeste: any;
   constructor(
     public apiService: ApiService,
     public Axios: AxiosService,
@@ -21,12 +24,10 @@ export class CentralPage implements OnInit {
     this.axios = Axios.axios
   }
 
-  nome: any;
-  saldo: any;
-  telefone: any;
-
   async ngOnInit() {
-    this.telefone = config.telefone;
+    console.log(this)
+    this.telefone = localStorage.getItem("telefone");
+    console.log("montei",this.telefone)
     this.status();
     this.atualizaSaldo()
     await this.getData();
@@ -37,15 +38,19 @@ export class CentralPage implements OnInit {
     .then(({data})=>{
       this.saldo = data.saldo
       this.nome = data.nome
-      config.nome = data.nome;
-      config.saldo = this.saldo;
+      localStorage.setItem("nome", this.nome);
+      localStorage.setItem("saldo", this.saldo);
     })
     .catch(console.log)
   }
   
   irParaSala(sala_id){
-    //this.router.navigate([`../sala1/${sala_id}`])
-    window.location.href = '#/sala1/'+sala_id
+    this.router.navigate([`/sala1/${sala_id}`])
+    //window.location.href = '#/sala1/'+sala_id
+  }
+
+  sair(){
+    window.location.href = "#/login"
   }
 
   async getData() {
@@ -71,7 +76,6 @@ export class CentralPage implements OnInit {
       this.data.descricao9 = response[8]['description'];
       this.data.descricao10 = response[9]['description'];
       this.data.status1 = response[0]['status'];
-      console.log()  
 
       if (this.data.status1 == '1') {
         this.data.status1 = "Aberta";

@@ -1,10 +1,19 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { CentralPageModule } from './central/central.module'
+import { HomePageModule } from './home/home.module'
+import { Sala1PageModule } from './sala1/sala1.module'
+import { LoginPageModule } from './login/login.module'
+import { RegistroPageModule } from './registro/registro.module'
+import { SenhaperdidaPageModule } from './senhaperdida/senhaperdida.module'
+import { ConfiguracaoPageModule } from './configuracao/configuracao.module'
+import { TrocarsenhaPageModule } from './trocarsenha/trocarsenha.module'
+import { JoguinhoPageModule } from './joguinho/joguinho.module'
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => HomePageModule
   },
   {
     path: '',
@@ -13,41 +22,37 @@ const routes: Routes = [
   },
   {
     path: 'sala1/:sala',
-    loadChildren: () => import('./sala1/sala1.module').then( m => m.Sala1PageModule)
+    loadChildren: () => Sala1PageModule
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => LoginPageModule
   },
   {
     path: 'registro',
-    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
+    loadChildren: () => RegistroPageModule
   },
   {
     path: 'central',
-    loadChildren: () => import('./central/central.module').then( m => m.CentralPageModule)
+    loadChildren: () => CentralPageModule
   },
   {
     path: 'senhaperdida',
-    loadChildren: () => import('./senhaperdida/senhaperdida.module').then( m => m.SenhaperdidaPageModule)
-  },
-  {
-    path: 'intruso',
-    loadChildren: () => import('./intruso/intruso.module').then( m => m.IntrusoPageModule)
+    loadChildren: () => SenhaperdidaPageModule
   },
   {
     path: 'configuracao',
-    loadChildren: () => import('./configuracao/configuracao.module').then( m => m.ConfiguracaoPageModule)
+    loadChildren: () => ConfiguracaoPageModule
   },
   {
     path: 'trocarsenha',
-    loadChildren: () => import('./trocarsenha/trocarsenha.module').then( m => m.TrocarsenhaPageModule)
+    loadChildren: () => TrocarsenhaPageModule
   },
   {
     path: 'joguinho',
-    loadChildren: () => import('./joguinho/joguinho.module').then( m => m.JoguinhoPageModule)
+    loadChildren: () => JoguinhoPageModule
   },
- 
+
 ];
 
 @NgModule({
