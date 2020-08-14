@@ -986,15 +986,14 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      console.log(this);
                       this.telefone = localStorage.getItem("telefone");
                       console.log("montei", this.telefone);
                       this.status();
                       this.atualizaSaldo();
-                      _context.next = 7;
+                      _context.next = 6;
                       return this.getData();
 
-                    case 7:
+                    case 6:
                     case "end":
                       return _context.stop();
                   }
@@ -1018,7 +1017,8 @@
         }, {
           key: "irParaSala",
           value: function irParaSala(sala_id) {
-            this.router.navigate(["/sala1/".concat(sala_id)]); //window.location.href = '#/sala1/'+sala_id
+            //this.router.navigate([`/sala1/${sala_id}`])
+            window.location.href = '#/sala1/' + sala_id;
           }
         }, {
           key: "sair",
@@ -3297,11 +3297,12 @@
                       if (this.socket) {
                         this.socket.close();
                         this.socket.emit('sair da sala', this.sala);
-                      } // this.socket.emit('sair da sala', this.sala)
+                      }
+
+                      window.location.href = '#/central'; // this.socket.emit('sair da sala', this.sala)
                       // this.socket.close()
 
-
-                    case 3:
+                    case 4:
                     case "end":
                       return _context5.stop();
                   }

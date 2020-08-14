@@ -899,7 +899,6 @@ let CentralPage = class CentralPage {
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            console.log(this);
             this.telefone = localStorage.getItem("telefone");
             console.log("montei", this.telefone);
             this.status();
@@ -918,8 +917,8 @@ let CentralPage = class CentralPage {
             .catch(console.log);
     }
     irParaSala(sala_id) {
-        this.router.navigate([`/sala1/${sala_id}`]);
-        //window.location.href = '#/sala1/'+sala_id
+        //this.router.navigate([`/sala1/${sala_id}`])
+        window.location.href = '#/sala1/' + sala_id;
     }
     sair() {
         window.location.href = "#/login";
@@ -2301,6 +2300,7 @@ let Sala1Page = class Sala1Page {
                 this.socket.close();
                 this.socket.emit('sair da sala', this.sala);
             }
+            window.location.href = '#/central';
             // this.socket.emit('sair da sala', this.sala)
             // this.socket.close()
         });
