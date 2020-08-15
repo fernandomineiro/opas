@@ -25,15 +25,16 @@ const connect = (server) =>{
             if(sockets[telefone]){
                 sockets[telefone].disconnect()
             }
-            knex('membro').select('telefone', 'first_name').where({
+            knex('membro').select('telefone', 'first_name', 'id').where({
                     telefone
-                }).first().then(user => {
+                }).first().then(async user => {
                     console.log("usuário:", user.first_name, "conectado! sala:", salaId)
-                    knex('membro').update({sala_id: salaId}).where({id: user.id})
                     
+                    await knex('membro').update({sala_id: salaId}).where({id: user.id})
                     socket.join(salaId)
                     
                     socket.telefone = user ? user.telefone : user
+                    socket.salaId = salaId
                     register(socket)
                 })
                 .catch(err => {
@@ -44,7 +45,6 @@ const connect = (server) =>{
         socket.on('sair da sala', salaId => {
             socket.leave(salaId)
             socket.disconnect()
-
         })
         socket.on('disconnect', () => {
             delete sockets[socket.telefone]

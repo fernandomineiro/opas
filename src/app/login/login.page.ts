@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Student } from '../models/student';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -11,7 +13,8 @@ export class LoginPage implements OnInit {
   data: Student
   constructor(
     public apiService: ApiService,
-    public router: Router
+    public router: Router,
+    public navCtrl: NavController
   ) { 
     this.data = new Student();
   }
@@ -34,6 +37,7 @@ export class LoginPage implements OnInit {
           if(response['banido'] != 1){
             localStorage.setItem("telefone", response['telefone']);
             this.router.navigate(['central']);
+            //this.navCtrl.navigateRoot('/central')
           }
           else{
             alert('Usuario banido!');

@@ -1,6 +1,6 @@
 const knex = require('./knex')
 knex('lots').update({start: 'nao'}).then(num=>console.log('alterando lots apra start: nao', num)).catch(console.log)
-
+knex('membro').update({sala_id: 0}).then(()=>{}).catch(err=>console.log('erro ao zerar salas dos membros', new Error(err)))
 const resetPartida = async (partida_id) => {
     
     console.log("resetando partida:", partida_id)

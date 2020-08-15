@@ -40,107 +40,27 @@
                 <h1 class="mt-4">Bem vindo {{nome}}</h1>
                 <ol class="breadcrumb mb-4">
                     <!-- <li class="breadcrumb-item active"></li> -->
-                <span  style="color: rgb(245, 12, 206); cursor: pointer">Saldo {{saldo}}</span> 
+                <span  style="color: rgb(245, 12, 206); cursor: pointer">
+                    <button class="btn btn-primary btn-block" (click)="status()">Atualizar</button> 
+                    Saldo {{saldo}}                   
+                </span> 
                 </ol>
             
                 <div class="row">
 
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status1}} - {{data.sala1}}</div><ng-template #templateName>Fechado - {{data.sala1}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao1}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(1)"></span>
+                    <div class="col-xl-3 col-md-6" *ngFor="let sala of salas; index as i; first as isFirst" >
+                        <div class="card {{sala.status == 'Fechada' ? 'bg-danger' : 'bg-primary'}} text-white mb-4">
+                            <div class="card-body">
+                                <div> {{sala.status}} - {{sala.title}}</div>
+                                <div>Online: {{sala.online}}</div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">{{sala.description}}
+                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(sala.id)"></span>
                                 <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status2}} - {{data.sala2}}</div><ng-template #templateName>Fechado - {{data.sala2}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao2}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(2)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status3}} - {{data.sala3}}</div><ng-template #templateName>Fechado - {{data.sala3}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao3}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(3)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status4}} - {{data.sala4}}</div><ng-template #templateName>Fechado - {{data.sala4}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao4}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(4)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status5}} - {{data.sala5}}</div><ng-template #templateName>Fechado - {{data.sala5}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao5}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(5)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status6}} - {{data.sala6}}</div><ng-template #templateName>Fechado - {{data.sala6}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao6}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(6)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status7}} - {{data.sala7}}</div><ng-template #templateName>Fechado - {{data.sala7}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao7}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(7)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status8}} - {{data.sala8}}</div><ng-template #templateName>Fechado - {{data.sala8}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao8}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(8)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status9}} - {{data.sala9}}</div><ng-template #templateName>Fechado - {{data.sala9}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao9}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(9)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body"><div *ngIf="data.status1; else templateName"> {{data.status10}} - {{data.sala10}}</div><ng-template #templateName>Fechado - {{data.sala10}}</ng-template> </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">{{data.descricao10}}
-                                <span  class="small text-white stretched-link pointer" (click)="irParaSala(10)"></span>
-                                <div class="small text-white"><i class="fas fa-angle-right">Entrar</i></div>
-                            </div>
-                        </div>
-                    </div>
-                   
-      
                 </div>
-                  
-             
-                
             </div>
         </main>
         <footer class="py-4 bg-light mt-auto">

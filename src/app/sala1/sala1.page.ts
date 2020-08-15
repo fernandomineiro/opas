@@ -55,10 +55,6 @@ export class Sala1Page implements OnInit {
   }
 
   async ngOnInit() {
-    // setTimeout(()=>this.location.back(), 2000)
-    
-    // setTimeout(()=>{this.router.navigate(['/sala1/1']);}, 10000)
-    
     this.setLandscape()
     await this.entrarNaSala()    
     this.data.tipo = 'Linha'
@@ -188,9 +184,6 @@ export class Sala1Page implements OnInit {
       this.socket.close()
       this.socket.emit('sair da sala', this.sala)
     }
-    window.location.href = '#/central'
-    // this.socket.emit('sair da sala', this.sala)
-    // this.socket.close()
   }
 
   sorteio(bola) {
