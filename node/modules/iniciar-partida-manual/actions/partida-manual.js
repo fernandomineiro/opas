@@ -85,7 +85,7 @@ const list = async (req, res) => {
     contagem(sala_id, insertPartida.id)
     res.json({status: true, ...insertPartida})
   } catch (error) {
-    console.log(new Error(error))
+    console.log(error)
     res.status(500).json({err: error.stack})
   }
 }

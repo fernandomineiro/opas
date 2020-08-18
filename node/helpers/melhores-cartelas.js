@@ -14,7 +14,7 @@ const parseMelhoresLinhas = linhas => _.sortBy(linhas, 'totalSorteada').reverse(
 const timer = interval => new Promise(resolve => setTimeout(resolve, interval))
 
 const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
-    delete cartelasPremiadas.cartelas
+    
     const {
         sala_id,
         telefone,
@@ -32,7 +32,7 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
         premio
 
     const ganhador = await knex('ganhadores').select("ganhadores.id")
-            .innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone}).first()
+            .innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone, "ganhadores.partida_id": partida_id}).first()
     
     if(ganhador){
         cartelasPremiadas.saldo = membro.saldo
@@ -51,6 +51,8 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
     
     cartelasPremiadas.saldo = saldo
     const cartelas = cartelasPremiadas
+    const cartelasOfCartelaPremiada = cartelasPremiadas.cartelas
+    delete cartelasPremiadas.cartelas
     await knex('ganhadores')
         .insert({
             membro_id: membro.id,
@@ -59,6 +61,8 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
             cartelas: JSON.stringify(cartelas),
             premio
         }).catch(err=>console.log(new Error(err)))
+
+    cartelasPremiadas.cartelas = cartelasOfCartelaPremiada
     return cartelasPremiadas
 }
 
@@ -76,12 +80,12 @@ const sendLinhasSorteada = async (linhas) => {
     let response = false
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
     if (bingouLinhas.length) {
-        if (sockets[bingouLinhas[0].telefone]) {
-            let cartelasPremiadas = bingouLinhas.map(linha => {
-                linha.faltam = 'Linha!'
-                return linha
-            })
-            cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
+        let cartelasPremiadas = bingouLinhas.map(linha => {
+            linha.faltam = 'Linha!'
+            return linha
+        })
+        cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
+        if(socket.io){
             sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
         }
         response = true
@@ -114,8 +118,8 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
     const telefones = Object.keys(group)
   
     for (const telefone of telefones) {
-        let melhores = parseMelhoresLinhas(group[telefone]).slice(0,5)
-        melhores = melhores.map(linha => {
+        const melhores5 = parseMelhoresLinhas(group[telefone]).slice(0,5)
+        const melhores = melhores5.map(linha => {
             linha.cartelas = linha.cartelas.reduce((acc, cartela) => {
                 const filtered = cartela.filter(cart => cart.cartela_id == linha.cartela_id)
                 return [...acc, ...filtered.map(cartela => ({
@@ -138,9 +142,9 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
         }
     }
     const parseRetorno = parseMelhoresLinhas(linhas)
-        .map(cartelas => {
-            cartelas.cartelas = cartelas.cartelas.filter(cartela => cartela.cartela_id == cartelas.cartela_id)
-            return cartelas
+        .map(linha => {
+            linha.cartelas = null
+            return linha
         })
     return parseRetorno
 }
