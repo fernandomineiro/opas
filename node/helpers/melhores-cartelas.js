@@ -32,7 +32,7 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
         premio
 
     const ganhador = await knex('ganhadores').select("ganhadores.id")
-        innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone}).first()
+            .innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone}).first()
     
     if(ganhador){
         cartelasPremiadas.saldo = membro.saldo
