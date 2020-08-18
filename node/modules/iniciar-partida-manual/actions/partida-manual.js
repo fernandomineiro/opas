@@ -71,7 +71,7 @@ const list = async (req, res) => {
         message: 'partida já iniciada',
         bolasSorteadas: bolasSorteadas.bolas || [],
         segundos: Globals[sala_id],
-        melhores: melhoresCartelas[tipoDePremio](bolasCompradas, bolasSorteadas.bolas)
+        melhores: melhoresCartelas[tipoDePremio](bolasCompradas, bolasSorteadas.bolas || [])
       })
     }
     const date = new Date()
@@ -85,6 +85,7 @@ const list = async (req, res) => {
     contagem(sala_id, insertPartida.id)
     res.json({status: true, ...insertPartida})
   } catch (error) {
+    console.log(new Error(error))
     res.status(500).json({err: error.stack})
   }
 }
