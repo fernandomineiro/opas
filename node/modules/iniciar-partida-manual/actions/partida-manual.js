@@ -78,7 +78,7 @@ const list = async (req, res) => {
     const dia = date.getDate()
     const mes = date.getMonth()
 
-    const insertPartida = await criarPartida(sala_id, dia, mes)
+    const insertPartida = await criarPartida(sala_id, dia, mes, 'manual')
     await insertBolasSorteadas(sala_id, insertPartida.id)
     sedAllRom(sala_id, 'iniciar partida', null)
     

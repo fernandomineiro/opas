@@ -1,8 +1,8 @@
 const knex = require('./knex')
 const getPartidaBySalaId = require('./get-partida-by-salaId')
-module.exports = async (sala_id, dia, mes) => {
+module.exports = async (sala_id, dia, mes, tipo = 'auto') => {
     await knex('partida1')
-        .insert({sala_id, dia, mes})
+        .insert({sala_id, dia, mes, tipo})
         .then(_ => true)
         .catch(err => ({err}))
 

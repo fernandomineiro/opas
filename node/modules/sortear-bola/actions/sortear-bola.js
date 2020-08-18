@@ -61,13 +61,14 @@ const sortear = async (req, res) => {
     }
     
     const bolasCompradas = await getCartelasByMembros(partida_id)
+    const partida1 = await knex('partida1').select('*').where({id: partida_id}).first()
     const filaCompra = await knex('fila_compra_series').select('*').where({partida_id}).first()
     if(!bolasCompradas.length && !filaCompra){
       res.status(400).json({err: 'partida não iniciada'})
       return resetPartida(partida_id)
     }
 
-    if(bolasCompradas){
+    if(partida1.tipo == "auto"){
       return res.status(400).json({err: "Partida já iniciada!"})
     }
 
