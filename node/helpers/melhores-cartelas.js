@@ -33,7 +33,11 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
 
     const ganhador = await knex('ganhadores').select("ganhadores.id", "ganhadores.cartelas")
             .innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone, "ganhadores.partida_id": partida_id}).first()
-            .then(data => JSON.parse(data.cartelas).cartela_id == cartelasPremiadas.cartela_id)
+            .then(data => (data)
+                ? JSON.parse(data.cartelas).cartela_id == cartelasPremiadas.cartela_id
+                : null)
+        
+    console.log("ganhador:", ganhador)
     
     if(ganhador){
         cartelasPremiadas.saldo = membro.saldo
@@ -46,10 +50,9 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
         linha: sala.linha / qtdCartelas
     }
 
-    const saldo = Number((membro.saldo + premios[premio]).toFixed())
+    const saldo = Math.floor(membro.saldo + premios[premio])
     await alterarSaldo(membro.id, saldo)
 
-    
     cartelasPremiadas.saldo = saldo
     const cartelasOfCartelaPremiada = cartelasPremiadas.cartelas
     delete cartelasPremiadas.cartelas
@@ -78,15 +81,17 @@ const premiar = async (cartelas, premio) => {
 }
 
 const sendLinhasSorteada = async (linhas) => {
+    console.log('sendLinhaSorteada')
     let response = false
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
+    console.log('bingouLinha', bingouLinhas.length)
     if (bingouLinhas.length) {
         let cartelasPremiadas = bingouLinhas.map(linha => {
             linha.faltam = 'Linha!'
             return linha
         })
         cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
-        if(socket.io){
+        if(sockets.io){
             sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
         }
         response = true

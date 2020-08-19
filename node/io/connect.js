@@ -34,7 +34,8 @@ const connect = (server) =>{
                     socket.join(salaId)
                     
                     socket.telefone = user ? user.telefone : user
-                    socket.salaId = salaId
+                    socket.sala_id = salaId
+                
                     register(socket)
                 })
                 .catch(err => {

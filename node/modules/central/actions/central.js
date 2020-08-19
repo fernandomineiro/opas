@@ -1,7 +1,7 @@
 const knex = require("../../../db/knex")
 const sockets = require('../../../io/sockets')
 
-const setTotalSocketsInRoom = (salaId) => Object.keys(sockets).filter(key=>sockets[key].salaId == salaId).length
+const setTotalSocketsInRoom = (salaId) => Object.keys(sockets).filter(key=>sockets[key].sala_id == salaId).length
 
 //{telefone, qtd}
 const central = async (req, res) => {
