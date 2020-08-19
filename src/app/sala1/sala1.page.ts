@@ -36,7 +36,8 @@ export class Sala1Page implements OnInit {
   telefone: any;
   bolasSorteadas: any = [];
   cartelas: any = [{cartela_id: 0}];
-  socket
+  socket: any;
+  audio: any;
   constructor(
     public insomnia: Insomnia,
     public apiService: ApiService,
@@ -52,6 +53,7 @@ export class Sala1Page implements OnInit {
     this.telefone = localStorage.getItem('telefone')
     this.data.nome = localStorage.getItem('nome')
     this.route.params.subscribe(params => this.sala = params.sala)
+    this.audio = new Audio();
   }
 
   async ngOnInit() {
@@ -61,22 +63,21 @@ export class Sala1Page implements OnInit {
     const socket = io(config.baseURL)
     socket.on('connect', ()=>{
       this.socket = socket
-      socket.emit("register", `${this.telefone},${this.sala}` )
-      socket.on('iniciar partida', ()=>this.iniciarPartida())
-      socket.on('bola sorteada', bola => this.sorteio(bola))
-      socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
-      //socket.on('bingo linha', linha => this.bingoLinha(linha))
-      socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
-      socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
-      socket.on('saldo', saldo => this.atualizarSaldo(saldo))
-      socket.on('contagem', segundos => this.contagemRegreciva(segundos))
-      // socket.on('voce ganhou', cartela => {
+      this.socket.emit("register", `${this.telefone},${this.sala}` )
+      this.socket.on('iniciar partida', ()=>this.iniciarPartida())
+      this.socket.on('bola sorteada', bola => this.sorteio(bola))
+      this.socket.on('melhores linhas', linhas => this.melhoresLinhas(linhas))
+      //this.socket.on('bingo linha', linha => this.bingoLinha(linha))
+      this.socket.on('bateram linha', (cartelas)=>this.bateramLinha(cartelas))
+      this.socket.on('melhores cartelas', cartelas => this.melhoresCartelas(cartelas))
+      this.socket.on('contagem', segundos => this.contagemRegreciva(segundos))
+      // this.socket.on('voce ganhou', cartela => {
       //   this.cartelas = cartela
       //   Swal.fire('BINGOOOOOO')
       //   this.data.saldo = cartela[0].saldo
       //   //setTimeout(()=>window.document.location.reload(true), 10000)
       // })
-      socket.on('bingou', cartelas => this.bingou(cartelas))
+      this.socket.on('bingou', cartelas => this.bingou(cartelas))
     })
   }
 
@@ -84,8 +85,9 @@ export class Sala1Page implements OnInit {
     this.contagem =segundos
   }
 
-  atualizarSaldo(saldo){
-    this.data.saldo = saldo
+  atualizarSaldo(){
+    this.axios.get('atualizar-saldo/'+this.telefone)
+      .then(({data}) => this.setSaldo(data.saldo))
   }
 
   reset(){
@@ -106,7 +108,7 @@ export class Sala1Page implements OnInit {
     const numeroDasCartelas = cartelas.map(cartela => cartela.cartela_id).join(', ')
     cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
       if(cartelas.length){
-        this.data.saldo = cartelas[cartelas.length - 1].saldo
+        this.atualizarSaldo()
       }
       Swal.fire({
         toast: true, 
@@ -116,7 +118,7 @@ export class Sala1Page implements OnInit {
         text: numeroDasCartelas,
         icon: "success",
         position: 'top-end',
-      })      
+      })
   }
 
   bateramLinha(cartelas){
@@ -124,7 +126,7 @@ export class Sala1Page implements OnInit {
     cartelas = cartelas.filter(cartela => cartela.telefone == this.telefone)
   
     if(cartelas.length){
-      this.data.saldo = cartelas[cartelas.length - 1].saldo
+      this.atualizarSaldo()
       this.bingoLinha(cartelas)
     }
 
@@ -138,19 +140,6 @@ export class Sala1Page implements OnInit {
       icon: "success",
       position: 'top-end',
     })
-
-      // Swal.fire({
-      //   title: `Você agora está concorrendo ao prêmio cartela cheia`,
-      //   timer: 8000,
-      //   text: `Cartelas sorteadas: ${numersDasCartelas}`,
-      //   icon: 'success',
-      //   showConfirmButton: false,
-      //   backdrop: false,
-      //   allowOutsideClick: false,
-      //   allowEscapeKey: false,
-      //   allowEnterKey: false,
-      //   timerProgressBar: true
-      // })
   }
 
   bingoLinha(linhas){
@@ -158,7 +147,6 @@ export class Sala1Page implements OnInit {
       this.cartelas.shift()
     })
     this.cartelas.unshift(...linhas)
-    this.data.saldo = linhas[0].saldo
   }
 
   melhoresCartelas(cartelas){
@@ -195,13 +183,17 @@ export class Sala1Page implements OnInit {
     this.data.bola = bola.bola
   }
 
+  setSaldo(saldo){
+    this.data.saldo = saldo
+  }
+
   async entrarNaSala() {
     const {data} = await this.axios.put('membro-sala', { sala_id: this.sala, telefone: this.telefone })
       .catch(err => {
         Swal.fire(`falha ao entrar na sala ${JSON.stringify(err)}`)
         this.location.back()
       })
-      this.data.saldo = data.saldo
+      this.setSaldo(data.saldo)
       this.data.totalBolasCompradas = data.totalBolasCompradasByMembro
       this.data.quant = data.totalBolasCompradas
       this.data.price = data.price
@@ -243,10 +235,9 @@ export class Sala1Page implements OnInit {
   }
 
   playAudio(bola) {
-    let audio = new Audio();
-    audio.src = `assets/${bola}.mp3`;
-    audio.load();
-    audio.play();
+    this.audio.src = `assets/${bola}.mp3`;
+    this.audio.load();
+    this.audio.play();
   }
 
   async comprarSeries() {
@@ -262,7 +253,7 @@ export class Sala1Page implements OnInit {
     this.axios.post('/comprar-series', {qtd: this.data.seriesAComprar, telefone: this.telefone})
     .then(data => {
       this.data.totalBolasCompradas = this.data.seriesAComprar * 6
-      this.data.saldo = data.data.saldo
+      this.setSaldo(data.data.saldo)
       this.data.seriesAComprar = null
       Swal.fire({
         toast: true, 

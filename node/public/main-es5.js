@@ -445,7 +445,7 @@ module.exports = "<ion-app>\r\n  <ion-router-outlet></ion-router-outlet>\r\n</io
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button>\r\n    <!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <!-- <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div> -->\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                <a class=\"dropdown-item\" routerLink='../configuracao'>Saques</a>\r\n                <a class=\"dropdown-item\" routerLink='../trocarsenha'>Alterar senha</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" (click)=\"sair()\">Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\">Bem vindo {{nome}}</h1>\r\n                <ol class=\"breadcrumb mb-4\">\r\n                    <!-- <li class=\"breadcrumb-item active\"></li> -->\r\n                <span  style=\"color: rgb(245, 12, 206); cursor: pointer\">\r\n                    <button class=\"btn btn-primary btn-block\" (click)=\"status()\">Atualizar</button> \r\n                    Saldo {{saldo}}                   \r\n                </span> \r\n                </ol>\r\n            \r\n                <div class=\"row\">\r\n\r\n                    <div class=\"col-xl-3 col-md-6\" *ngFor=\"let sala of salas; index as i; first as isFirst\" >\r\n                        <div class=\"card {{sala.status == 'Fechada' ? 'bg-danger' : 'bg-primary'}} text-white mb-4\">\r\n                            <div class=\"card-body\">\r\n                                <div> {{sala.status}} - {{sala.title}}</div>\r\n                                <div>Online: {{sala.online}}</div>\r\n                            </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{sala.description}}\r\n                                <span  class=\"small text-white stretched-link pointer\" (click)=\"irParaSala(sala.id)\"></span>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </main>\r\n        <footer class=\"py-4 bg-light mt-auto\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"d-flex align-items-center justify-content-between small\">\r\n                    <div class=\"text-muted\">Big Big 2020</div>\r\n                    <div>\r\n                        <a href=\"\"></a>\r\n                        &middot;\r\n                        <a href=\"\">Termos e condições</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </footer>\r\n    </div>\r\n</div>\r\n</ion-content>\r\n"
+module.exports = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button>\r\n    <!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <!-- <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div> -->\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                <a class=\"dropdown-item\" routerLink='../configuracao'>Saques</a>\r\n                <a class=\"dropdown-item\" routerLink='../trocarsenha'>Alterar senha</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" (click)=\"sair()\">Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\">Bem vindo {{nome}}</h1>\r\n                <ol class=\"breadcrumb mb-4\">\r\n                    <!-- <li class=\"breadcrumb-item active\"></li> -->\r\n                <span  style=\"color: rgb(245, 12, 206); cursor: pointer\">\r\n                    <button class=\"btn btn-primary btn-block\" (click)=\"status()\">Atualizar</button> \r\n                    Saldo {{saldo}}                   \r\n                </span> \r\n                </ol>\r\n            \r\n                <div class=\"row\">\r\n\r\n                    <div class=\"col-xl-3 col-md-6\" *ngFor=\"let sala of salas; index as i; first as isFirst\" >\r\n                        <div class=\"card {{sala.status == 'Fechada' ? 'bg-danger' : 'bg-primary'}} text-white mb-4\">\r\n                            <div class=\"card-body\">\r\n                                <div> {{sala.status}} - {{sala.title}}</div>\r\n                                <div>Online: {{sala.online}}</div>\r\n                            </div>\r\n                            <div class=\"card-footer d-flex align-items-center justify-content-between\">{{sala.description}}\r\n                                <span  class=\"small text-white stretched-link pointer\" (click)=\"irParaSala(sala.id, sala.status)\"></span>\r\n                                <div class=\"small text-white\"><i class=\"fas fa-angle-right\">Entrar</i></div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </main>\r\n        <footer class=\"py-4 bg-light mt-auto\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"d-flex align-items-center justify-content-between small\">\r\n                    <div class=\"text-muted\">Big Big 2020</div>\r\n                    <div>\r\n                        <a href=\"\"></a>\r\n                        &middot;\r\n                        <a href=\"\">Termos e condições</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </footer>\r\n    </div>\r\n</div>\r\n</ion-content>\r\n"
 
 /***/ }),
 
@@ -874,6 +874,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_axios_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/axios.service */ "./src/app/services/axios.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/__ivy_ngcc__/fesm5/ionic-angular.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -912,7 +915,21 @@ var CentralPage = /** @class */ (function () {
         })
             .catch(console.log);
     };
-    CentralPage.prototype.irParaSala = function (sala_id) {
+    CentralPage.prototype.irParaSala = function (sala_id, status) {
+        if (status == 'Fechada') {
+            return sweetalert2__WEBPACK_IMPORTED_MODULE_7___default.a.fire({
+                title: 'Esta sala está fechada!',
+                timer: 5000,
+                text: 'Você não pode entrar numa sala fechada.',
+                icon: 'error',
+                showConfirmButton: true,
+                backdrop: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                timerProgressBar: true
+            });
+        }
         this.router.navigate(["/sala1/" + sala_id]);
         //this.navCtrl.navigateRoot(`/sala1/${sala_id}`)
         //window.location.href = '#/sala1/'+sala_id
@@ -2077,6 +2094,7 @@ var Sala1Page = /** @class */ (function () {
         this.telefone = localStorage.getItem('telefone');
         this.data.nome = localStorage.getItem('nome');
         this.route.params.subscribe(function (params) { return _this.sala = params.sala; });
+        this.audio = new Audio();
     }
     Sala1Page.prototype.ngOnInit = function () {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function () {
@@ -2093,22 +2111,21 @@ var Sala1Page = /** @class */ (function () {
                         socket = socket_io_client__WEBPACK_IMPORTED_MODULE_11__(src_config__WEBPACK_IMPORTED_MODULE_12__["default"].baseURL);
                         socket.on('connect', function () {
                             _this.socket = socket;
-                            socket.emit("register", _this.telefone + "," + _this.sala);
-                            socket.on('iniciar partida', function () { return _this.iniciarPartida(); });
-                            socket.on('bola sorteada', function (bola) { return _this.sorteio(bola); });
-                            socket.on('melhores linhas', function (linhas) { return _this.melhoresLinhas(linhas); });
-                            //socket.on('bingo linha', linha => this.bingoLinha(linha))
-                            socket.on('bateram linha', function (cartelas) { return _this.bateramLinha(cartelas); });
-                            socket.on('melhores cartelas', function (cartelas) { return _this.melhoresCartelas(cartelas); });
-                            socket.on('saldo', function (saldo) { return _this.atualizarSaldo(saldo); });
-                            socket.on('contagem', function (segundos) { return _this.contagemRegreciva(segundos); });
-                            // socket.on('voce ganhou', cartela => {
+                            _this.socket.emit("register", _this.telefone + "," + _this.sala);
+                            _this.socket.on('iniciar partida', function () { return _this.iniciarPartida(); });
+                            _this.socket.on('bola sorteada', function (bola) { return _this.sorteio(bola); });
+                            _this.socket.on('melhores linhas', function (linhas) { return _this.melhoresLinhas(linhas); });
+                            //this.socket.on('bingo linha', linha => this.bingoLinha(linha))
+                            _this.socket.on('bateram linha', function (cartelas) { return _this.bateramLinha(cartelas); });
+                            _this.socket.on('melhores cartelas', function (cartelas) { return _this.melhoresCartelas(cartelas); });
+                            _this.socket.on('contagem', function (segundos) { return _this.contagemRegreciva(segundos); });
+                            // this.socket.on('voce ganhou', cartela => {
                             //   this.cartelas = cartela
                             //   Swal.fire('BINGOOOOOO')
                             //   this.data.saldo = cartela[0].saldo
                             //   //setTimeout(()=>window.document.location.reload(true), 10000)
                             // })
-                            socket.on('bingou', function (cartelas) { return _this.bingou(cartelas); });
+                            _this.socket.on('bingou', function (cartelas) { return _this.bingou(cartelas); });
                         });
                         return [2 /*return*/];
                 }
@@ -2118,8 +2135,13 @@ var Sala1Page = /** @class */ (function () {
     Sala1Page.prototype.contagemRegreciva = function (segundos) {
         this.contagem = segundos;
     };
-    Sala1Page.prototype.atualizarSaldo = function (saldo) {
-        this.data.saldo = saldo;
+    Sala1Page.prototype.atualizarSaldo = function () {
+        var _this = this;
+        this.axios.get('atualizar-saldo/' + this.telefone)
+            .then(function (_a) {
+            var data = _a.data;
+            return _this.setSaldo(data.saldo);
+        });
     };
     Sala1Page.prototype.reset = function () {
         console.log('resetando');
@@ -2139,7 +2161,7 @@ var Sala1Page = /** @class */ (function () {
         var numeroDasCartelas = cartelas.map(function (cartela) { return cartela.cartela_id; }).join(', ');
         cartelas = cartelas.filter(function (cartela) { return cartela.telefone == _this.telefone; });
         if (cartelas.length) {
-            this.data.saldo = cartelas[cartelas.length - 1].saldo;
+            this.atualizarSaldo();
         }
         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
             toast: true,
@@ -2156,7 +2178,7 @@ var Sala1Page = /** @class */ (function () {
         var numeroDasCartelas = cartelas.map(function (cartela) { return cartela.cartela_id; }).join(', ');
         cartelas = cartelas.filter(function (cartela) { return cartela.telefone == _this.telefone; });
         if (cartelas.length) {
-            this.data.saldo = cartelas[cartelas.length - 1].saldo;
+            this.atualizarSaldo();
             this.bingoLinha(cartelas);
         }
         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
@@ -2169,18 +2191,6 @@ var Sala1Page = /** @class */ (function () {
             icon: "success",
             position: 'top-end',
         });
-        // Swal.fire({
-        //   title: `Você agora está concorrendo ao prêmio cartela cheia`,
-        //   timer: 8000,
-        //   text: `Cartelas sorteadas: ${numersDasCartelas}`,
-        //   icon: 'success',
-        //   showConfirmButton: false,
-        //   backdrop: false,
-        //   allowOutsideClick: false,
-        //   allowEscapeKey: false,
-        //   allowEnterKey: false,
-        //   timerProgressBar: true
-        // })
     };
     Sala1Page.prototype.bingoLinha = function (linhas) {
         var _a;
@@ -2189,7 +2199,6 @@ var Sala1Page = /** @class */ (function () {
             _this.cartelas.shift();
         });
         (_a = this.cartelas).unshift.apply(_a, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(linhas));
-        this.data.saldo = linhas[0].saldo;
     };
     Sala1Page.prototype.melhoresCartelas = function (cartelas) {
         this.data.tipo = 'Bingo';
@@ -2231,6 +2240,9 @@ var Sala1Page = /** @class */ (function () {
         this.playAudio(bola.bola);
         this.data.bola = bola.bola;
     };
+    Sala1Page.prototype.setSaldo = function (saldo) {
+        this.data.saldo = saldo;
+    };
     Sala1Page.prototype.entrarNaSala = function () {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function () {
             var data;
@@ -2244,7 +2256,7 @@ var Sala1Page = /** @class */ (function () {
                         })];
                     case 1:
                         data = (_a.sent()).data;
-                        this.data.saldo = data.saldo;
+                        this.setSaldo(data.saldo);
                         this.data.totalBolasCompradas = data.totalBolasCompradasByMembro;
                         this.data.quant = data.totalBolasCompradas;
                         this.data.price = data.price;
@@ -2284,10 +2296,9 @@ var Sala1Page = /** @class */ (function () {
             .catch(function () { return console.log('device não suport insomnia'); });
     };
     Sala1Page.prototype.playAudio = function (bola) {
-        var audio = new Audio();
-        audio.src = "assets/" + bola + ".mp3";
-        audio.load();
-        audio.play();
+        this.audio.src = "assets/" + bola + ".mp3";
+        this.audio.load();
+        this.audio.play();
     };
     Sala1Page.prototype.comprarSeries = function () {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function () {
@@ -2304,7 +2315,7 @@ var Sala1Page = /** @class */ (function () {
                 this.axios.post('/comprar-series', { qtd: this.data.seriesAComprar, telefone: this.telefone })
                     .then(function (data) {
                     _this.data.totalBolasCompradas = _this.data.seriesAComprar * 6;
-                    _this.data.saldo = data.data.saldo;
+                    _this.setSaldo(data.data.saldo);
                     _this.data.seriesAComprar = null;
                     sweetalert2__WEBPACK_IMPORTED_MODULE_9___default.a.fire({
                         toast: true,

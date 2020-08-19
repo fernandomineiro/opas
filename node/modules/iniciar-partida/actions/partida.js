@@ -71,7 +71,7 @@ const comprarCartelasDaFila = async (sala_id, partida_id) => {
     let total = 0
     for(const fila of filaDeCompras){
         total = total + fila.qtd
-        await comprarCartelas({sala_id, membro_id: fila.membro_id, partida_id, qtd: fila.qtd})
+        await comprarCartelas({sala_id, membro_id: fila.membro_id, partida_id, qtd: fila.qtd, value: fila.value})
             .catch(err => console.log("erro ao comprar cartelas", new Error(err)))
     }
     return total

@@ -29,7 +29,7 @@ const comprarCartelasDaFila = async (sala_id, partida_id) => {
   let total = 0
   for(const fila of filaDeCompras){
       total = total + fila.qtd
-      await comprarCartelas({sala_id, membro_id: fila.membro_id, partida_id, qtd: fila.qtd})
+      await comprarCartelas({sala_id, membro_id: fila.membro_id, partida_id, qtd: fila.qtd, value: fila.value})
           .catch(err => console.log("erro ao comprar cartelas", new Error(err)))
   }
   await removeFila(sala_id)
@@ -59,6 +59,10 @@ const contagem = (sala_id, partida_id, segundos) => {
 const list = async (req, res) => {
   try {
     const {sala_id} = req.params
+    const sala = await knex('lots').select('status').where({id: sala_id}).first()
+    if(sala.status != 1){
+      return res.status(400).json({status: false, message: 'Sala não está aberta',})
+    }
     const partida = await getPartidaIniciadaBySalaId(sala_id)
     if(partida){
       const bolasSorteadas = await getBolasSorteadas(partida.id)

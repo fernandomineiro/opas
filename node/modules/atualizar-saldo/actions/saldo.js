@@ -1,6 +1,6 @@
 const knex = require("../../../db/knex")
 const sockets = require('../../../io/sockets')
-const list = async (req, res) => {
+const saldo = async (req, res) => {
   const telefone = req.params.telefone
   const socket = sockets[telefone]
   if(!telefone){
@@ -17,4 +17,4 @@ const list = async (req, res) => {
   res.json({saldo: membro.saldo, nome: membro.first_name})
 }
 
-module.exports = list
+module.exports = saldo

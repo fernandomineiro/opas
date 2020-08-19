@@ -4,7 +4,7 @@ import { Central } from '../models/central';
 import { AxiosService } from '../services/axios.service';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-central',
   templateUrl: './central.page.html',
@@ -44,7 +44,21 @@ export class CentralPage implements OnInit {
     .catch(console.log)
   }
   
-  irParaSala(sala_id){
+  irParaSala(sala_id, status){
+    if(status == 'Fechada'){
+      return Swal.fire({
+        title: 'Esta sala está fechada!',
+        timer: 5000,
+        text: 'Você não pode entrar numa sala fechada.',
+        icon: 'error',
+        showConfirmButton: true,
+        backdrop: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        timerProgressBar: true
+      })
+    }
     this.router.navigate([`/sala1/${sala_id}`])
     //this.navCtrl.navigateRoot(`/sala1/${sala_id}`)
     //window.location.href = '#/sala1/'+sala_id

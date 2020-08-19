@@ -36,8 +36,6 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
             .then(data => (data)
                 ? JSON.parse(data.cartelas).cartela_id == cartelasPremiadas.cartela_id
                 : null)
-        
-    console.log("ganhador:", ganhador)
     
     if(ganhador){
         cartelasPremiadas.saldo = membro.saldo
@@ -81,10 +79,8 @@ const premiar = async (cartelas, premio) => {
 }
 
 const sendLinhasSorteada = async (linhas) => {
-    console.log('sendLinhaSorteada')
     let response = false
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
-    console.log('bingouLinha', bingouLinhas.length)
     if (bingouLinhas.length) {
         let cartelasPremiadas = bingouLinhas.map(linha => {
             linha.faltam = 'Linha!'
