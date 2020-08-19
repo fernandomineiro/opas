@@ -31,8 +31,9 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
         'acumulado' :
         premio
 
-    const ganhador = await knex('ganhadores').select("ganhadores.id")
+    const ganhador = await knex('ganhadores').select("ganhadores.id", "ganhadores.cartelas")
             .innerJoin('membro', 'membro.id', 'ganhadores.membro_id').where({premio, telefone, "ganhadores.partida_id": partida_id}).first()
+            .then(data => JSON.parse(data.cartelas).cartela_id == cartelasPremiadas.cartela_id)
     
     if(ganhador){
         cartelasPremiadas.saldo = membro.saldo
@@ -50,9 +51,9 @@ const premiarCartelas = async (cartelasPremiadas, premio, qtdCartelas) => {
 
     
     cartelasPremiadas.saldo = saldo
-    const cartelas = cartelasPremiadas
     const cartelasOfCartelaPremiada = cartelasPremiadas.cartelas
     delete cartelasPremiadas.cartelas
+    const cartelas = cartelasPremiadas
     await knex('ganhadores')
         .insert({
             membro_id: membro.id,
