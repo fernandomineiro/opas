@@ -50,6 +50,8 @@ const partida = async (req, res) => {
 
     const filaCompra = await knex('fila_compra_series').select({membro_id}).first()
     const membroCartelas = await knex('membro_cartelas').select({membro_id}).first()
+    console.log('filacompra', filaCompra)
+    console.log('membroCartelas', membroCartelas)
     if(filaCompra || membroCartelas){
         return res.status(400).json({err: "Você já comprou cartelas"})
     }
