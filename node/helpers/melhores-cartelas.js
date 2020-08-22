@@ -139,7 +139,7 @@ const sendMelhoresLinhas = (linhas, bolasCompradas) => {
         const socket = sockets[telefone]
         const salaId = melhores[0].sala_id
         if (socket && socket.sala_id == salaId) {
-            sendLinhasSorteada(melhores)
+            sendLinhasSorteada(linhas)
             sockets[telefone].emit("melhores linhas", melhores)
         }
     }
@@ -169,7 +169,7 @@ const sendMelhoresCartelas = (cartelas, bolasCompradas) => {
         const salaId = melhores[0].sala_id
         
         if (socket && socket.sala_id == salaId) {
-            sendCartelasSorteadas(melhores)
+            sendCartelasSorteadas(cartelas)
             sockets[telefone].emit("melhores cartelas", melhores)
         }
     }
