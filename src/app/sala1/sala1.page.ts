@@ -159,6 +159,7 @@ export class Sala1Page implements OnInit {
   }
 
   melhoresLinhas(linhas){
+    this.data.tipo = 'Linha'
     this.data.cartelas = linhas[0].cartelas
     this.cartelas = linhas
     this.data.minimo = linhas[0].primeiroCartaoId
