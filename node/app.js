@@ -11,6 +11,8 @@ const knex = require('./db/knex')
 knex('membro').update({sala_id: 0, partida_id: null})
 var app = express()
 app.use(cors())
+app.use(helmet())
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 
@@ -20,11 +22,10 @@ app.use(express.urlencoded({
   extended: false
 }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(helmet())
 
-// Load Middlewares
 loadMiddleware(app)
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Load all Modules
 loadModules(app)

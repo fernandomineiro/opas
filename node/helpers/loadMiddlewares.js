@@ -1,8 +1,7 @@
 const middlewares = require('../middlewares')
 
 module.exports = app => {
-  const allMiddlewares = Object.values(middlewares)
-  for (const middleware of allMiddlewares) {
-    app.use(middleware)
+  for (const middleware of middlewares) {
+    app.use(middleware.route, middleware.action)
   }
 }
