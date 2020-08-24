@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "apk": "ionic cordova build android --verbose",
-    "apk-prod": "ionic cordova build android --aot --release && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore \\projects\\opas\\platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk alias_name && zipalign -v 4 \\projects\\opas\\platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk HelloWorld.apk"
+    "apk-prod": "ionic cordova build android --aot --release && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore \\projects\\opas\\platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk alias_name && zipalign -v -f 4 \\projects\\opas\\platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk HelloWorld.apk"
   },
   "private": true,
   "dependencies": {
