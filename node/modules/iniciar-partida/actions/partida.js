@@ -139,15 +139,14 @@ const sendLinhasSorteada = async (linhas, parar) => {
     const bingouLinhas = linhas.filter(linha => linha.ganhou)
 
     if(bingouLinhas.length){
-        if(sockets[bingouLinhas[0].telefone]){
-            let cartelasPremiadas = bingouLinhas.map(linha => {
-                linha.faltam = 'Linha!'
-                return linha
-            })
-            cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
+        let cartelasPremiadas = bingouLinhas.map(linha => {
+            linha.faltam = 'Linha!'
+            return linha
+        })
+        cartelasPremiadas = await premiar(cartelasPremiadas, 'linha')
             
-            sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
-        }
+        sockets.io.in(bingouLinhas[0].sala_id).emit('bateram linha', cartelasPremiadas)
+        
         response = true
         await timer(config.tempoBateuLinha)
     }
@@ -160,16 +159,14 @@ const sendCartelasSorteadas = async (linhas, parar) => {
     const bingouCartela = linhas.filter(linha => linha.ganhou)
     let premiadas
     if(bingouCartela.length){
-        if(sockets[bingouCartela[0].telefone]){
-            let cartelasPremiadas = bingouCartela.map(linha => {
-                linha.faltam = 'Bingo!'
-                return linha
-            })
-            cartelasPremiadas = await premiar(cartelasPremiadas, 'bingo')
-            premiadas = cartelasPremiadas
-            sockets.io.in(bingouCartela[0].sala_id).emit('bingou', cartelasPremiadas)
-            //sockets[bingouCartela[0].telefone].emit('voce ganhou', cartelasPremiadas)
-        }
+      
+        let cartelasPremiadas = bingouCartela.map(linha => {
+            linha.faltam = 'Bingo!'
+            return linha
+        })
+        cartelasPremiadas = await premiar(cartelasPremiadas, 'bingo')
+        premiadas = cartelasPremiadas
+        sockets.io.in(bingouCartela[0].sala_id).emit('bingou', cartelasPremiadas)
         response = true
     }
     return response
