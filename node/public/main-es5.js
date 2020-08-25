@@ -533,7 +533,7 @@ module.exports = "<ion-content>\r\n  <div class=\"container\">\r\n\r\n      <div
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG - Trocar senha</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button\r\n    ><!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                \r\n                <a class=\"dropdown-item\" routerLink='../central'>Voltar</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" routerLink='../home'>Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\"></h1>\r\n                \r\n                </div>\r\n                </main>\r\n    </div>\r\n</div>\r\n \r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Senha antiga</label><br>\r\n  <input type=\"text\"[(ngModel)]=\"data.senha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Senha antiga\">\r\n</div>\r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Nova senha</label><br>\r\n  <input type=\"text\" [(ngModel)]=\"data.novasenha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Nova senha\">\r\n</div>\r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Senha antiga</label><br>\r\n  <input type=\"password\" [(ngModel)]=\"data.repetesenha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Repita sua senha\">\r\n</div>\r\n\r\n<button (click)=\"submitForm()\" style=\"text-align: center;\" type=\"button\" class=\"btn btn-primary mb-2\">Atualizar</button>\r\n\r\n</ion-content>"
+module.exports = "\r\n\r\n<ion-content>\r\n  <nav class=\"sb-topnav navbar navbar-expand navbar-dark bg-dark\">\r\n    <a class=\"navbar-brand\" href=\"index.html\">BIG BIG - Trocar senha</a><button class=\"btn btn-link btn-sm order-1 order-lg-0\" id=\"sidebarToggle\" href=\"#\"><i class=\"fas fa-bars\"></i></button\r\n    ><!-- Navbar Search-->\r\n    <form class=\"d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0\">\r\n        <div class=\"input-group\">\r\n            <input class=\"form-control\" type=\"text\" placeholder=\"Search for...\" aria-label=\"Search\" aria-describedby=\"basic-addon2\" />\r\n            <div class=\"input-group-append\">\r\n                <button class=\"btn btn-primary\" type=\"button\"><i class=\"fas fa-search\"></i></button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n    <!-- Navbar-->\r\n    <ul class=\"navbar-nav ml-auto ml-md-0\">\r\n        <li class=\"nav-item dropdown\">\r\n            <a class=\"nav-link dropdown-toggle\" id=\"userDropdown\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-user fa-fw\"></i></a>\r\n            <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">\r\n                \r\n                <a class=\"dropdown-item\" routerLink='../central'>Voltar</a>\r\n                <div class=\"dropdown-divider\"></div>\r\n                <a class=\"dropdown-item\" routerLink='../home'>Sair</a>\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</nav>\r\n<div id=\"layoutSidenav\">\r\n    <div id=\"layoutSidenav_nav\">\r\n        <nav class=\"sb-sidenav accordion sb-sidenav-dark\" id=\"sidenavAccordion\">\r\n            <div class=\"sb-sidenav-menu\">\r\n               \r\n            </div>\r\n            \r\n        </nav>\r\n    </div>\r\n    <div id=\"layoutSidenav_content\">\r\n        <main>\r\n            <div class=\"container-fluid\">\r\n                <h1 class=\"mt-4\"></h1>\r\n                \r\n                </div>\r\n                </main>\r\n    </div>\r\n</div>\r\n \r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Senha antiga</label><br>\r\n  <input type=\"text\"[(ngModel)]=\"data.senha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Senha antiga\">\r\n</div>\r\n<div class=\"form-group mx-sm-3 mb-2\">\r\n  <label for=\"inputPassword2\"  class=\"sr-only\">Nova senha</label><br>\r\n  <input type=\"text\" [(ngModel)]=\"data.novasenha\" required class=\"form-control\" id=\"inputPassword2\" placeholder=\"Nova senha\">\r\n</div>\r\n\r\n<button (click)=\"submitForm()\" style=\"text-align: center;\" type=\"button\" class=\"btn btn-primary mb-2\">Atualizar</button>\r\n\r\n</ion-content>"
 
 /***/ }),
 
@@ -2209,6 +2209,7 @@ var Sala1Page = /** @class */ (function () {
         this.cartelao();
     };
     Sala1Page.prototype.melhoresLinhas = function (linhas) {
+        this.data.tipo = 'Linha';
         this.data.cartelas = linhas[0].cartelas;
         this.cartelas = linhas;
         this.data.minimo = linhas[0].primeiroCartaoId;
@@ -3030,8 +3031,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/api.service */ "./src/app/services/api.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 /* harmony import */ var _models_student__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/student */ "./src/app/models/student.ts");
-/* harmony import */ var src_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/config */ "./src/config.js");
-
 
 
 
@@ -3044,35 +3043,34 @@ var TrocarsenhaPage = /** @class */ (function () {
         this.data = new _models_student__WEBPACK_IMPORTED_MODULE_4__["Student"]();
     }
     TrocarsenhaPage.prototype.ngOnInit = function () {
-        this.telefone = src_config__WEBPACK_IMPORTED_MODULE_5__["default"].telefone;
+        this.telefone = localStorage.getItem("telefone");
         console.log(this.telefone);
     };
     TrocarsenhaPage.prototype.submitForm = function () {
         var _this = this;
         if (this.data.senha != null) {
-            if (this.data.novasenha != this.data.repetesenha) {
-                console.log('senha diferentes');
-            }
-            else {
-                this.apiService.encontrasenha(this.data.senha).subscribe(function (response) {
-                    if (response == null) {
-                        console.log('senha não encontrada');
-                    }
-                    else {
-                        _this.apiService.alterasenha(_this.telefone, _this.data.novasenha).subscribe(function (response) {
-                            if (response == 1) {
-                                console.log('sucesso');
-                            }
-                        });
-                    }
-                });
-            }
+            this.apiService.encontrasenha(this.data.senha).subscribe(function (response) {
+                if (response == null) {
+                    alert('senha não encontrada');
+                }
+                else {
+                    _this.apiService.alterasenha(_this.telefone, _this.data.novasenha).subscribe(function (response) {
+                        if (response == 1) {
+                            alert('sucesso');
+                            _this.router.navigate(['central']);
+                        }
+                        else {
+                            alert('erro');
+                        }
+                    });
+                }
+            });
             // this.apiService.alterasenha(this.telefone, this.data.senha).subscribe((response)=>{
             //  console.log(response);
             //})
         }
         else {
-            console.log('Deve preencher o campo senha');
+            alert('Deve preencher o campo senha');
         }
     };
     TrocarsenhaPage.ctorParameters = function () { return [
