@@ -52,7 +52,7 @@
                         <div class="card {{sala.status == 'Fechada' ? 'bg-danger' : 'bg-primary'}} text-white mb-4">
                             <div class="card-body">
                                 <div> {{sala.status}} - {{sala.title}}</div>
-                                <div>Online: {{i== 1 : sala.online + 89 : sala.online }}</div>
+                                <div>Online: {{i == 0 : sala.online + 89 : sala.online }}</div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">{{sala.description}}
                                 <span  class="small text-white stretched-link pointer" (click)="irParaSala(sala.id, sala.status)"></span>
