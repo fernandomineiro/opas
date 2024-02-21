@@ -33,7 +33,7 @@
     "@ionic/angular": "^5.0.0",
     "@sweetalert2/ngx-sweetalert2": "^8.1.1",
     "@types/jquery": "^2.0.47",
-    "axios": "^0.19.2",
+    "axios": "^0.28.0",
     "bootstrap": "^4.5.0",
     "cordova-android": "^8.1.0",
     "cordova-browser": "6.0.0",
